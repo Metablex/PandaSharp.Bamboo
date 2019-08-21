@@ -1,5 +1,5 @@
-﻿using PandaSharp.Services.Plan.Contract;
-using PandaSharp.Services.Plan.Model;
+﻿using PandaSharp.Services.Plan.Request;
+using PandaSharp.Services.Plan.Request.Builder;
 using Unity;
 
 namespace PandaSharp.Services.Plan
@@ -8,7 +8,8 @@ namespace PandaSharp.Services.Plan
     {
         public static void RegisterPlanModule(this IUnityContainer container)
         {
-            container.RegisterType<IAllPlansRequest, AllPlansRequest>();
+            container.RegisterType<IPlanRequestBuilderFactory, PlanRequestBuilderFactory>();
+            container.RegisterType<IAllPlansRequestBuilder, AllPlansRequestBuilder>();
         }
     }
 }

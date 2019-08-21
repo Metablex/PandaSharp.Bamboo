@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PandaSharp.Services.Common
+namespace PandaSharp.Utils
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     internal class StringRepresentationAttribute : Attribute

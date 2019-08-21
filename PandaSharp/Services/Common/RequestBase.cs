@@ -3,7 +3,7 @@ using RestSharp;
 
 namespace PandaSharp.Services.Common
 {
-    internal abstract class RequestBase
+    internal abstract class RequestBase<T> : IRestClientProvider, IRequestBuilderBase<T>
     {
         private readonly IRestFactory _restFactory;
 
@@ -17,13 +17,11 @@ namespace PandaSharp.Services.Common
             return _restFactory.CreateRequest(resource, method);
         }
 
-        protected T Execute<T>(IRestRequest restRequest)
-            where T : class, new()
+        public IRestClient ProvideClient()
         {
-            var client = _restFactory.CreateClient();
-            var response = client.Execute<T>(restRequest);
-
-            return response.Data;
+            return _restFactory.CreateClient();
         }
+
+        public abstract IRestRequest Build();
     }
 }

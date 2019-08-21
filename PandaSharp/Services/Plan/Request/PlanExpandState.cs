@@ -1,6 +1,6 @@
-﻿using PandaSharp.Services.Common;
+﻿using PandaSharp.Utils;
 
-namespace PandaSharp.Services.Plan.Contract
+namespace PandaSharp.Services.Plan.Request
 {
     internal enum PlanExpandState
     {

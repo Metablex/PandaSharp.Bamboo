@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using PandaSharp;
+using PandaSharp.Utils;
 
 namespace Tests
 {
@@ -10,6 +11,13 @@ namespace Tests
         public void Test()
         {
             var api = new BambooApi("http://qoniac.bamboo.com", "user", "password");
+
+            var test = api
+                .PlanRequest
+                .GetAllPlans()
+                .WithMaxResult(30)
+                .IncludeDetails()
+                .Execute();
         }
     }
 }
