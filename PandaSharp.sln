@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.779
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandaSharp", "PandaSharp\PandaSharp.csproj", "{2A0050AC-62D7-468E-8A3D-C90601A8B7BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandaSharp.Test", "PandaSharp.Test\PandaSharp.Test.csproj", "{1FC5598A-CFD4-4E9B-959B-371DEC6E39AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A0050AC-62D7-468E-8A3D-C90601A8B7BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A0050AC-62D7-468E-8A3D-C90601A8B7BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A0050AC-62D7-468E-8A3D-C90601A8B7BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A0050AC-62D7-468E-8A3D-C90601A8B7BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FC5598A-CFD4-4E9B-959B-371DEC6E39AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FC5598A-CFD4-4E9B-959B-371DEC6E39AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FC5598A-CFD4-4E9B-959B-371DEC6E39AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FC5598A-CFD4-4E9B-959B-371DEC6E39AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6F1D2F5-CFB0-4698-9B7C-546D2BE1F970}
+	EndGlobalSection
+EndGlobal
