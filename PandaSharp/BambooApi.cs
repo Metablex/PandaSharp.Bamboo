@@ -1,13 +1,14 @@
 ﻿using PandaSharp.Rest;
+using PandaSharp.Services;
 using PandaSharp.Services.Plan;
-using PandaSharp.Services.Plan.Request;
+using PandaSharp.Services.Plan.Contract;
 using Unity;
 
 namespace PandaSharp
 {
     public class BambooApi
     {
-        private IUnityContainer _container;
+        private readonly IUnityContainer _container;
 
         public IPlanRequestBuilderFactory PlanRequest => _container.Resolve<IPlanRequestBuilderFactory>();
 
@@ -16,6 +17,7 @@ namespace PandaSharp
             _container = new UnityContainer();
 
             _container.RegisterRestModule(baseUrl, userName, password);
+            _container.RegisterServicesModule();
             _container.RegisterPlanModule();
         }
     }

@@ -1,9 +1,11 @@
 ﻿using PandaSharp.Rest.Contract;
 
-namespace PandaSharp.Rest.Model
+namespace PandaSharp.Rest.Common
 {
-    internal class BambooOptions : IBambooOptions
+    internal sealed class BambooOptions : IBambooOptions
     {
+        private const string RestApiResource = "/rest/api/latest";
+
         public string BaseUrl { get; }
 
         public string UserName { get; }
@@ -13,6 +15,11 @@ namespace PandaSharp.Rest.Model
         public BambooOptions(string baseUrl, string userName, string password)
         {
             BaseUrl = baseUrl;
+            if (!BaseUrl.EndsWith(RestApiResource))
+            {
+                BaseUrl += RestApiResource;
+            }
+
             UserName = userName;
             Password = password;
         }

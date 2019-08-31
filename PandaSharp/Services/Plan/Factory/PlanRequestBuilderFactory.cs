@@ -1,9 +1,9 @@
-﻿using PandaSharp.Services.Plan.Request.Builder;
+﻿using PandaSharp.Services.Plan.Contract;
 using Unity;
 
-namespace PandaSharp.Services.Plan.Request
+namespace PandaSharp.Services.Plan.Factory
 {
-    internal class PlanRequestBuilderFactory : IPlanRequestBuilderFactory
+    internal sealed class PlanRequestBuilderFactory : IPlanRequestBuilderFactory
     {
         private readonly IUnityContainer _container;
 
@@ -12,12 +12,12 @@ namespace PandaSharp.Services.Plan.Request
             _container = container;
         }
 
-        public IAllPlansRequestBuilder GetAllPlans()
+        public IAllPlansRequest AllPlans()
         {
-            return _container.Resolve<IAllPlansRequestBuilder>();
+            return _container.Resolve<IAllPlansRequest>();
         }
 
-        public IBranchesOfPlanRequestBuilder GetBranchesOfPlan(string planKey)
+        /*public IBranchesOfPlanRequestBuilder GetBranchesOfPlan(string planKey)
         {
             return _container.Resolve<IBranchesOfPlanRequestBuilder>();
         }
@@ -25,6 +25,6 @@ namespace PandaSharp.Services.Plan.Request
         public IDetailsPlanBranchRequestBuilder GetDetailsOfPlanBranch(string planKey, string branchName)
         {
             return _container.Resolve<IDetailsPlanBranchRequestBuilder>();
-        }
+        }*/
     }
 }

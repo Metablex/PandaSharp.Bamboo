@@ -1,8 +1,6 @@
-﻿using PandaSharp.Services.Common;
-using RestSharp;
-using System;
+﻿using RestSharp;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace PandaSharp.Utils
 {
@@ -16,23 +14,20 @@ namespace PandaSharp.Utils
             }
         }
 
-        public static void AddParameterEnum(this IRestRequest restRequest, string parameter, Enum value)
+        public static void AddParameterValues(this IRestRequest restRequest, string parameter, IEnumerable<string> values)
         {
-            restRequest.AddParameter(parameter, value.GetEnumStringRepresentation());
-        }
+            var validValues = values
+                .Where(value => !string.IsNullOrEmpty(value))
+                .ToArray();
 
-        private static string GetEnumStringRepresentation(this Enum enumeration)
-        {
-            var attribute = enumeration
-                .GetType()
-                .GetMember(enumeration.ToString())
-                .Where(member => member.MemberType == MemberTypes.Field)
-                .FirstOrDefault()
-                .GetCustomAttributes(typeof(StringRepresentationAttribute), false)
-                .Cast<StringRepresentationAttribute>()
-                .SingleOrDefault();
-
-            return attribute?.AsString;
+            if (validValues.Length > 0)
+            {
+                var parameterValues = string.Join(",", validValues);
+                if (!string.IsNullOrEmpty(parameterValues))
+                {
+                    restRequest.AddParameter(parameter, parameterValues);
+                }
+            }
         }
     }
 }

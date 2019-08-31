@@ -2,9 +2,9 @@
 using RestSharp;
 using RestSharp.Authenticators;
 
-namespace PandaSharp.Rest.Model
+namespace PandaSharp.Rest.Common
 {
-    internal class RestFactory : IRestFactory
+    internal sealed class RestFactory : IRestFactory
     {
         private readonly IBambooOptions _bambooOptions;
 

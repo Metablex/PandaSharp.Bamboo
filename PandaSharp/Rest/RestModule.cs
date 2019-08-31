@@ -1,5 +1,5 @@
-﻿using PandaSharp.Rest.Contract;
-using PandaSharp.Rest.Model;
+﻿using PandaSharp.Rest.Common;
+using PandaSharp.Rest.Contract;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
