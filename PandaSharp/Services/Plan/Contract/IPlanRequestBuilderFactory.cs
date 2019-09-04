@@ -4,8 +4,6 @@
     {
         IAllPlansRequest AllPlans();
 
-//        IBranchesOfPlanRequestBuilder GetBranchesOfPlan(string planKey);
-
-//        IDetailsPlanBranchRequestBuilder GetDetailsOfPlanBranch(string planKey, string branchName);
+        IInformationOfRequest InformationOf(string planKey);
     }
 }

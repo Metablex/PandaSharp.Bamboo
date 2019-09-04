@@ -1,12 +1,11 @@
 using System;
 using System.Linq;
-using PandaSharp.Services.Common.Contract;
 using PandaSharp.Utils;
 using RestSharp;
 
 namespace PandaSharp.Services.Common.Aspect
 {
-    internal class ExpandStateParameterAspectBase<T> : RequestParameterAspectBase, IExpandStateParameterAspectBase<T>
+    internal class ExpandStateParameterAspectBase<T> : RequestParameterAspectBase
         where T : struct, Enum
     {
         private const string ExpandParameterName = "expand";

@@ -1,5 +1,5 @@
 using PandaSharp.Services.Common.Aspect;
-using PandaSharp.Utils;
+using PandaSharp.Services.Common.Contract;
 using Unity;
 
 namespace PandaSharp.Services
@@ -8,7 +8,8 @@ namespace PandaSharp.Services
     {
         public static void RegisterServicesModule(this IUnityContainer container)
         {
-            container.RegisterParameterAspect<ResultCountParameterAspect>();
+            container.RegisterType<IRequestParameterAspectFactory, RequestParameterAspectFactory>();
+            container.RegisterType<IResultCountParameterAspect, ResultCountParameterAspect>();
         }
     }
 }

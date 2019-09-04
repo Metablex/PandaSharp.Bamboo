@@ -1,5 +1,6 @@
 ﻿using PandaSharp.Services.Plan.Contract;
 using Unity;
+using Unity.Resolution;
 
 namespace PandaSharp.Services.Plan.Factory
 {
@@ -17,14 +18,10 @@ namespace PandaSharp.Services.Plan.Factory
             return _container.Resolve<IAllPlansRequest>();
         }
 
-        /*public IBranchesOfPlanRequestBuilder GetBranchesOfPlan(string planKey)
+        public IInformationOfRequest InformationOf(string planKey)
         {
-            return _container.Resolve<IBranchesOfPlanRequestBuilder>();
+            return _container.Resolve<IInformationOfRequest>(
+                new PropertyOverride("PlanKey", planKey));
         }
-
-        public IDetailsPlanBranchRequestBuilder GetDetailsOfPlanBranch(string planKey, string branchName)
-        {
-            return _container.Resolve<IDetailsPlanBranchRequestBuilder>();
-        }*/
     }
 }

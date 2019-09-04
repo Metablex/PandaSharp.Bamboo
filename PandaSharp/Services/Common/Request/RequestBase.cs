@@ -12,16 +12,10 @@ namespace PandaSharp.Services.Common.Request
         private readonly IRestFactory _restFactory;
         private readonly IList<IRequestParameterAspect> _parameterAspects;
 
-        protected abstract string ResourcePath { get; }
-
-        protected abstract string RootElement { get; }
-
-        protected abstract Method RequestMethod { get; }
-
-        public RequestBase(IRestFactory restClientFactory, IList<IRequestParameterAspect> parameterAspects)
+        protected RequestBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
         {
             _restFactory = restClientFactory;
-            _parameterAspects = parameterAspects;
+            _parameterAspects = parameterAspectFactory.GetParameterAspects(GetType());
         }
 
         protected void ApplyToAspect<TAspect>(Action<TAspect> onUseAspect)
@@ -35,6 +29,15 @@ namespace PandaSharp.Services.Common.Request
             onUseAspect(aspect);
         }
 
+        protected abstract string GetResourcePath();
+
+        protected abstract Method GetRequestMethod();
+
+        protected virtual string GetRootElement()
+        {
+            return null;
+        }
+
         public IRestClient ProvideClient()
         {
             return _restFactory.CreateClient();
@@ -42,8 +45,8 @@ namespace PandaSharp.Services.Common.Request
 
         public IRestRequest Build()
         {
-            var restRequest = _restFactory.CreateRequest(ResourcePath, RequestMethod);
-            restRequest.RootElement = RootElement;
+            var restRequest = _restFactory.CreateRequest(GetResourcePath(), GetRequestMethod());
+            restRequest.RootElement = GetRootElement();
 
             foreach (var aspect in _parameterAspects)
             {

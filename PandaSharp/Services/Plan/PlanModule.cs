@@ -2,7 +2,6 @@
 using PandaSharp.Services.Plan.Contract;
 using PandaSharp.Services.Plan.Factory;
 using PandaSharp.Services.Plan.Request;
-using PandaSharp.Utils;
 using Unity;
 
 namespace PandaSharp.Services.Plan
@@ -11,9 +10,13 @@ namespace PandaSharp.Services.Plan
     {
         public static void RegisterPlanModule(this IUnityContainer container)
         {
-            container.RegisterRequest<IAllPlansRequest, AllPlansRequest>();
+            container.RegisterType<IAllPlansRequest, AllPlansRequest>();
+            container.RegisterType<IInformationOfRequest, InformationOfRequest>();
+
+            container.RegisterType<IPlansExpandStateParameterAspect, PlansExpandStateParameterAspect>();
+            container.RegisterType<IPlanExpandStateParameterAspect, PlanExpandStateParameterAspect>();
+
             container.RegisterType<IPlanRequestBuilderFactory, PlanRequestBuilderFactory>();
-            container.RegisterParameterAspect<PlansExpandStateParameterAspect>();
         }
     }
 }

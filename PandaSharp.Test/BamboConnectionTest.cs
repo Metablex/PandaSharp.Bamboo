@@ -1,5 +1,4 @@
 using System.IO;
-using System.Linq;
 using NUnit.Framework;
 using PandaSharp.Utils;
 
@@ -15,23 +14,13 @@ namespace PandaSharp.Test
 
             var request = api
                 .PlanRequest
-                .AllPlans()
-                .WithMaxResult(117)
-                .IncludeDetails()
-                .IncludeActionsInformation()
-                .IncludeBranchesInformation()
-                .IncludeStagesInformation();
+                .InformationOf("O55-SUITE")
+                .IncludeBranches(100);
 
             var json = request.DownloadData();
-            var response = request.Execute();
-
-            var plan = response.First(p => p.Actions.Size > 0);
-            foreach (var action in plan.Actions)
-            {
-
-            }
-
             File.WriteAllText(@"C:\Users\tom.birras\Downloads\PandaSharpData\allplans.json", json);
+
+            var response = request.Execute();
         }
     }
 }

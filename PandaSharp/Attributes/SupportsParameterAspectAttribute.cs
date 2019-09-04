@@ -5,11 +5,11 @@ namespace PandaSharp.Attributes
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     internal sealed class SupportsParameterAspectAttribute : Attribute
     {
-        public string ParameterAspectName { get; }
+        public Type ParameterAspectType { get; }
 
-        public SupportsParameterAspectAttribute(string parameterAspectName)
+        public SupportsParameterAspectAttribute(Type parameterAspectType)
         {
-            ParameterAspectName = parameterAspectName;
+            ParameterAspectType = parameterAspectType;
         }
     }
 }
