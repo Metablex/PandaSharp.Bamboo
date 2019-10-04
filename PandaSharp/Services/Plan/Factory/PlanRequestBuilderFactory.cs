@@ -1,4 +1,5 @@
-﻿using PandaSharp.Services.Plan.Contract;
+﻿using PandaSharp.Services.Common.Request;
+using PandaSharp.Services.Plan.Contract;
 using Unity;
 using Unity.Resolution;
 
@@ -21,7 +22,7 @@ namespace PandaSharp.Services.Plan.Factory
         public IInformationOfRequest InformationOf(string planKey)
         {
             return _container.Resolve<IInformationOfRequest>(
-                new PropertyOverride("PlanKey", planKey));
+                new PropertyOverride(RequestPropertyNames.PlanKeyName, planKey));
         }
     }
 }

@@ -38,7 +38,7 @@ namespace PandaSharp.Services.Plan.Response
         public ActionListResponse Actions { get; set; }
 
         [DeserializeAs(Name = "stages")]
-        public StagesListResponse Stages { get; set; }
+        public StagesResponse Stages { get; set; }
 
         [DeserializeAs(Name = "branches")]
         public BranchesListResponse Branches { get; set; }

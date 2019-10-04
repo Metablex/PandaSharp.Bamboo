@@ -1,7 +1,7 @@
-﻿using PandaSharp.Services.Plan.Aspect;
-using PandaSharp.Services.Plan.Contract;
+﻿using PandaSharp.Services.Plan.Contract;
 using PandaSharp.Services.Plan.Factory;
 using PandaSharp.Services.Plan.Request;
+using PandaSharp.Utils;
 using Unity;
 
 namespace PandaSharp.Services.Plan
@@ -13,8 +13,8 @@ namespace PandaSharp.Services.Plan
             container.RegisterType<IAllPlansRequest, AllPlansRequest>();
             container.RegisterType<IInformationOfRequest, InformationOfRequest>();
 
-            container.RegisterType<IPlansExpandStateParameterAspect, PlansExpandStateParameterAspect>();
-            container.RegisterType<IPlanExpandStateParameterAspect, PlanExpandStateParameterAspect>();
+            container.RegisterExpandStateParameterAspect<PlanExpandState>();
+            container.RegisterExpandStateParameterAspect<PlansExpandState>();
 
             container.RegisterType<IPlanRequestBuilderFactory, PlanRequestBuilderFactory>();
         }

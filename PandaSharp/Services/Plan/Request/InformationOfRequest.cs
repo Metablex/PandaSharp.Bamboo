@@ -10,10 +10,10 @@ using Unity;
 namespace PandaSharp.Services.Plan.Request
 {
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
-    [SupportsParameterAspect(typeof(IPlanExpandStateParameterAspect))]
+    [SupportsParameterAspect(typeof(IExpandStateParameterAspect<PlanExpandState>))]
     internal sealed class InformationOfRequest : RequestBase<PlanResponse>, IInformationOfRequest
     {
-        [Dependency]
+        [Dependency(RequestPropertyNames.PlanKeyName)]
         public string PlanKey { get; set; }
 
         public InformationOfRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
@@ -23,26 +23,26 @@ namespace PandaSharp.Services.Plan.Request
 
         public IInformationOfRequest IncludeActions()
         {
-            ApplyToAspect<IPlanExpandStateParameterAspect>(aspect => aspect.ExpandState |= PlanExpandState.IncludingActions);
+            ApplyToAspect<IExpandStateParameterAspect<PlanExpandState>>(aspect => aspect.AddExpandState(PlanExpandState.IncludingActions));
             return this;
         }
 
         public IInformationOfRequest IncludeStages()
         {
-            ApplyToAspect<IPlanExpandStateParameterAspect>(aspect => aspect.ExpandState |= PlanExpandState.IncludingStages);
+            ApplyToAspect<IExpandStateParameterAspect<PlanExpandState>>(aspect => aspect.AddExpandState(PlanExpandState.IncludingStages));
             return this;
         }
 
         public IInformationOfRequest IncludeBranches(int maxResults = 25)
         {
-            ApplyToAspect<IPlanExpandStateParameterAspect>(aspect => aspect.ExpandState |= PlanExpandState.IncludingBranches);
+            ApplyToAspect<IExpandStateParameterAspect<PlanExpandState>>(aspect => aspect.AddExpandState(PlanExpandState.IncludingBranches));
             ApplyToAspect<IResultCountParameterAspect>(aspect => aspect.MaxResults = maxResults);
             return this;
         }
 
         public IInformationOfRequest IncludeVariableContext()
         {
-            ApplyToAspect<IPlanExpandStateParameterAspect>(aspect => aspect.ExpandState |= PlanExpandState.IncludingVariableContext);
+            ApplyToAspect<IExpandStateParameterAspect<PlanExpandState>>(aspect => aspect.AddExpandState(PlanExpandState.IncludingVariableContext));
             return this;
         }
 

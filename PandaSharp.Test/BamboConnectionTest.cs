@@ -13,9 +13,9 @@ namespace PandaSharp.Test
             var api = new BambooApi("https://bamboo.qoniac.com", TestConstants.UserName, TestConstants.Password);
 
             var request = api
-                .PlanRequest
-                .InformationOf("O55-SUITE")
-                .IncludeBranches(100);
+                .BuildRequest
+                .InformationOfLatestBuild("O56", "CORE8")
+                .IncludingMetaData();
 
             var json = request.DownloadData();
             File.WriteAllText(@"C:\Users\tom.birras\Downloads\PandaSharpData\allplans.json", json);

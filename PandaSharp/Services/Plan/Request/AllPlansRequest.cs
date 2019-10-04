@@ -9,36 +9,35 @@ using RestSharp;
 namespace PandaSharp.Services.Plan.Request
 {
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
-    [SupportsParameterAspect(typeof(IPlansExpandStateParameterAspect))]
+    [SupportsParameterAspect(typeof(IExpandStateParameterAspect<PlansExpandState>))]
     internal sealed class AllPlansRequest : RequestBase<PlansResponse>, IAllPlansRequest
     {
         public AllPlansRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
-            ApplyToAspect<IPlansExpandStateParameterAspect>(aspect => aspect.ExpandState = PlansExpandState.OnlyBasicInformation);
         }
 
         public IAllPlansRequest IncludeDetails()
         {
-            ApplyToAspect<IPlansExpandStateParameterAspect>(aspect => aspect.ExpandState |= PlansExpandState.IncludingDetails);
+            ApplyToAspect<IExpandStateParameterAspect<PlansExpandState>>(aspect => aspect.AddExpandState(PlansExpandState.IncludingDetails));
             return this;
         }
 
         public IAllPlansRequest IncludeActionsInformation()
         {
-            ApplyToAspect<IPlansExpandStateParameterAspect>(aspect => aspect.ExpandState |= PlansExpandState.IncludingActions);
+            ApplyToAspect<IExpandStateParameterAspect<PlansExpandState>>(aspect => aspect.AddExpandState(PlansExpandState.IncludingActions));
             return this;
         }
 
         public IAllPlansRequest IncludeStagesInformation()
         {
-            ApplyToAspect<IPlansExpandStateParameterAspect>(aspect => aspect.ExpandState |= PlansExpandState.IncludingStages);
+            ApplyToAspect<IExpandStateParameterAspect<PlansExpandState>>(aspect => aspect.AddExpandState(PlansExpandState.IncludingStages));
             return this;
         }
 
         public IAllPlansRequest IncludeBranchesInformation()
         {
-            ApplyToAspect<IPlansExpandStateParameterAspect>(aspect => aspect.ExpandState |= PlansExpandState.IncludingBranches);
+            ApplyToAspect<IExpandStateParameterAspect<PlansExpandState>>(aspect => aspect.AddExpandState(PlansExpandState.IncludingBranches));
             return this;
         }
 

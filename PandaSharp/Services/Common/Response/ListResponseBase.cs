@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using RestSharp.Deserializers;
 
-namespace PandaSharp.Services.Plan.Response
+namespace PandaSharp.Services.Common.Response
 {
     public abstract class ListResponseBase<T> : IEnumerable<T>
     {

@@ -7,7 +7,7 @@ namespace PandaSharp.Services.Plan.Contract
     internal enum PlanExpandState
     {
         [StringRepresentation("actions")]
-        IncludingActions = 1,
+        IncludingActions = 1 << 0,
 
         [StringRepresentation("stages")]
         IncludingStages = 1 << 1,
