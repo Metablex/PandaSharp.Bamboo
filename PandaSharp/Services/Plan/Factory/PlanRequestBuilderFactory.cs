@@ -19,9 +19,10 @@ namespace PandaSharp.Services.Plan.Factory
             return _container.Resolve<IAllPlansRequest>();
         }
 
-        public IInformationOfRequest InformationOf(string planKey)
+        public IInformationOfRequest InformationOf(string projectKey, string planKey)
         {
             return _container.Resolve<IInformationOfRequest>(
+                new PropertyOverride(RequestPropertyNames.ProjectKeyName, projectKey),
                 new PropertyOverride(RequestPropertyNames.PlanKeyName, planKey));
         }
     }

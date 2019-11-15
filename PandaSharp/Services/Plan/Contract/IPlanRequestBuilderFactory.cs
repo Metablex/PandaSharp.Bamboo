@@ -4,6 +4,6 @@
     {
         IAllPlansRequest AllPlans();
 
-        IInformationOfRequest InformationOf(string planKey);
+        IInformationOfRequest InformationOf(string projectKey, string planKey);
     }
 }

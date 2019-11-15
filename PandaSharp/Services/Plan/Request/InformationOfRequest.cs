@@ -13,6 +13,9 @@ namespace PandaSharp.Services.Plan.Request
     [SupportsParameterAspect(typeof(IExpandStateParameterAspect<PlanExpandState>))]
     internal sealed class InformationOfRequest : RequestBase<PlanResponse>, IInformationOfRequest
     {
+        [Dependency(RequestPropertyNames.ProjectKeyName)]
+        public string ProjectKey { get; set; }
+
         [Dependency(RequestPropertyNames.PlanKeyName)]
         public string PlanKey { get; set; }
 
@@ -48,7 +51,7 @@ namespace PandaSharp.Services.Plan.Request
 
         protected override string GetResourcePath()
         {
-            return $"plan/{PlanKey}";
+            return $"plan/{ProjectKey}-{PlanKey}";
         }
 
         protected override Method GetRequestMethod()

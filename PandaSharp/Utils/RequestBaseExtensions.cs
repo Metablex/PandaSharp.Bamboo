@@ -2,6 +2,9 @@
 using System.Net;
 using System.Text;
 using PandaSharp.Services.Common.Contract;
+using RestSharp;
+using RestSharp.Deserializers;
+using RestSharp.Serialization.Json;
 
 namespace PandaSharp.Utils
 {
@@ -26,7 +29,7 @@ namespace PandaSharp.Utils
                     throw new UnauthorizedAccessException("Unable to authenticate. Please check your credentials.");
                 }
 
-                throw new ApplicationException("Error retrieving response. See inner exception", response.ErrorException);
+                throw new InvalidOperationException($"Error retrieving response: {response.GetErrorResponseMessage()}");
             }
 
             return response.Data;
@@ -47,6 +50,28 @@ namespace PandaSharp.Utils
             return data != null
                 ? Encoding.UTF8.GetString(data)
                 : string.Empty;
+        }
+
+        private static string GetErrorResponseMessage(this IRestResponse response)
+        {
+            if (response.ErrorException != null)
+            {
+                return response.ErrorException.ToString();
+            }
+
+            if (response.ErrorMessage != null)
+            {
+                return response.ErrorMessage;
+            }
+
+            var errorResponse = new JsonSerializer().Deserialize<ErrorResponse>(response);
+            return errorResponse.Message;
+        }
+
+        private sealed class ErrorResponse
+        {
+            [DeserializeAs(Name = "message")]
+            public string Message { get; set; }
         }
     }
 }
