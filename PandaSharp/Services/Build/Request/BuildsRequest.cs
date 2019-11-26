@@ -5,7 +5,6 @@ using PandaSharp.Services.Build.Response;
 using PandaSharp.Services.Common.Contract;
 using PandaSharp.Services.Common.Request;
 using RestSharp;
-using Unity;
 
 namespace PandaSharp.Services.Build.Request
 {
@@ -16,13 +15,14 @@ namespace PandaSharp.Services.Build.Request
     [SupportsParameterAspect(typeof(IExpandStateParameterAspect<BuildsExpandState>))]
     internal sealed class BuildsRequest : RequestBase<BuildsResponse>, IBuildsRequest
     {
-        [Dependency(RequestPropertyNames.ProjectKeyName)]
+        [InjectedProperty(RequestPropertyNames.ProjectKeyName)]
         public string ProjectKey { get; set; }
 
-        [Dependency(RequestPropertyNames.PlanKeyName)]
+        [InjectedProperty(RequestPropertyNames.PlanKeyName)]
         public string PlanKey { get; set; }
 
-        public BuildsRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory) : base(restClientFactory, parameterAspectFactory)
+        public BuildsRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+            : base(restClientFactory, parameterAspectFactory)
         {
         }
 

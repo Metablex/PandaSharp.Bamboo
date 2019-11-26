@@ -1,6 +1,6 @@
 ﻿namespace PandaSharp.Rest.Contract
 {
-    public interface IBambooOptions
+    internal interface IBambooOptions
     {
         string BaseUrl { get; }
 

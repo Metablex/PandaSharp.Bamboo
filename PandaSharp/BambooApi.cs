@@ -1,4 +1,6 @@
-﻿using PandaSharp.Rest;
+﻿using PandaSharp.IoC;
+using PandaSharp.IoC.Contract;
+using PandaSharp.Rest;
 using PandaSharp.Services;
 using PandaSharp.Services.Build;
 using PandaSharp.Services.Build.Contract;
@@ -6,13 +8,12 @@ using PandaSharp.Services.Plan;
 using PandaSharp.Services.Plan.Contract;
 using PandaSharp.Services.Users;
 using PandaSharp.Services.Users.Contract;
-using Unity;
 
 namespace PandaSharp
 {
     public sealed class BambooApi
     {
-        private readonly IUnityContainer _container;
+        private readonly IPandaContainer _container;
 
         public IPlanRequestBuilderFactory PlanRequest => _container.Resolve<IPlanRequestBuilderFactory>();
 
@@ -22,7 +23,7 @@ namespace PandaSharp
 
         public BambooApi(string baseUrl, string userName, string password)
         {
-            _container = new UnityContainer();
+            _container = new PandaContainer();
 
             _container.RegisterRestModule(baseUrl, userName, password);
             _container.RegisterServicesModule();

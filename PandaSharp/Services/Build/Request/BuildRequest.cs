@@ -5,23 +5,23 @@ using PandaSharp.Services.Build.Response;
 using PandaSharp.Services.Common.Contract;
 using PandaSharp.Services.Common.Request;
 using RestSharp;
-using Unity;
 
 namespace PandaSharp.Services.Build.Request
 {
     [SupportsParameterAspect(typeof(IExpandStateParameterAspect<BuildExpandState>))]
     internal sealed class BuildRequest : RequestBase<BuildResponse>, IBuildRequest
     {
-        [Dependency(RequestPropertyNames.ProjectKeyName)]
+        [InjectedProperty(RequestPropertyNames.ProjectKeyName)]
         public string ProjectKey { get; set; }
 
-        [Dependency(RequestPropertyNames.PlanKeyName)]
+        [InjectedProperty(RequestPropertyNames.PlanKeyName)]
         public string PlanKey { get; set; }
 
-        [Dependency(RequestPropertyNames.BuildNumberName)]
+        [InjectedProperty(RequestPropertyNames.BuildNumberName)]
         public string BuildNumber { get; set; }
 
-        public BuildRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory) : base(restClientFactory, parameterAspectFactory)
+        public BuildRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+            : base(restClientFactory, parameterAspectFactory)
         {
         }
 

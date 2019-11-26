@@ -5,7 +5,6 @@ using PandaSharp.Services.Common.Request;
 using PandaSharp.Services.Plan.Contract;
 using PandaSharp.Services.Plan.Response;
 using RestSharp;
-using Unity;
 
 namespace PandaSharp.Services.Plan.Request
 {
@@ -13,10 +12,10 @@ namespace PandaSharp.Services.Plan.Request
     [SupportsParameterAspect(typeof(IExpandStateParameterAspect<PlanExpandState>))]
     internal sealed class InformationOfRequest : RequestBase<PlanResponse>, IInformationOfRequest
     {
-        [Dependency(RequestPropertyNames.ProjectKeyName)]
+        [InjectedProperty(RequestPropertyNames.ProjectKeyName)]
         public string ProjectKey { get; set; }
 
-        [Dependency(RequestPropertyNames.PlanKeyName)]
+        [InjectedProperty(RequestPropertyNames.PlanKeyName)]
         public string PlanKey { get; set; }
 
         public InformationOfRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)

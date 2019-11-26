@@ -1,13 +1,13 @@
+using PandaSharp.IoC.Contract;
 using PandaSharp.Services.Users.Contract;
-using Unity;
 
 namespace PandaSharp.Services.Users.Factory
 {
     internal sealed class UsersRequestBuilderFactory : IUsersRequestBuilderFactory
     {
-        private readonly IUnityContainer _container;
+        private readonly IPandaContainer _container;
 
-        public UsersRequestBuilderFactory(IUnityContainer container)
+        public UsersRequestBuilderFactory(IPandaContainer container)
         {
             _container = container;
         }

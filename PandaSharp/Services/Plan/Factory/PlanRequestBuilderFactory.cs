@@ -1,15 +1,15 @@
-﻿using PandaSharp.Services.Common.Request;
+﻿using PandaSharp.IoC.Contract;
+using PandaSharp.IoC.Injections;
+using PandaSharp.Services.Common.Request;
 using PandaSharp.Services.Plan.Contract;
-using Unity;
-using Unity.Resolution;
 
 namespace PandaSharp.Services.Plan.Factory
 {
     internal sealed class PlanRequestBuilderFactory : IPlanRequestBuilderFactory
     {
-        private readonly IUnityContainer _container;
+        private readonly IPandaContainer _container;
 
-        public PlanRequestBuilderFactory(IUnityContainer container)
+        public PlanRequestBuilderFactory(IPandaContainer container)
         {
             _container = container;
         }
@@ -22,8 +22,8 @@ namespace PandaSharp.Services.Plan.Factory
         public IInformationOfRequest InformationOf(string projectKey, string planKey)
         {
             return _container.Resolve<IInformationOfRequest>(
-                new PropertyOverride(RequestPropertyNames.ProjectKeyName, projectKey),
-                new PropertyOverride(RequestPropertyNames.PlanKeyName, planKey));
+                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
         }
     }
 }
