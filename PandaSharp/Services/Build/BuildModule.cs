@@ -1,3 +1,4 @@
+using PandaSharp.IoC;
 using PandaSharp.IoC.Contract;
 using PandaSharp.Services.Build.Aspect;
 using PandaSharp.Services.Build.Contract;
@@ -7,9 +8,9 @@ using PandaSharp.Utils;
 
 namespace PandaSharp.Services.Build
 {
-    internal static class BuildModule
+    internal sealed class BuildModule : PandaModuleBase
     {
-        public static void RegisterBuildModule(this IPandaContainer container)
+        public override void RegisterModule(IPandaContainer container)
         {
             container.RegisterType<IBuildStateParameterAspect, BuildStateParameterAspect>();
             container.RegisterType<ILabelFilterParameterAspect, LabelFilterParameterAspect>();

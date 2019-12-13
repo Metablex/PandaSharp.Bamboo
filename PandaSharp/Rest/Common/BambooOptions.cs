@@ -6,22 +6,23 @@ namespace PandaSharp.Rest.Common
     {
         private const string RestApiResource = "/rest/api/latest";
 
-        public string BaseUrl { get; }
+        private string _baseUrl;
 
-        public string UserName { get; }
-
-        public string Password { get; }
-
-        public BambooOptions(string baseUrl, string userName, string password)
+        public string BaseUrl
         {
-            BaseUrl = baseUrl;
-            if (!BaseUrl.EndsWith(RestApiResource))
+            get => _baseUrl;
+            set
             {
-                BaseUrl += RestApiResource;
+                _baseUrl = value;
+                if (!_baseUrl.EndsWith(RestApiResource))
+                {
+                    _baseUrl += RestApiResource;
+                }
             }
-
-            UserName = userName;
-            Password = password;
         }
+
+        public string UserName { get; set; }
+
+        public string Password { get; set; }
     }
 }

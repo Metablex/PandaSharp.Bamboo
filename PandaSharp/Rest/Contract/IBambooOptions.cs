@@ -2,10 +2,10 @@
 {
     internal interface IBambooOptions
     {
-        string BaseUrl { get; }
+        string BaseUrl { get; set; }
 
-        string UserName { get; }
+        string UserName { get; set; }
 
-        string Password { get; }
+        string Password { get; set; }
     }
 }

@@ -4,9 +4,9 @@ using RestSharp.Deserializers;
 
 namespace PandaSharp.Services.Build.Response
 {
-    public sealed class ArtifactsResponse : ListResponseBase<ArtifactResponse>
+    public sealed class ArtifactsResponse : ListResponseBase
     {
         [DeserializeAs(Name = "artifact")]
-        public override List<ArtifactResponse> InnerList { get; set; }
+        public List<ArtifactResponse> Contents { get; set; }
     }
 }

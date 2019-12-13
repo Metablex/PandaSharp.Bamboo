@@ -4,9 +4,9 @@ using RestSharp.Deserializers;
 
 namespace PandaSharp.Services.Build.Response
 {
-    public sealed class MetadatasResponse : ListResponseBase<MetadataResponse>
+    public sealed class MetadatasResponse : ListResponseBase
     {
         [DeserializeAs(Name = "item")]
-        public override List<MetadataResponse> InnerList { get; set; }
+        public List<MetadataResponse> Contents { get; set; }
     }
 }

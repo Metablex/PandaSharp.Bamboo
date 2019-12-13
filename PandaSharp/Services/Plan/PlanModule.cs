@@ -1,4 +1,5 @@
-﻿using PandaSharp.IoC.Contract;
+﻿using PandaSharp.IoC;
+using PandaSharp.IoC.Contract;
 using PandaSharp.Services.Plan.Contract;
 using PandaSharp.Services.Plan.Factory;
 using PandaSharp.Services.Plan.Request;
@@ -6,9 +7,9 @@ using PandaSharp.Utils;
 
 namespace PandaSharp.Services.Plan
 {
-    internal static class PlanModule
+    internal sealed class PlanModule : PandaModuleBase
     {
-        public static void RegisterPlanModule(this IPandaContainer container)
+        public override void RegisterModule(IPandaContainer container)
         {
             container.RegisterType<IAllPlansRequest, AllPlansRequest>();
             container.RegisterType<IInformationOfRequest, InformationOfRequest>();

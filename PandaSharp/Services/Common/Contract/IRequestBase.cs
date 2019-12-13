@@ -1,9 +1,7 @@
-﻿using RestSharp;
-
-namespace PandaSharp.Services.Common.Contract
+﻿namespace PandaSharp.Services.Common.Contract
 {
-    public interface IRequestBase<T>
+    public interface IRequestBase<out T>
     {
-        IRestRequest Build();
+        T Execute();
     }
 }

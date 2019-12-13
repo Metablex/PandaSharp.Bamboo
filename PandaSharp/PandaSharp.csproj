@@ -6,6 +6,8 @@
     <Version>0.0.0.1</Version>
     <Company />
     <Authors>Tom Birras</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>C# wrapper for Atlassian Bamboo</Description>
   </PropertyGroup>
 
   <ItemGroup>

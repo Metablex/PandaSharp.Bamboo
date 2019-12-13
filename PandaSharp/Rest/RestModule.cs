@@ -1,14 +1,15 @@
-﻿using PandaSharp.IoC.Contract;
+﻿using PandaSharp.IoC;
+using PandaSharp.IoC.Contract;
 using PandaSharp.Rest.Common;
 using PandaSharp.Rest.Contract;
 
 namespace PandaSharp.Rest
 {
-    internal static class RestModule
+    internal sealed class RestModule : PandaModuleBase
     {
-        public static void RegisterRestModule(this IPandaContainer container, string baseUrl, string userName, string password)
+        public override void RegisterModule(IPandaContainer container)
         {
-            container.RegisterSingletonType<IBambooOptions>(() => new BambooOptions(baseUrl, userName, password));
+            container.RegisterSingletonType<IBambooOptions, BambooOptions>();
             container.RegisterSingletonType<IRestFactory, RestFactory>();
         }
     }

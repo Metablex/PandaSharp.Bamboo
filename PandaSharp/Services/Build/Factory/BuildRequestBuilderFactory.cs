@@ -45,6 +45,7 @@ namespace PandaSharp.Services.Build.Factory
         public ICommentsOfBuildRequest CommentsOfBuild(string projectKey, string planKey, uint buildNumber)
         {
             return _container.Resolve<ICommentsOfBuildRequest>(
+                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
                 new InjectProperty(RequestPropertyNames.BuildNumberName, buildNumber));
         }
@@ -52,6 +53,7 @@ namespace PandaSharp.Services.Build.Factory
         public ILabelsOfBuildRequest LabelsOfBuild(string projectKey, string planKey, uint buildNumber)
         {
             return _container.Resolve<ILabelsOfBuildRequest>(
+                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
                 new InjectProperty(RequestPropertyNames.BuildNumberName, buildNumber));
         }

@@ -4,9 +4,9 @@ using RestSharp.Deserializers;
 
 namespace PandaSharp.Services.Build.Response
 {
-    public sealed class JiraIssuesResponse : ListResponseBase<JiraIssueResponse>
+    public sealed class JiraIssuesResponse : ListResponseBase
     {
         [DeserializeAs(Name = "issue")]
-        public override List<JiraIssueResponse> InnerList { get; set; }
+        public List<JiraIssueResponse> Contents { get; set; }
     }
 }

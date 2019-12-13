@@ -4,9 +4,9 @@ using RestSharp.Deserializers;
 
 namespace PandaSharp.Services.Plan.Response
 {
-    public sealed class BranchesListResponse : ListResponseBase<BranchResponse>
+    public sealed class BranchesListResponse : ListResponseBase
     {
         [DeserializeAs(Name = "branch")]
-        public override List<BranchResponse> InnerList { get; set; }
+        public List<BranchResponse> Contents { get; set; }
     }
 }
