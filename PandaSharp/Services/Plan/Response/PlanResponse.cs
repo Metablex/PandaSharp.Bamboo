@@ -1,46 +1,55 @@
-using RestSharp.Deserializers;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using PandaSharp.Services.Plan.Response.Converter;
 
 namespace PandaSharp.Services.Plan.Response
 {
     public sealed class PlanResponse
     {
-        [DeserializeAs(Name = "projectKey")]
+        [JsonProperty("projectKey")]
         public string ProjectKey { get; set; }
 
-        [DeserializeAs(Name = "projectName")]
+        [JsonProperty("projectName")]
         public string ProjectName { get; set; }
 
-        [DeserializeAs(Name = "name")]
+        [JsonProperty("name")]
         public string LongPlanName { get; set; }
 
-        [DeserializeAs(Name = "shortName")]
+        [JsonProperty("shortName")]
         public string ShortPlanName { get; set; }
 
-        [DeserializeAs(Name = "key")]
+        [JsonProperty("key")]
         public string LongPlanKey { get; set; }
 
-        [DeserializeAs(Name = "shortKey")]
+        [JsonProperty("shortKey")]
         public string ShortPlanKey { get; set; }
 
-        [DeserializeAs(Name = "enabled")]
+        [JsonProperty("enabled")]
         public bool IsEnabled { get; set; }
 
-        [DeserializeAs(Name = "isFavourite")]
+        [JsonProperty("isFavourite")]
         public bool? IsFavourite { get; set; }
 
-        [DeserializeAs(Name = "isActive")]
+        [JsonProperty("isActive")]
         public bool? IsActive { get; set; }
 
-        [DeserializeAs(Name = "isBuilding")]
+        [JsonProperty("isBuilding")]
         public bool? IsBuilding { get; set; }
 
-        [DeserializeAs(Name = "actions")]
-        public ActionListResponse Actions { get; set; }
+        [JsonProperty("actions")]
+        [JsonConverter(typeof(ActionListResponseConverter))]
+        public List<ActionResponse> Actions { get; set; }
 
-        [DeserializeAs(Name = "stages")]
-        public StagesResponse Stages { get; set; }
+        [JsonProperty("stages")]
+        [JsonConverter(typeof(StageListResponseConverter))]
+        public List<StageResponse> Stages { get; set; }
 
-        [DeserializeAs(Name = "branches")]
-        public BranchesListResponse Branches { get; set; }
+        [JsonProperty("branches")]
+        [JsonConverter(typeof(BranchListResponseConverter))]
+        public List<BranchResponse> Branches { get; set; }
+
+        [JsonProperty("variableContext")]
+        [JsonConverter(typeof(VariableContextListResponseConverter))]
+        public List<VariableResponse> Variables { get; set; }
     }
 }

@@ -1,25 +1,25 @@
-using RestSharp.Deserializers;
+using Newtonsoft.Json;
 
 namespace PandaSharp.Services.Plan.Response
 {
     public sealed class BranchResponse
     {
-        [DeserializeAs(Name = "shortName")]
+        [JsonProperty("shortName")]
         public string ShortName { get; set; }
 
-        [DeserializeAs(Name = "shortKey")]
+        [JsonProperty("shortKey")]
         public string ShortKey { get; set; }
 
-        [DeserializeAs(Name = "name")]
+        [JsonProperty("name")]
         public string LongName { get; set; }
 
-        [DeserializeAs(Name = "key")]
+        [JsonProperty("key")]
         public string LongKey { get; set; }
 
-        [DeserializeAs(Name = "enabled")]
+        [JsonProperty("enabled")]
         public bool IsEnabled { get; set; }
 
-        [DeserializeAs(Name = "description")]
+        [JsonProperty("description")]
         public string Description { get; set; }
     }
 }

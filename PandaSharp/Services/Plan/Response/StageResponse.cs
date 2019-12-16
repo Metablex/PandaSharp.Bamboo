@@ -1,13 +1,13 @@
-using RestSharp.Deserializers;
+using Newtonsoft.Json;
 
 namespace PandaSharp.Services.Plan.Response
 {
     public sealed class StageResponse
     {
-        [DeserializeAs(Name = "name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [DeserializeAs(Name = "manual")]
+        [JsonProperty("manual")]
         public bool IsManual { get; set; }
     }
 }

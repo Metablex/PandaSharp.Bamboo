@@ -1,16 +1,16 @@
-using RestSharp.Deserializers;
+using Newtonsoft.Json;
 
 namespace PandaSharp.Services.Users.Response
 {
     public sealed class CurrentUserResponse
     {
-        [DeserializeAs(Name = "name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [DeserializeAs(Name = "fullName")]
+        [JsonProperty("fullName")]
         public string FullName { get; set; }
 
-        [DeserializeAs(Name = "email")]
+        [JsonProperty("email")]
         public string Email { get; set; }
     }
 }

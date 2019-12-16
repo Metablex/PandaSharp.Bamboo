@@ -19,25 +19,25 @@ namespace PandaSharp.Services.Search.Request
 
         public IPlanSearchRequest WithMaxResult(int maxResult)
         {
-            ApplyToAspect<IResultCountParameterAspect>(aspect => aspect.MaxResults = maxResult);
+            GetAspect<IResultCountParameterAspect>().MaxResults = maxResult;
             return this;
         }
 
         public IPlanSearchRequest StartAtIndex(int startIndex)
         {
-            ApplyToAspect<IResultCountParameterAspect>(aspect => aspect.StartIndex = startIndex);
+            GetAspect<IResultCountParameterAspect>().StartIndex = startIndex;
             return this;
         }
 
         public IPlanSearchRequest WithSearchTerm(string searchTerm)
         {
-            ApplyToAspect<IPlanSearchParameterAspect>(aspect => aspect.SearchTerm = searchTerm);
+            GetAspect<IPlanSearchParameterAspect>().SearchTerm = searchTerm;
             return this;
         }
 
         public IPlanSearchRequest PerformFuzzySearch()
         {
-            ApplyToAspect<IPlanSearchParameterAspect>(aspect => aspect.PerformFuzzySearch = true);
+            GetAspect<IPlanSearchParameterAspect>().PerformFuzzySearch = true;
             return this;
         }
 

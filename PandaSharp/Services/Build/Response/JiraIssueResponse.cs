@@ -1,26 +1,26 @@
+using Newtonsoft.Json;
 using PandaSharp.Services.Common.Response;
-using RestSharp.Deserializers;
 
 namespace PandaSharp.Services.Build.Response
 {
     public sealed class JiraIssueResponse
     {
-        [DeserializeAs(Name = "key")]
+        [JsonProperty("key")]
         public string Name { get; set; }
 
-        [DeserializeAs(Name = "summary")]
+        [JsonProperty("summary")]
         public string Summary { get; set; }
 
-        [DeserializeAs(Name = "issueType")]
+        [JsonProperty("issueType")]
         public string IssueType { get; set; }
 
-        [DeserializeAs(Name = "status")]
+        [JsonProperty("status")]
         public string Status { get; set; }
 
-        [DeserializeAs(Name = "assignee")]
+        [JsonProperty("assignee")]
         public string Assignee { get; set; }
 
-        [DeserializeAs(Name = "url")]
+        [JsonProperty("url")]
         public LinkResponse LinkedIssue { get; set; }
     }
 }

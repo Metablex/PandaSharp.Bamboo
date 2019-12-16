@@ -1,12 +1,13 @@
-using System.Collections.Generic;
+using Newtonsoft.Json;
+using PandaSharp.Attributes;
 using PandaSharp.Services.Common.Response;
-using RestSharp.Deserializers;
+using PandaSharp.Services.Search.Response.Converter;
 
 namespace PandaSharp.Services.Search.Response
 {
-    public sealed class PlanSearchResultsResponse : ListResponseBase
+    [JsonConverter(typeof(SearchResultListRootElementResponseConverter))]
+    [JsonItems("searchResults")]
+    public sealed class PlanSearchResultsResponse : ListResponseBase<PlanSearchResultResponse>
     {
-        [DeserializeAs(Name = "searchResults")]
-        public List<PlanSearchResultResponse> SearchResults { get; set; }
     }
 }

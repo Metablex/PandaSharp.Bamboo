@@ -1,13 +1,13 @@
-using RestSharp.Deserializers;
+using Newtonsoft.Json;
 
 namespace PandaSharp.Services.Build.Response
 {
     public sealed class MetadataResponse
     {
-        [DeserializeAs(Name = "key")]
+        [JsonProperty("key")]
         public string Key { get; set; }
 
-        [DeserializeAs(Name = "value")]
+        [JsonProperty("value")]
         public string Value { get; set; }
     }
 }

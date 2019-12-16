@@ -14,14 +14,14 @@ namespace PandaSharp.Services.Build.Factory
             _container = container;
         }
 
-        public IBuildsRequest AllBuilds()
+        public IBuildListRequest AllBuilds()
         {
-            return _container.Resolve<IBuildsRequest>();
+            return _container.Resolve<IBuildListRequest>();
         }
 
-        public IBuildsRequest BuildsOfPlan(string projectKey, string planKey)
+        public IBuildListRequest BuildsOfPlan(string projectKey, string planKey)
         {
-            return _container.Resolve<IBuildsRequest>(
+            return _container.Resolve<IBuildListRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
         }

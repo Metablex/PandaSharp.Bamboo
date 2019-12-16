@@ -10,7 +10,7 @@ namespace PandaSharp.Services.Plan.Request
 {
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
     [SupportsParameterAspect(typeof(IExpandStateParameterAspect<PlanExpandState>))]
-    internal sealed class InformationOfRequest : RequestBase<PlanResponse>, IInformationOfRequest
+    internal sealed class InformationOfPlanRequest : RequestBase<PlanResponse>, IInformationOfPlanRequest
     {
         [InjectedProperty(RequestPropertyNames.ProjectKeyName)]
         public string ProjectKey { get; set; }
@@ -18,33 +18,33 @@ namespace PandaSharp.Services.Plan.Request
         [InjectedProperty(RequestPropertyNames.PlanKeyName)]
         public string PlanKey { get; set; }
 
-        public InformationOfRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+        public InformationOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
         }
 
-        public IInformationOfRequest IncludeActions()
+        public IInformationOfPlanRequest IncludeActions()
         {
-            ApplyToAspect<IExpandStateParameterAspect<PlanExpandState>>(aspect => aspect.AddExpandState(PlanExpandState.IncludingActions));
+            GetAspect<IExpandStateParameterAspect<PlanExpandState>>().AddExpandState(PlanExpandState.IncludingActions);
             return this;
         }
 
-        public IInformationOfRequest IncludeStages()
+        public IInformationOfPlanRequest IncludeStages()
         {
-            ApplyToAspect<IExpandStateParameterAspect<PlanExpandState>>(aspect => aspect.AddExpandState(PlanExpandState.IncludingStages));
+            GetAspect<IExpandStateParameterAspect<PlanExpandState>>().AddExpandState(PlanExpandState.IncludingStages);
             return this;
         }
 
-        public IInformationOfRequest IncludeBranches(int maxResults = 25)
+        public IInformationOfPlanRequest IncludeBranches(int maxResults = 25)
         {
-            ApplyToAspect<IExpandStateParameterAspect<PlanExpandState>>(aspect => aspect.AddExpandState(PlanExpandState.IncludingBranches));
-            ApplyToAspect<IResultCountParameterAspect>(aspect => aspect.MaxResults = maxResults);
+            GetAspect<IExpandStateParameterAspect<PlanExpandState>>().AddExpandState(PlanExpandState.IncludingBranches);
+            GetAspect<IResultCountParameterAspect>().MaxResults = maxResults;
             return this;
         }
 
-        public IInformationOfRequest IncludeVariableContext()
+        public IInformationOfPlanRequest IncludeVariableContext()
         {
-            ApplyToAspect<IExpandStateParameterAspect<PlanExpandState>>(aspect => aspect.AddExpandState(PlanExpandState.IncludingVariableContext));
+            GetAspect<IExpandStateParameterAspect<PlanExpandState>>().AddExpandState(PlanExpandState.IncludingVariableContext);
             return this;
         }
 

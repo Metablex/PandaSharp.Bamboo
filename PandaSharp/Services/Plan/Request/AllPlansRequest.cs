@@ -10,7 +10,7 @@ namespace PandaSharp.Services.Plan.Request
 {
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
     [SupportsParameterAspect(typeof(IExpandStateParameterAspect<PlansExpandState>))]
-    internal sealed class AllPlansRequest : RequestBase<PlansResponse>, IAllPlansRequest
+    internal sealed class AllPlansRequest : RequestBase<PlanListResponse>, IAllPlansRequest
     {
         public AllPlansRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
@@ -19,37 +19,37 @@ namespace PandaSharp.Services.Plan.Request
 
         public IAllPlansRequest IncludeDetails()
         {
-            ApplyToAspect<IExpandStateParameterAspect<PlansExpandState>>(aspect => aspect.AddExpandState(PlansExpandState.IncludingDetails));
+            GetAspect<IExpandStateParameterAspect<PlansExpandState>>().AddExpandState(PlansExpandState.IncludingDetails);
             return this;
         }
 
-        public IAllPlansRequest IncludeActionsInformation()
+        public IAllPlansRequest IncludeActions()
         {
-            ApplyToAspect<IExpandStateParameterAspect<PlansExpandState>>(aspect => aspect.AddExpandState(PlansExpandState.IncludingActions));
+            GetAspect<IExpandStateParameterAspect<PlansExpandState>>().AddExpandState(PlansExpandState.IncludingActions);
             return this;
         }
 
-        public IAllPlansRequest IncludeStagesInformation()
+        public IAllPlansRequest IncludeStages()
         {
-            ApplyToAspect<IExpandStateParameterAspect<PlansExpandState>>(aspect => aspect.AddExpandState(PlansExpandState.IncludingStages));
+            GetAspect<IExpandStateParameterAspect<PlansExpandState>>().AddExpandState(PlansExpandState.IncludingStages);
             return this;
         }
 
-        public IAllPlansRequest IncludeBranchesInformation()
+        public IAllPlansRequest IncludeBranches()
         {
-            ApplyToAspect<IExpandStateParameterAspect<PlansExpandState>>(aspect => aspect.AddExpandState(PlansExpandState.IncludingBranches));
+            GetAspect<IExpandStateParameterAspect<PlansExpandState>>().AddExpandState(PlansExpandState.IncludingBranches);
             return this;
         }
 
         public IAllPlansRequest WithMaxResult(int maxResult)
         {
-            ApplyToAspect<IResultCountParameterAspect>(aspect => aspect.MaxResults = maxResult);
+            GetAspect<IResultCountParameterAspect>().MaxResults = maxResult;
             return this;
         }
 
         public IAllPlansRequest StartAtIndex(int startIndex)
         {
-            ApplyToAspect<IResultCountParameterAspect>(aspect => aspect.StartIndex = startIndex);
+            GetAspect<IResultCountParameterAspect>().StartIndex = startIndex;
             return this;
         }
 
@@ -61,11 +61,6 @@ namespace PandaSharp.Services.Plan.Request
         protected override Method GetRequestMethod()
         {
             return Method.GET;
-        }
-
-        protected override string GetRootElement()
-        {
-            return "plans";
         }
     }
 }

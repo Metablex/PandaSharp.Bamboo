@@ -19,9 +19,16 @@ namespace PandaSharp.Services.Plan.Factory
             return _container.Resolve<IAllPlansRequest>();
         }
 
-        public IInformationOfRequest InformationOf(string projectKey, string planKey)
+        public IInformationOfPlanRequest InformationOf(string projectKey, string planKey)
         {
-            return _container.Resolve<IInformationOfRequest>(
+            return _container.Resolve<IInformationOfPlanRequest>(
+                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
+        }
+
+        public IBranchesOfPlanRequest BranchesOf(string projectKey, string planKey)
+        {
+            return _container.Resolve<IBranchesOfPlanRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
         }

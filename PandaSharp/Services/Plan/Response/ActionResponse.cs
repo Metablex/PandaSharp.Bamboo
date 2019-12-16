@@ -1,10 +1,10 @@
-using RestSharp.Deserializers;
+using Newtonsoft.Json;
 
 namespace PandaSharp.Services.Plan.Response
 {
     public sealed class ActionResponse
     {
-        [DeserializeAs(Name = "name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
     }
 }

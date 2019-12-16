@@ -1,16 +1,17 @@
-using RestSharp.Deserializers;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace PandaSharp.Services.Common.Response
 {
-    public abstract class ListResponseBase
+    public abstract class ListResponseBase<T> : List<T>
     {
-        [DeserializeAs(Name = "size")]
+        [JsonProperty("size")]
         public int Size { get; set; }
 
-        [DeserializeAs(Name = "start-index")]
+        [JsonProperty("start-index")]
         public int StartIndex { get; set; }
 
-        [DeserializeAs(Name = "max-result")]
+        [JsonProperty("max-result")]
         public int MaxResult { get; set; }
     }
 }

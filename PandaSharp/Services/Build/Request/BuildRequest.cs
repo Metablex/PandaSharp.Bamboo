@@ -27,55 +27,50 @@ namespace PandaSharp.Services.Build.Request
 
         public IBuildRequest IncludingArtifacts()
         {
-            ApplyToAspect<IExpandStateParameterAspect<BuildExpandState>>(aspect => aspect.AddExpandState(BuildExpandState.IncludingArtifacts));
+            GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingArtifacts);
             return this;
         }
 
         public IBuildRequest IncludingComments()
         {
-            ApplyToAspect<IExpandStateParameterAspect<BuildExpandState>>(aspect => aspect.AddExpandState(BuildExpandState.IncludingComments));
+            GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingComments);
             return this;
         }
 
         public IBuildRequest IncludingLabels()
         {
-            ApplyToAspect<IExpandStateParameterAspect<BuildExpandState>>(aspect => aspect.AddExpandState(BuildExpandState.IncludingLabels));
+            GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingLabels);
             return this;
         }
 
         public IBuildRequest IncludingJiraIssues()
         {
-            ApplyToAspect<IExpandStateParameterAspect<BuildExpandState>>(aspect => aspect.AddExpandState(BuildExpandState.IncludingJiraIssues));
+            GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingJiraIssues);
             return this;
         }
 
         public IBuildRequest IncludingVariables()
         {
-            ApplyToAspect<IExpandStateParameterAspect<BuildExpandState>>(aspect => aspect.AddExpandState(BuildExpandState.IncludingVariables));
+            GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingVariables);
             return this;
         }
 
         public IBuildRequest IncludingStages()
         {
-            ApplyToAspect<IExpandStateParameterAspect<BuildExpandState>>(aspect => aspect.AddExpandState(BuildExpandState.IncludingStages));
+            GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingStages);
             return this;
         }
 
         public IBuildRequest IncludingChanges()
         {
-            ApplyToAspect<IExpandStateParameterAspect<BuildExpandState>>(aspect => aspect.AddExpandState(BuildExpandState.IncludingChanges));
+            GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingChanges);
             return this;
         }
 
         public IBuildRequest IncludingMetaData()
         {
-            ApplyToAspect<IExpandStateParameterAspect<BuildExpandState>>(aspect => aspect.AddExpandState(BuildExpandState.IncludingMetaData));
+            GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingMetaData);
             return this;
-        }
-
-        protected override string GetRootElement()
-        {
-            return "results";
         }
 
         protected override string GetResourcePath()

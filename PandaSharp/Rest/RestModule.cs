@@ -2,6 +2,7 @@
 using PandaSharp.IoC.Contract;
 using PandaSharp.Rest.Common;
 using PandaSharp.Rest.Contract;
+using RestSharp.Deserializers;
 
 namespace PandaSharp.Rest
 {
@@ -10,6 +11,7 @@ namespace PandaSharp.Rest
         public override void RegisterModule(IPandaContainer container)
         {
             container.RegisterSingletonType<IBambooOptions, BambooOptions>();
+            container.RegisterSingletonType<IDeserializer, RestResponseDeserializer>();
             container.RegisterSingletonType<IRestFactory, RestFactory>();
         }
     }

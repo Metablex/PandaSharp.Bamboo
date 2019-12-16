@@ -4,7 +4,7 @@ using PandaSharp.Attributes;
 namespace PandaSharp.Services.Build.Contract
 {
     [Flags]
-    internal enum BuildsExpandState
+    internal enum BuildListExpandState
     {
         [StringRepresentation("results.result")]
         IncludingDetails = 1 << 0,

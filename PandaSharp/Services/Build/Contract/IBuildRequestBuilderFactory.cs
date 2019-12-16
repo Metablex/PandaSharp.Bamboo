@@ -2,9 +2,9 @@ namespace PandaSharp.Services.Build.Contract
 {
     public interface IBuildRequestBuilderFactory
     {
-        IBuildsRequest AllBuilds();
+        IBuildListRequest AllBuilds();
 
-        IBuildsRequest BuildsOfPlan(string projectKey, string planKey);
+        IBuildListRequest BuildsOfPlan(string projectKey, string planKey);
 
         IBuildRequest InformationOfBuild(string projectKey, string planKey, uint buildNumber);
 

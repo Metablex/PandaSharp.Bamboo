@@ -1,5 +1,6 @@
 ﻿using PandaSharp.IoC;
 using PandaSharp.IoC.Contract;
+using PandaSharp.Services.Plan.Aspect;
 using PandaSharp.Services.Plan.Contract;
 using PandaSharp.Services.Plan.Factory;
 using PandaSharp.Services.Plan.Request;
@@ -12,8 +13,10 @@ namespace PandaSharp.Services.Plan
         public override void RegisterModule(IPandaContainer container)
         {
             container.RegisterType<IAllPlansRequest, AllPlansRequest>();
-            container.RegisterType<IInformationOfRequest, InformationOfRequest>();
+            container.RegisterType<IInformationOfPlanRequest, InformationOfPlanRequest>();
+            container.RegisterType<IBranchesOfPlanRequest, BranchesOfPlanRequest>();
 
+            container.RegisterType<IBranchesOfPlanParameterAspect, BranchesOfPlanParameterAspect>();
             container.RegisterExpandStateParameterAspect<PlanExpandState>();
             container.RegisterExpandStateParameterAspect<PlansExpandState>();
 

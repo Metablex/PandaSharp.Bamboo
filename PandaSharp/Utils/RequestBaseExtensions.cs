@@ -1,6 +1,5 @@
-﻿using RestSharp;
-using RestSharp.Deserializers;
-using RestSharp.Serialization.Json;
+﻿using Newtonsoft.Json;
+using RestSharp;
 
 namespace PandaSharp.Utils
 {
@@ -18,13 +17,13 @@ namespace PandaSharp.Utils
                 return response.ErrorMessage;
             }
 
-            var errorResponse = new JsonSerializer().Deserialize<ErrorResponse>(response);
+            var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(response.Content);
             return errorResponse.Message;
         }
 
         private sealed class ErrorResponse
         {
-            [DeserializeAs(Name = "message")]
+            [JsonProperty("message")]
             public string Message { get; set; }
         }
     }

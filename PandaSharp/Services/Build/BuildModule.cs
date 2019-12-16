@@ -15,10 +15,10 @@ namespace PandaSharp.Services.Build
             container.RegisterType<IBuildStateParameterAspect, BuildStateParameterAspect>();
             container.RegisterType<ILabelFilterParameterAspect, LabelFilterParameterAspect>();
             container.RegisterType<IIssueFilterParameterAspect, IssueFilterParameterAspect>();
-            container.RegisterExpandStateParameterAspect<BuildsExpandState>();
+            container.RegisterExpandStateParameterAspect<BuildListExpandState>();
             container.RegisterExpandStateParameterAspect<BuildExpandState>();
 
-            container.RegisterType<IBuildsRequest, BuildsRequest>();
+            container.RegisterType<IBuildListRequest, BuildListRequest>();
             container.RegisterType<IBuildRequest, BuildRequest>();
 
             container.RegisterType<IBuildRequestBuilderFactory, BuildRequestBuilderFactory>();

@@ -1,20 +1,20 @@
 using System;
-using RestSharp.Deserializers;
+using Newtonsoft.Json;
 
 namespace PandaSharp.Services.Build.Response
 {
     public sealed class CommentResponse
     {
-        [DeserializeAs(Name = "author")]
+        [JsonProperty("author")]
         public string Author { get; set; }
 
-        [DeserializeAs(Name = "content")]
+        [JsonProperty("content")]
         public string Content { get; set; }
 
-        [DeserializeAs(Name = "creationDate")]
+        [JsonProperty("creationDate")]
         public DateTime CreationDate { get; set; }
 
-        [DeserializeAs(Name = "modificationDate")]
+        [JsonProperty("modificationDate")]
         public DateTime Modification { get; set; }
     }
 }

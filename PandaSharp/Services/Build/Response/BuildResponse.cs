@@ -1,66 +1,76 @@
 using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using PandaSharp.Services.Build.Response.Converter;
 using PandaSharp.Services.Plan.Response;
-using RestSharp.Deserializers;
 
 namespace PandaSharp.Services.Build.Response
 {
     public sealed class BuildResponse
     {
-        [DeserializeAs(Name = "buildNumber")]
+        [JsonProperty("buildNumber")]
         public uint BuildNumber { get; set; }
 
-        [DeserializeAs(Name = "buildState")]
+        [JsonProperty("buildState")]
         public string BuildState { get; set; }
 
-        [DeserializeAs(Name = "lifeCycleState")]
+        [JsonProperty("lifeCycleState")]
         public string LifeCycleState { get; set; }
 
-        [DeserializeAs(Name = "buildResultKey")]
+        [JsonProperty("buildResultKey")]
         public string BuildKey { get; set; }
 
-        [DeserializeAs(Name = "successfulTestCount")]
+        [JsonProperty("successfulTestCount")]
         public uint? SuccessfulTestCount { get; set; }
 
-        [DeserializeAs(Name = "failedTestCount")]
+        [JsonProperty("failedTestCount")]
         public uint? FailedTestCount { get; set; }
 
-        [DeserializeAs(Name = "skippedTestCount")]
+        [JsonProperty("skippedTestCount")]
         public uint? SkippedTestCount { get; set; }
 
-        [DeserializeAs(Name = "buildDurationInSeconds")]
+        [JsonProperty("buildDurationInSeconds")]
         public uint? BuildDurationInSeconds { get; set; }
 
-        [DeserializeAs(Name = "buildStartedTime")]
+        [JsonProperty("buildStartedTime")]
         public DateTime? BuildStartedTime { get; set; }
 
-        [DeserializeAs(Name = "buildCompletedTime")]
+        [JsonProperty("buildCompletedTime")]
         public DateTime? BuildCompletedTime { get; set; }
 
-        [DeserializeAs(Name = "plan")]
+        [JsonProperty("plan")]
         public PlanResponse Plan { get; set; }
 
-        [DeserializeAs(Name = "artifacts")]
-        public ArtifactsResponse Artifacts { get; set; }
+        [JsonProperty("artifacts")]
+        [JsonConverter(typeof(ArtifactListResponseConverter))]
+        public List<ArtifactResponse> Artifacts { get; set; }
 
-        [DeserializeAs(Name = "comments")]
-        public CommentsResponse Comments { get; set; }
+        [JsonProperty("comments")]
+        [JsonConverter(typeof(CommentListResponseConverter))]
+        public List<CommentResponse> Comments { get; set; }
 
-        [DeserializeAs(Name = "labels")]
-        public LabelsResponse Labels { get; set; }
+        [JsonProperty("labels")]
+        [JsonConverter(typeof(LabelListResponseConverter))]
+        public List<LabelResponse> Labels { get; set; }
 
-        [DeserializeAs(Name = "jiraIssues")]
-        public JiraIssuesResponse JiraIssues { get; set; }
+        [JsonProperty("jiraIssues")]
+        [JsonConverter(typeof(JiraIssueListResponseConverter))]
+        public List<JiraIssueResponse> JiraIssues { get; set; }
 
-        [DeserializeAs(Name = "variables")]
-        public VariablesResponse Variables { get; set; }
+        [JsonProperty("variables")]
+        [JsonConverter(typeof(VariableListResponseConverter))]
+        public List<VariableResponse> Variables { get; set; }
 
-        [DeserializeAs(Name = "stages")]
-        public StagesResponse Stages { get; set; }
+        [JsonProperty("stages")]
+        [JsonConverter(typeof(StageListResponseConverter))]
+        public List<StageResponse> Stages { get; set; }
 
-        [DeserializeAs(Name = "changes")]
-        public ChangesResponse Changes { get; set; }
+        [JsonProperty("changes")]
+        [JsonConverter(typeof(ChangeListResponseConverter))]
+        public List<ChangeResponse> Changes { get; set; }
 
-        [DeserializeAs(Name = "metadata")]
-        public MetadatasResponse MetaData { get; set; }
+        [JsonProperty("metadata")]
+        [JsonConverter(typeof(MetadataListResponseConverter))]
+        public List<MetadataResponse> MetaData { get; set; }
     }
 }

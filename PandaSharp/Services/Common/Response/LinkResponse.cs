@@ -1,13 +1,13 @@
-using RestSharp.Deserializers;
+using Newtonsoft.Json;
 
 namespace PandaSharp.Services.Common.Response
 {
     public sealed class LinkResponse
     {
-        [DeserializeAs(Name = "href")]
+        [JsonProperty("href")]
         public string Location { get; set; }
 
-        [DeserializeAs(Name = "rel")]
+        [JsonProperty("rel")]
         public string Relation { get; set; }
     }
 }

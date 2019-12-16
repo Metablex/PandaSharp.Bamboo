@@ -21,7 +21,7 @@ namespace PandaSharp.Services.Common.Request
             _parameterAspects = parameterAspectFactory.GetParameterAspects(GetType());
         }
 
-        protected void ApplyToAspect<TAspect>(Action<TAspect> onUseAspect)
+        protected TAspect GetAspect<TAspect>()
         {
             var aspect = _parameterAspects.OfType<TAspect>().FirstOrDefault();
             if (aspect == null)
@@ -29,17 +29,12 @@ namespace PandaSharp.Services.Common.Request
                 throw new InvalidOperationException($"Aspect of type {typeof(TAspect)} is not supported.");
             }
 
-            onUseAspect(aspect);
+            return aspect;
         }
 
         protected abstract string GetResourcePath();
 
         protected abstract Method GetRequestMethod();
-
-        protected virtual string GetRootElement()
-        {
-            return null;
-        }
 
         public T Execute()
         {
@@ -63,7 +58,6 @@ namespace PandaSharp.Services.Common.Request
         private IRestRequest BuildRequest()
         {
             var restRequest = _restFactory.CreateRequest(GetResourcePath(), GetRequestMethod());
-            restRequest.RootElement = GetRootElement();
 
             foreach (var aspect in _parameterAspects)
             {

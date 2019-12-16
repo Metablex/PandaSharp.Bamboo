@@ -3,7 +3,7 @@ using PandaSharp.Services.Plan.Response;
 
 namespace PandaSharp.Services.Plan.Contract
 {
-    public interface IAllPlansRequest : IRequestBase<PlansResponse>
+    public interface IAllPlansRequest : IRequestBase<PlanListResponse>
     {
         IAllPlansRequest WithMaxResult(int maxResult);
 
@@ -11,10 +11,10 @@ namespace PandaSharp.Services.Plan.Contract
 
         IAllPlansRequest IncludeDetails();
 
-        IAllPlansRequest IncludeActionsInformation();
+        IAllPlansRequest IncludeActions();
 
-        IAllPlansRequest IncludeStagesInformation();
+        IAllPlansRequest IncludeStages();
 
-        IAllPlansRequest IncludeBranchesInformation();
+        IAllPlansRequest IncludeBranches();
     }
 }

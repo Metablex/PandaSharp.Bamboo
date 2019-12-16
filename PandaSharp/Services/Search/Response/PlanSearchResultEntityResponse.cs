@@ -1,22 +1,22 @@
-using RestSharp.Deserializers;
+using Newtonsoft.Json;
 
 namespace PandaSharp.Services.Search.Response
 {
     public sealed class PlanSearchResultEntityResponse
     {
-        [DeserializeAs(Name = "key")]
+        [JsonProperty("key")]
         public string FullPlanKey { get; set; }
 
-        [DeserializeAs(Name = "projectName")]
+        [JsonProperty("projectName")]
         public string ProjectName { get; set; }
 
-        [DeserializeAs(Name = "planName")]
+        [JsonProperty("planName")]
         public string PlanName { get; set; }
 
-        [DeserializeAs(Name = "branchName")]
+        [JsonProperty("branchName")]
         public string BranchName { get; set; }
 
-        [DeserializeAs(Name = "description")]
+        [JsonProperty("description")]
         public string Description { get; set; }
     }
 }
