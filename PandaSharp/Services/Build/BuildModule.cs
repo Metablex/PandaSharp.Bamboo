@@ -8,18 +8,25 @@ using PandaSharp.Utils;
 
 namespace PandaSharp.Services.Build
 {
-    internal sealed class BuildModule : PandaModuleBase
+    internal sealed class BuildModule : PandaContextModuleBase
     {
-        public override void RegisterModule(IPandaContainer container)
+        public override void RegisterModule(IPandaContainer container, PandaContainerContext context)
         {
+            container
+                .RequestRegistrationFor<IBuildListRequest>()
+                .LatestRequest<BuildListRequest>()
+                .Register(context);
+
+            container
+                .RequestRegistrationFor<IBuildRequest>()
+                .LatestRequest<BuildRequest>()
+                .Register(context);
+
             container.RegisterType<IBuildStateParameterAspect, BuildStateParameterAspect>();
             container.RegisterType<ILabelFilterParameterAspect, LabelFilterParameterAspect>();
             container.RegisterType<IIssueFilterParameterAspect, IssueFilterParameterAspect>();
             container.RegisterExpandStateParameterAspect<BuildListExpandState>();
             container.RegisterExpandStateParameterAspect<BuildExpandState>();
-
-            container.RegisterType<IBuildListRequest, BuildListRequest>();
-            container.RegisterType<IBuildRequest, BuildRequest>();
 
             container.RegisterType<IBuildRequestBuilderFactory, BuildRequestBuilderFactory>();
         }

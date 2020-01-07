@@ -4,15 +4,21 @@ using PandaSharp.Services.Search.Aspect;
 using PandaSharp.Services.Search.Contract;
 using PandaSharp.Services.Search.Factory;
 using PandaSharp.Services.Search.Request;
+using PandaSharp.Utils;
 
 namespace PandaSharp.Services.Search
 {
-    internal sealed class SearchModule : PandaModuleBase
+    internal sealed class SearchModule : PandaContextModuleBase
     {
-        public override void RegisterModule(IPandaContainer container)
+        public override void RegisterModule(IPandaContainer container, PandaContainerContext context)
         {
-            container.RegisterType<IPlanSearchRequest, PlanSearchRequest>();
+            container
+                .RequestRegistrationFor<IPlanSearchRequest>()
+                .LatestRequest<PlanSearchRequest>()
+                .Register(context);
+
             container.RegisterType<IPlanSearchParameterAspect, PlanSearchParameterAspect>();
+
             container.RegisterType<ISearchRequestBuilderFactory, SearchRequestBuilderFactory>();
         }
     }

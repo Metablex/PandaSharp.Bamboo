@@ -23,6 +23,11 @@ namespace PandaSharp.IoC
             RegisterMultipleInstance<T>(ResolveIntern<TInstance>);
         }
 
+        public void RegisterType<T>(Type type)
+        {
+            RegisterMultipleInstance<T>(() => ResolveIntern(type));
+        }
+
         public void RegisterType<T>(Func<T> customFactoryMethod)
         {
             RegisterMultipleInstance<T>(() => customFactoryMethod());
@@ -81,14 +86,19 @@ namespace PandaSharp.IoC
 
         private object ResolveIntern<T>()
         {
-            var publicConstructors = typeof(T)
+            return ResolveIntern(typeof(T));
+        }
+
+        private object ResolveIntern(Type type)
+        {
+            var publicConstructors = type
                 .GetConstructors()
                 .Where(c => c.IsPublic)
                 .ToArray();
 
             if (publicConstructors.Length != 1)
             {
-                throw new InvalidOperationException($"There can be only one public constructor for {typeof(T)}");
+                throw new InvalidOperationException($"There can be only one public constructor for {type}");
             }
 
             var resolvedParameters = publicConstructors[0]
@@ -96,7 +106,7 @@ namespace PandaSharp.IoC
                 .Select(ResolveParameterInstance)
                 .ToArray();
 
-            return Activator.CreateInstance(typeof(T), resolvedParameters);
+            return Activator.CreateInstance(type, resolvedParameters);
         }
 
         private object ResolveParameterInstance(ParameterInfo parameterInfo)

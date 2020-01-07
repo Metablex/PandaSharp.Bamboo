@@ -24,9 +24,7 @@ namespace PandaSharp
         public BambooApi(string baseUrl, string userName, string password)
         {
             _container = new PandaContainer();
-            _container.RegisterPandaModules();
-
-            LoginWithCredentials(baseUrl, userName, password);
+            _container.RegisterPandaModules(() => LoginWithCredentials(baseUrl, userName, password));
         }
 
         private void LoginWithCredentials(string baseUrl, string userName, string password)

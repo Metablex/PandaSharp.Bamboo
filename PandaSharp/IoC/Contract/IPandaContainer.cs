@@ -7,6 +7,8 @@ namespace PandaSharp.IoC.Contract
     {
         void RegisterType<T, TInstance>() where TInstance : T;
 
+        void RegisterType<T>(Type type);
+
         void RegisterType<T>(Func<T> customFactoryMethod);
 
         void RegisterSingletonType<T, TInstance>() where TInstance : T;

@@ -8,13 +8,24 @@ using PandaSharp.Utils;
 
 namespace PandaSharp.Services.Plan
 {
-    internal sealed class PlanModule : PandaModuleBase
+    internal sealed class PlanModule : PandaContextModuleBase
     {
-        public override void RegisterModule(IPandaContainer container)
+        public override void RegisterModule(IPandaContainer container, PandaContainerContext context)
         {
-            container.RegisterType<IAllPlansRequest, AllPlansRequest>();
-            container.RegisterType<IInformationOfPlanRequest, InformationOfPlanRequest>();
-            container.RegisterType<IBranchesOfPlanRequest, BranchesOfPlanRequest>();
+            container
+                .RequestRegistrationFor<IAllPlansRequest>()
+                .LatestRequest<AllPlansRequest>()
+                .Register(context);
+
+            container
+                .RequestRegistrationFor<IInformationOfPlanRequest>()
+                .LatestRequest<InformationOfPlanRequest>()
+                .Register(context);
+
+            container
+                .RequestRegistrationFor<IBranchesOfPlanRequest>()
+                .LatestRequest<BranchesOfPlanRequest>()
+                .Register(context);
 
             container.RegisterType<IBranchesOfPlanParameterAspect, BranchesOfPlanParameterAspect>();
             container.RegisterExpandStateParameterAspect<PlanExpandState>();
