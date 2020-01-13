@@ -1,4 +1,4 @@
-using PandaSharp.Bamboo.Services.Build.Contract;
+using PandaSharp.Bamboo.Services.Build.Types;
 using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Utils;
 using RestSharp;

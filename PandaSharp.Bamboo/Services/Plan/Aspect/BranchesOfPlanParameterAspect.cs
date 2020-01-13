@@ -1,5 +1,4 @@
 using PandaSharp.Bamboo.Services.Common.Aspect;
-using PandaSharp.Bamboo.Services.Plan.Contract;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Plan.Aspect

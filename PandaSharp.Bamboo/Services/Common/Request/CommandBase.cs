@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using PandaSharp.Bamboo.Rest.Contract;
 using PandaSharp.Bamboo.Services.Common.Aspect;
@@ -7,19 +7,18 @@ using PandaSharp.Bamboo.Utils;
 
 namespace PandaSharp.Bamboo.Services.Common.Request
 {
-    internal abstract class RequestBase<T> : RestCommunicationBase, IRequestBase<T>
-        where T : class, new()
+    internal abstract class CommandBase : RestCommunicationBase, ICommandBase
     {
-        protected RequestBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+        protected CommandBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
         }
 
-        public T Execute()
+        public void Execute()
         {
             var client = CreateRestClient();
             var request = BuildRequest();
-            var response = client.Execute<T>(request);
+            var response = client.Execute(request);
 
             if (!response.IsSuccessful)
             {
@@ -30,8 +29,6 @@ namespace PandaSharp.Bamboo.Services.Common.Request
 
                 throw new InvalidOperationException($"Error retrieving response: {response.GetErrorResponseMessage()}");
             }
-
-            return response.Data;
         }
     }
 }

@@ -1,5 +1,5 @@
 using PandaSharp.Bamboo.Rest.Contract;
-using PandaSharp.Bamboo.Services.Common.Contract;
+using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Services.Common.Request;
 using PandaSharp.Bamboo.Services.Users.Contract;
 using PandaSharp.Bamboo.Services.Users.Response;

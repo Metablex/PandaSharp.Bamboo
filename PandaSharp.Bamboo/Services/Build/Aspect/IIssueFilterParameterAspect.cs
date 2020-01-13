@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace PandaSharp.Bamboo.Services.Build.Contract
+namespace PandaSharp.Bamboo.Services.Build.Aspect
 {
     internal interface IIssueFilterParameterAspect
     {

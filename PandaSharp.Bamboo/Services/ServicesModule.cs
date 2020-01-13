@@ -1,7 +1,6 @@
 using PandaSharp.Bamboo.IoC;
 using PandaSharp.Bamboo.IoC.Contract;
 using PandaSharp.Bamboo.Services.Common.Aspect;
-using PandaSharp.Bamboo.Services.Common.Contract;
 
 namespace PandaSharp.Bamboo.Services
 {

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using PandaSharp.Bamboo.Attributes;
 using PandaSharp.Bamboo.IoC.Contract;
-using PandaSharp.Bamboo.Services.Common.Contract;
 
 namespace PandaSharp.Bamboo.Services.Common.Aspect
 {

@@ -4,6 +4,7 @@ using PandaSharp.Bamboo.Services.Build.Aspect;
 using PandaSharp.Bamboo.Services.Build.Contract;
 using PandaSharp.Bamboo.Services.Build.Factory;
 using PandaSharp.Bamboo.Services.Build.Request;
+using PandaSharp.Bamboo.Services.Build.Types;
 using PandaSharp.Bamboo.Utils;
 
 namespace PandaSharp.Bamboo.Services.Build

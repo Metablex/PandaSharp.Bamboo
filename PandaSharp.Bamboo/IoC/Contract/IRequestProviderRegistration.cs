@@ -1,7 +1,6 @@
 using System;
-using PandaSharp.Bamboo.IoC;
 
-namespace PandaSharp.Bamboo.Services.Common.Contract
+namespace PandaSharp.Bamboo.IoC.Contract
 {
     internal interface IRequestProviderRegistration<in T>
     {

@@ -1,4 +1,3 @@
-using PandaSharp.Bamboo.Services.Common.Contract;
 using PandaSharp.Bamboo.Utils;
 using RestSharp;
 

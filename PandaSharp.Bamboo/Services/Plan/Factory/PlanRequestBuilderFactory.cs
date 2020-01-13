@@ -1,6 +1,6 @@
 ﻿using PandaSharp.Bamboo.IoC.Contract;
 using PandaSharp.Bamboo.IoC.Injections;
-using PandaSharp.Bamboo.Services.Common.Request;
+using PandaSharp.Bamboo.Services.Common.Types;
 using PandaSharp.Bamboo.Services.Plan.Contract;
 
 namespace PandaSharp.Bamboo.Services.Plan.Factory
@@ -31,6 +31,22 @@ namespace PandaSharp.Bamboo.Services.Plan.Factory
             return _container.Resolve<IBranchesOfPlanRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
+        }
+
+        public IEnableDisablePlanCommand EnablePlan(string projectKey, string planKey)
+        {
+            return _container.Resolve<IEnableDisablePlanCommand>(
+                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
+                new InjectProperty(RequestPropertyNames.SetEnabledName, true));
+        }
+
+        public IEnableDisablePlanCommand DisablePlan(string projectKey, string planKey)
+        {
+            return _container.Resolve<IEnableDisablePlanCommand>(
+                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
+                new InjectProperty(RequestPropertyNames.SetEnabledName, false));
         }
     }
 }

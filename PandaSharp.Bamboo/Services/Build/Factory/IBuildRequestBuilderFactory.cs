@@ -1,4 +1,6 @@
-namespace PandaSharp.Bamboo.Services.Build.Contract
+using PandaSharp.Bamboo.Services.Build.Contract;
+
+namespace PandaSharp.Bamboo.Services.Build.Factory
 {
     public interface IBuildRequestBuilderFactory
     {

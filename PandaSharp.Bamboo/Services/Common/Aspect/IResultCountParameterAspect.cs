@@ -1,4 +1,4 @@
-namespace PandaSharp.Bamboo.Services.Common.Contract
+namespace PandaSharp.Bamboo.Services.Common.Aspect
 {
     internal interface IResultCountParameterAspect
     {

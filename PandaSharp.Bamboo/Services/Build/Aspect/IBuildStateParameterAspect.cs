@@ -1,4 +1,6 @@
-namespace PandaSharp.Bamboo.Services.Build.Contract
+using PandaSharp.Bamboo.Services.Build.Types;
+
+namespace PandaSharp.Bamboo.Services.Build.Aspect
 {
     internal interface IBuildStateParameterAspect
     {

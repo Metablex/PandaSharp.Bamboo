@@ -1,9 +1,10 @@
 ﻿using PandaSharp.Bamboo.Attributes;
 using PandaSharp.Bamboo.Rest.Contract;
-using PandaSharp.Bamboo.Services.Common.Contract;
+using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Services.Common.Request;
 using PandaSharp.Bamboo.Services.Plan.Contract;
 using PandaSharp.Bamboo.Services.Plan.Response;
+using PandaSharp.Bamboo.Services.Plan.Types;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Plan.Request

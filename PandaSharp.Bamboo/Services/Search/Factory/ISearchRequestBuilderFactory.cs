@@ -1,4 +1,6 @@
-namespace PandaSharp.Bamboo.Services.Search.Contract
+using PandaSharp.Bamboo.Services.Search.Contract;
+
+namespace PandaSharp.Bamboo.Services.Search.Factory
 {
     public interface ISearchRequestBuilderFactory
     {

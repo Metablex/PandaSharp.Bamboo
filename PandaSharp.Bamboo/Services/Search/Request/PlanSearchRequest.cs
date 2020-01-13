@@ -1,7 +1,8 @@
 using PandaSharp.Bamboo.Attributes;
 using PandaSharp.Bamboo.Rest.Contract;
-using PandaSharp.Bamboo.Services.Common.Contract;
+using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Services.Common.Request;
+using PandaSharp.Bamboo.Services.Search.Aspect;
 using PandaSharp.Bamboo.Services.Search.Contract;
 using PandaSharp.Bamboo.Services.Search.Response;
 using RestSharp;

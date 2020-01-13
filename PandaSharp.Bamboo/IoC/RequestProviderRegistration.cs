@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using PandaSharp.Bamboo.IoC;
 using PandaSharp.Bamboo.IoC.Contract;
-using PandaSharp.Bamboo.Services.Common.Contract;
 
-namespace PandaSharp.Bamboo.Services.Common.Request
+namespace PandaSharp.Bamboo.IoC
 {
     internal sealed class RequestProviderRegistration<T> : IRequestProviderRegistration<T>
     {

@@ -1,10 +1,10 @@
 ﻿using PandaSharp.Bamboo.IoC;
 using PandaSharp.Bamboo.IoC.Contract;
 using PandaSharp.Bamboo.Rest.Contract;
-using PandaSharp.Bamboo.Services.Build.Contract;
-using PandaSharp.Bamboo.Services.Plan.Contract;
-using PandaSharp.Bamboo.Services.Search.Contract;
-using PandaSharp.Bamboo.Services.Users.Contract;
+using PandaSharp.Bamboo.Services.Build.Factory;
+using PandaSharp.Bamboo.Services.Plan.Factory;
+using PandaSharp.Bamboo.Services.Search.Factory;
+using PandaSharp.Bamboo.Services.Users.Factory;
 using PandaSharp.Bamboo.Utils;
 
 namespace PandaSharp.Bamboo

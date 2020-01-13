@@ -4,6 +4,7 @@ using PandaSharp.Bamboo.Services.Plan.Aspect;
 using PandaSharp.Bamboo.Services.Plan.Contract;
 using PandaSharp.Bamboo.Services.Plan.Factory;
 using PandaSharp.Bamboo.Services.Plan.Request;
+using PandaSharp.Bamboo.Services.Plan.Types;
 using PandaSharp.Bamboo.Utils;
 
 namespace PandaSharp.Bamboo.Services.Plan
@@ -25,6 +26,11 @@ namespace PandaSharp.Bamboo.Services.Plan
             container
                 .RequestRegistrationFor<IBranchesOfPlanRequest>()
                 .LatestRequest<BranchesOfPlanRequest>()
+                .Register(context);
+
+            container
+                .RequestRegistrationFor<IEnableDisablePlanCommand>()
+                .LatestRequest<EnableDisablePlanCommand>()
                 .Register(context);
 
             container.RegisterType<IBranchesOfPlanParameterAspect, BranchesOfPlanParameterAspect>();

@@ -1,7 +1,7 @@
 using System;
 using PandaSharp.Bamboo.Attributes;
 
-namespace PandaSharp.Bamboo.Services.Build.Contract
+namespace PandaSharp.Bamboo.Services.Build.Types
 {
     [Flags]
     internal enum BuildListExpandState

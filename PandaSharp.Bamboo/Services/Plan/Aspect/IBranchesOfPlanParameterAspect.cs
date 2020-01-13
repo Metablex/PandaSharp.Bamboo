@@ -1,4 +1,4 @@
-namespace PandaSharp.Bamboo.Services.Plan.Contract
+namespace PandaSharp.Bamboo.Services.Plan.Aspect
 {
     internal interface IBranchesOfPlanParameterAspect
     {

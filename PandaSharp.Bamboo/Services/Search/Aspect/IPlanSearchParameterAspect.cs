@@ -1,4 +1,4 @@
-namespace PandaSharp.Bamboo.Services.Search.Contract
+namespace PandaSharp.Bamboo.Services.Search.Aspect
 {
     internal interface IPlanSearchParameterAspect
     {

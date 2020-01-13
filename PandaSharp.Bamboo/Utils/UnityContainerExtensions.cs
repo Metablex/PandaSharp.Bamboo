@@ -6,8 +6,6 @@ using PandaSharp.Bamboo.IoC;
 using PandaSharp.Bamboo.IoC.Contract;
 using PandaSharp.Bamboo.Rest.Contract;
 using PandaSharp.Bamboo.Services.Common.Aspect;
-using PandaSharp.Bamboo.Services.Common.Contract;
-using PandaSharp.Bamboo.Services.Common.Request;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Utils

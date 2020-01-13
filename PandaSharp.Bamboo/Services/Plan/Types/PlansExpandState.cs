@@ -1,7 +1,7 @@
 ﻿using System;
 using PandaSharp.Bamboo.Attributes;
 
-namespace PandaSharp.Bamboo.Services.Plan.Contract
+namespace PandaSharp.Bamboo.Services.Plan.Types
 {
     [Flags]
     internal enum PlansExpandState

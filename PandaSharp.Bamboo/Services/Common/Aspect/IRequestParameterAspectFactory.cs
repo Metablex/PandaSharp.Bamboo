@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace PandaSharp.Bamboo.Services.Common.Contract
+namespace PandaSharp.Bamboo.Services.Common.Aspect
 {
     internal interface IRequestParameterAspectFactory
     {
