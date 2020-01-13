@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.779
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandaSharp", "PandaSharp\PandaSharp.csproj", "{2A0050AC-62D7-468E-8A3D-C90601A8B7BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandaSharp.Bamboo", "PandaSharp.Bamboo\PandaSharp.Bamboo.csproj", "{2A0050AC-62D7-468E-8A3D-C90601A8B7BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandaSharp.Test", "PandaSharp.Test\PandaSharp.Test.csproj", "{1FC5598A-CFD4-4E9B-959B-371DEC6E39AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandaSharp.Bamboo.Test", "PandaSharp.Bamboo.Test\PandaSharp.Bamboo.Test.csproj", "{1FC5598A-CFD4-4E9B-959B-371DEC6E39AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
