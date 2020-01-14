@@ -33,6 +33,13 @@ namespace PandaSharp.Bamboo.Services.Plan.Factory
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
         }
 
+        public IArtifactsOfPlanRequest ArtifactsOf(string projectKey, string planKey)
+        {
+            return _container.Resolve<IArtifactsOfPlanRequest>(
+                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
+        }
+
         public IEnableDisablePlanCommand EnablePlan(string projectKey, string planKey)
         {
             return _container.Resolve<IEnableDisablePlanCommand>(
@@ -47,6 +54,13 @@ namespace PandaSharp.Bamboo.Services.Plan.Factory
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
                 new InjectProperty(RequestPropertyNames.SetEnabledName, false));
+        }
+
+        public IDeletePlanCommand DeletePlan(string projectKey, string planKey)
+        {
+            return _container.Resolve<IDeletePlanCommand>(
+                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
         }
     }
 }

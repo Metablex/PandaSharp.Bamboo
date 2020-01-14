@@ -10,8 +10,12 @@ namespace PandaSharp.Bamboo.Services.Plan.Factory
 
         IBranchesOfPlanRequest BranchesOf(string projectKey, string planKey);
 
+        IArtifactsOfPlanRequest ArtifactsOf(string projectKey, string planKey);
+
         IEnableDisablePlanCommand EnablePlan(string projectKey, string planKey);
 
         IEnableDisablePlanCommand DisablePlan(string projectKey, string planKey);
+
+        IDeletePlanCommand DeletePlan(string projectKey, string planKey);
     }
 }

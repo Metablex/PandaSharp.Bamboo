@@ -29,8 +29,18 @@ namespace PandaSharp.Bamboo.Services.Plan
                 .Register(context);
 
             container
+                .RequestRegistrationFor<IArtifactsOfPlanRequest>()
+                .LatestRequest<ArtifactsOfPlanRequest>()
+                .Register(context);
+
+            container
                 .RequestRegistrationFor<IEnableDisablePlanCommand>()
                 .LatestRequest<EnableDisablePlanCommand>()
+                .Register(context);
+
+            container
+                .RequestRegistrationFor<IDeletePlanCommand>()
+                .LatestRequest<DeletePlanCommand>()
                 .Register(context);
 
             container.RegisterType<IBranchesOfPlanParameterAspect, BranchesOfPlanParameterAspect>();
