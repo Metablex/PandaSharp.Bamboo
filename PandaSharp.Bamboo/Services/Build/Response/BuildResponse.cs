@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using PandaSharp.Bamboo.Services.Build.Response.Converter;
+using PandaSharp.Bamboo.Services.Common.Response;
+using PandaSharp.Bamboo.Services.Common.Response.Converter;
 using PandaSharp.Bamboo.Services.Plan.Response;
 
 namespace PandaSharp.Bamboo.Services.Build.Response
@@ -41,36 +42,36 @@ namespace PandaSharp.Bamboo.Services.Build.Response
         [JsonProperty("plan")]
         public PlanResponse Plan { get; set; }
 
+        [JsonConverter(typeof(JsonListResponseConverter<ArtifactResponse>), "artifact")]
         [JsonProperty("artifacts")]
-        [JsonConverter(typeof(ArtifactListResponseConverter))]
         public List<ArtifactResponse> Artifacts { get; set; }
 
+        [JsonConverter(typeof(JsonListResponseConverter<CommentResponse>), "comment")]
         [JsonProperty("comments")]
-        [JsonConverter(typeof(CommentListResponseConverter))]
         public List<CommentResponse> Comments { get; set; }
 
+        [JsonConverter(typeof(JsonListResponseConverter<LabelResponse>), "label")]
         [JsonProperty("labels")]
-        [JsonConverter(typeof(LabelListResponseConverter))]
         public List<LabelResponse> Labels { get; set; }
 
+        [JsonConverter(typeof(JsonListResponseConverter<JiraIssueResponse>), "issue")]
         [JsonProperty("jiraIssues")]
-        [JsonConverter(typeof(JiraIssueListResponseConverter))]
         public List<JiraIssueResponse> JiraIssues { get; set; }
 
+        [JsonConverter(typeof(JsonListResponseConverter<VariableResponse>), "variable")]
         [JsonProperty("variables")]
-        [JsonConverter(typeof(VariableListResponseConverter))]
         public List<VariableResponse> Variables { get; set; }
 
+        [JsonConverter(typeof(JsonListResponseConverter<StageResponse>), "stage")]
         [JsonProperty("stages")]
-        [JsonConverter(typeof(StageListResponseConverter))]
         public List<StageResponse> Stages { get; set; }
 
+        [JsonConverter(typeof(JsonListResponseConverter<ChangeResponse>), "change")]
         [JsonProperty("changes")]
-        [JsonConverter(typeof(ChangeListResponseConverter))]
         public List<ChangeResponse> Changes { get; set; }
 
+        [JsonConverter(typeof(JsonListResponseConverter<MetadataResponse>), "item")]
         [JsonProperty("metadata")]
-        [JsonConverter(typeof(MetadataListResponseConverter))]
         public List<MetadataResponse> MetaData { get; set; }
     }
 }

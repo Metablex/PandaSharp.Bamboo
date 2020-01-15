@@ -5,11 +5,16 @@ using Newtonsoft.Json.Linq;
 
 namespace PandaSharp.Bamboo.Services.Common.Response.Converter
 {
-    internal abstract class JsonListResponseConverterBase<T> : JsonConverter<List<T>>
+    internal sealed class JsonListResponseConverter<T> : JsonConverter<List<T>>
     {
-        protected abstract string ItemsPath { get; }
+        private readonly string _itemsPath;
 
         public override bool CanWrite => false;
+
+        public JsonListResponseConverter(string itemsPath)
+        {
+            _itemsPath = itemsPath;
+        }
 
         public override void WriteJson(JsonWriter writer, List<T> value, JsonSerializer serializer)
         {
@@ -18,7 +23,7 @@ namespace PandaSharp.Bamboo.Services.Common.Response.Converter
         public override List<T> ReadJson(JsonReader reader, Type objectType, List<T> existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             var json = JObject.Load(reader);
-            var items = json.SelectToken(ItemsPath);
+            var items = json.SelectToken(_itemsPath);
 
             if (items != null && items.HasValues)
             {

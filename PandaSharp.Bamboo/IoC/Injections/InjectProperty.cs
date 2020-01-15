@@ -1,6 +1,6 @@
 namespace PandaSharp.Bamboo.IoC.Injections
 {
-    public sealed class InjectProperty : InjectionBase
+    internal sealed class InjectProperty : InjectionBase
     {
         public string PropertyName { get; }
 

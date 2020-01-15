@@ -3,7 +3,7 @@ using PandaSharp.Bamboo.Services.Search.Response;
 
 namespace PandaSharp.Bamboo.Services.Search.Contract
 {
-    public interface IPlanSearchRequest : IRequestBase<PlanSearchResultsResponse>
+    public interface IPlanSearchRequest : IRequestBase<PlanSearchResultListResponse>
     {
         IPlanSearchRequest WithMaxResult(int maxResult);
 

@@ -8,26 +8,24 @@ using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Plan.Request
 {
-    internal sealed class EnableDisablePlanCommand : PlanCommandBase, IEnableDisablePlanCommand
+    internal sealed class DeleteLabelOfPlanCommand : PlanCommandBase, IDeleteLabelOfPlanCommand
     {
-        [InjectedProperty(RequestPropertyNames.SetEnabledName)]
-        public bool SetEnabled { get; set; }
+        [InjectedProperty(RequestPropertyNames.LabelName)]
+        public string LabelName { get; set; }
 
-        public EnableDisablePlanCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+        public DeleteLabelOfPlanCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
         }
 
         protected override string GetResourcePath()
         {
-            return $"plan/{ProjectKey}-{PlanKey}/enable";
+            return $"plan/{ProjectKey}-{PlanKey}/label/{LabelName}";
         }
 
         protected override Method GetRequestMethod()
         {
-            return SetEnabled
-                ? Method.POST
-                : Method.DELETE;
+            return Method.DELETE;
         }
     }
 }

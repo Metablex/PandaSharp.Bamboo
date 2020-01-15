@@ -6,19 +6,21 @@ namespace PandaSharp.Bamboo.Utils
 {
     internal static class RestRequestExtensions
     {
-        public static void AddParameterIfSet(this IRestRequest restRequest, string parameter, object value)
+        public static IRestRequest AddParameterIfSet(this IRestRequest restRequest, string parameter, object value)
         {
-            if (value != null)
-            {
-                restRequest.AddParameter(parameter, value);
-            }
+            return restRequest.AddParameterIfSet(parameter, value, ParameterType.QueryString);
         }
 
-        public static void AddParameterValues(this IRestRequest restRequest, string parameter, IEnumerable<string> values)
+        public static IRestRequest AddNotEncodedParameterIfSet(this IRestRequest restRequest, string parameter, object value)
+        {
+            return restRequest.AddParameterIfSet(parameter, value, ParameterType.QueryStringWithoutEncode);
+        }
+
+        public static IRestRequest AddParameterValues(this IRestRequest restRequest, string parameter, IEnumerable<string> values)
         {
             if (values == null)
             {
-                return;
+                return restRequest;
             }
 
             var validValues = values
@@ -30,9 +32,21 @@ namespace PandaSharp.Bamboo.Utils
                 var parameterValues = string.Join(",", validValues);
                 if (!string.IsNullOrEmpty(parameterValues))
                 {
-                    restRequest.AddParameter(parameter, parameterValues);
+                    return restRequest.AddParameter(parameter, parameterValues);
                 }
             }
+
+            return restRequest;
+        }
+
+        private static IRestRequest AddParameterIfSet(this IRestRequest restRequest, string parameter, object value, ParameterType parameterType)
+        {
+            if (value != null)
+            {
+                return restRequest.AddParameter(parameter, value, parameterType);
+            }
+
+            return restRequest;
         }
     }
 }

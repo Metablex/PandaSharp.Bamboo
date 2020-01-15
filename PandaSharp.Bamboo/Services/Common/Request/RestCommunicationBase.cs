@@ -33,6 +33,10 @@ namespace PandaSharp.Bamboo.Services.Common.Request
 
         protected abstract Method GetRequestMethod();
 
+        protected virtual void ApplyToRestRequest(IRestRequest restRequest)
+        {
+        }
+
         protected IRestClient CreateRestClient()
         {
             return _restFactory.CreateClient();
@@ -42,6 +46,7 @@ namespace PandaSharp.Bamboo.Services.Common.Request
         {
             var restRequest = _restFactory.CreateRequest(GetResourcePath(), GetRequestMethod());
 
+            ApplyToRestRequest(restRequest);
             foreach (var aspect in _parameterAspects)
             {
                 aspect.ApplyToRestRequest(restRequest);

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace PandaSharp.Bamboo.Services.Build.Response
+namespace PandaSharp.Bamboo.Services.Common.Response
 {
     public sealed class LabelResponse
     {

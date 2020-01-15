@@ -14,13 +14,13 @@ namespace PandaSharp.Bamboo.Services.Build
         public override void RegisterModule(IPandaContainer container, PandaContainerContext context)
         {
             container
-                .RequestRegistrationFor<IBuildListRequest>()
-                .LatestRequest<BuildListRequest>()
+                .RequestRegistrationFor<IMultipleBuildsRequest>()
+                .LatestRequest<MultipleBuildsRequest>()
                 .Register(context);
 
             container
-                .RequestRegistrationFor<IBuildRequest>()
-                .LatestRequest<BuildRequest>()
+                .RequestRegistrationFor<ISingleBuildRequest>()
+                .LatestRequest<SingleBuildRequest>()
                 .Register(context);
 
             container.RegisterType<IBuildStateParameterAspect, BuildStateParameterAspect>();

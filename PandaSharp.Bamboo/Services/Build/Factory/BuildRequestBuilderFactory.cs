@@ -14,29 +14,29 @@ namespace PandaSharp.Bamboo.Services.Build.Factory
             _container = container;
         }
 
-        public IBuildListRequest AllBuilds()
+        public IMultipleBuildsRequest AllBuilds()
         {
-            return _container.Resolve<IBuildListRequest>();
+            return _container.Resolve<IMultipleBuildsRequest>();
         }
 
-        public IBuildListRequest BuildsOfPlan(string projectKey, string planKey)
+        public IMultipleBuildsRequest BuildsOfPlan(string projectKey, string planKey)
         {
-            return _container.Resolve<IBuildListRequest>(
+            return _container.Resolve<IMultipleBuildsRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
         }
 
-        public IBuildRequest InformationOfBuild(string projectKey, string planKey, uint buildNumber)
+        public ISingleBuildRequest InformationOfBuild(string projectKey, string planKey, uint buildNumber)
         {
-            return _container.Resolve<IBuildRequest>(
+            return _container.Resolve<ISingleBuildRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
                 new InjectProperty(RequestPropertyNames.BuildNumberName, buildNumber.ToString()));
         }
 
-        public IBuildRequest InformationOfLatestBuild(string projectKey, string planKey)
+        public ISingleBuildRequest InformationOfLatestBuild(string projectKey, string planKey)
         {
-            return _container.Resolve<IBuildRequest>(
+            return _container.Resolve<ISingleBuildRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
                 new InjectProperty(RequestPropertyNames.BuildNumberName, "latest"));

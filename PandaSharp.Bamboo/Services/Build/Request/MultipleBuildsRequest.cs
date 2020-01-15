@@ -2,11 +2,10 @@ using PandaSharp.Bamboo.Attributes;
 using PandaSharp.Bamboo.Rest.Contract;
 using PandaSharp.Bamboo.Services.Build.Aspect;
 using PandaSharp.Bamboo.Services.Build.Contract;
+using PandaSharp.Bamboo.Services.Build.Request.Base;
 using PandaSharp.Bamboo.Services.Build.Response;
 using PandaSharp.Bamboo.Services.Build.Types;
 using PandaSharp.Bamboo.Services.Common.Aspect;
-using PandaSharp.Bamboo.Services.Common.Request;
-using PandaSharp.Bamboo.Services.Common.Types;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Build.Request
@@ -16,98 +15,92 @@ namespace PandaSharp.Bamboo.Services.Build.Request
     [SupportsParameterAspect(typeof(IIssueFilterParameterAspect))]
     [SupportsParameterAspect(typeof(ILabelFilterParameterAspect))]
     [SupportsParameterAspect(typeof(IExpandStateParameterAspect<BuildListExpandState>))]
-    internal sealed class BuildListRequest : RequestBase<BuildListResponse>, IBuildListRequest
+    internal sealed class MultipleBuildsRequest : BuildRequestBase<BuildListResponse>, IMultipleBuildsRequest
     {
-        [InjectedProperty(RequestPropertyNames.ProjectKeyName)]
-        public string ProjectKey { get; set; }
-
-        [InjectedProperty(RequestPropertyNames.PlanKeyName)]
-        public string PlanKey { get; set; }
-
-        public BuildListRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+        public MultipleBuildsRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
         }
 
-        public IBuildListRequest WithMaxResult(int maxResult)
+        public IMultipleBuildsRequest WithMaxResult(int maxResult)
         {
             GetAspect<IResultCountParameterAspect>().MaxResults = maxResult;
             return this;
         }
 
-        public IBuildListRequest StartAtIndex(int startIndex)
+        public IMultipleBuildsRequest StartAtIndex(int startIndex)
         {
             GetAspect<IResultCountParameterAspect>().StartIndex = startIndex;
             return this;
         }
 
-        public IBuildListRequest OnlyFailedBuilds()
+        public IMultipleBuildsRequest OnlyFailedBuilds()
         {
             GetAspect<IBuildStateParameterAspect>().BuildState = BuildState.Failed;
             return this;
         }
 
-        public IBuildListRequest OnlySuccessfulBuilds()
+        public IMultipleBuildsRequest OnlySuccessfulBuilds()
         {
             GetAspect<IBuildStateParameterAspect>().BuildState = BuildState.Successful;
             return this;
         }
 
-        public IBuildListRequest OnlyUncompletedBuilds()
+        public IMultipleBuildsRequest OnlyUncompletedBuilds()
         {
             GetAspect<IBuildStateParameterAspect>().BuildState = BuildState.Unknown;
             return this;
         }
 
-        public IBuildListRequest OnlyWithIssues(params string[] jiraIssues)
+        public IMultipleBuildsRequest OnlyWithIssues(params string[] jiraIssues)
         {
             GetAspect<IIssueFilterParameterAspect>().Issues = jiraIssues;
             return this;
         }
 
-        public IBuildListRequest OnlyWithLabels(params string[] labels)
+        public IMultipleBuildsRequest OnlyWithLabels(params string[] labels)
         {
             GetAspect<ILabelFilterParameterAspect>().Labels = labels;
             return this;
         }
 
-        public IBuildListRequest IncludingDetails()
+        public IMultipleBuildsRequest IncludingDetails()
         {
             GetAspect<IExpandStateParameterAspect<BuildListExpandState>>().AddExpandState(BuildListExpandState.IncludingDetails);
             return this;
         }
 
-        public IBuildListRequest IncludingArtifacts()
+        public IMultipleBuildsRequest IncludingArtifacts()
         {
             GetAspect<IExpandStateParameterAspect<BuildListExpandState>>().AddExpandState(BuildListExpandState.IncludingArtifacts);
             return this;
         }
 
-        public IBuildListRequest IncludingComments()
+        public IMultipleBuildsRequest IncludingComments()
         {
             GetAspect<IExpandStateParameterAspect<BuildListExpandState>>().AddExpandState(BuildListExpandState.IncludingComments);
             return this;
         }
 
-        public IBuildListRequest IncludingLabels()
+        public IMultipleBuildsRequest IncludingLabels()
         {
             GetAspect<IExpandStateParameterAspect<BuildListExpandState>>().AddExpandState(BuildListExpandState.IncludingLabels);
             return this;
         }
 
-        public IBuildListRequest IncludingJiraIssues()
+        public IMultipleBuildsRequest IncludingJiraIssues()
         {
             GetAspect<IExpandStateParameterAspect<BuildListExpandState>>().AddExpandState(BuildListExpandState.IncludingJiraIssues);
             return this;
         }
 
-        public IBuildListRequest IncludingVariables()
+        public IMultipleBuildsRequest IncludingVariables()
         {
             GetAspect<IExpandStateParameterAspect<BuildListExpandState>>().AddExpandState(BuildListExpandState.IncludingVariables);
             return this;
         }
 
-        public IBuildListRequest IncludingStages()
+        public IMultipleBuildsRequest IncludingStages()
         {
             GetAspect<IExpandStateParameterAspect<BuildListExpandState>>().AddExpandState(BuildListExpandState.IncludingStages);
             return this;

@@ -5,10 +5,11 @@ using PandaSharp.Bamboo.Services.Common.Response.Converter;
 
 namespace PandaSharp.Bamboo.Services.Plan.Response
 {
-    [JsonConverter(typeof(RootElementResponseConverter<BranchListResponse, BranchResponse>))]
+    [JsonConverter(typeof(RootElementResponseConverter<VcsBranchListResponse, VcsBranchResponse>))]
     [JsonItems("branch")]
     [JsonRootElement("branches")]
-    public sealed class BranchListResponse : ListResponseBase<BranchResponse>
+    public sealed class VcsBranchListResponse : ListResponseBase<VcsBranchResponse>
     {
+
     }
 }

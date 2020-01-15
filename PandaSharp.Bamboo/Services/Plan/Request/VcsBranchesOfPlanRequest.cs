@@ -9,20 +9,20 @@ using RestSharp;
 namespace PandaSharp.Bamboo.Services.Plan.Request
 {
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
-    internal sealed class ArtifactsOfPlanRequest : PlanRequestBase<ArtifactListResponse>, IArtifactsOfPlanRequest
+    internal sealed class VcsBranchesOfPlanRequest : PlanRequestBase<VcsBranchListResponse>, IVcsBranchesOfPlanRequest
     {
-        public ArtifactsOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+        public VcsBranchesOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
         }
 
-        public IArtifactsOfPlanRequest WithMaxResult(int maxResult)
+        public IVcsBranchesOfPlanRequest WithMaxResult(int maxResult)
         {
             GetAspect<IResultCountParameterAspect>().MaxResults = maxResult;
             return this;
         }
 
-        public IArtifactsOfPlanRequest StartAtIndex(int startIndex)
+        public IVcsBranchesOfPlanRequest StartAtIndex(int startIndex)
         {
             GetAspect<IResultCountParameterAspect>().StartIndex = startIndex;
             return this;
@@ -30,7 +30,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
 
         protected override string GetResourcePath()
         {
-            return $"plan/{ProjectKey}-{PlanKey}/artifact";
+            return $"plan/{ProjectKey}-{PlanKey}/vcsBranches";
         }
 
         protected override Method GetRequestMethod()

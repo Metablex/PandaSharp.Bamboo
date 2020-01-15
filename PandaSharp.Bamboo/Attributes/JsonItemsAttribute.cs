@@ -2,11 +2,11 @@ using System;
 
 namespace PandaSharp.Bamboo.Attributes
 {
-    internal sealed class JsonItems : Attribute
+    internal sealed class JsonItemsAttribute : Attribute
     {
         public string ItemsPath { get; }
 
-        public JsonItems(string itemsPath)
+        public JsonItemsAttribute(string itemsPath)
         {
             ItemsPath = itemsPath;
         }

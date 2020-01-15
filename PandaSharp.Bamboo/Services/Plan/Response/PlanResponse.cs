@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using PandaSharp.Bamboo.Services.Plan.Response.Converter;
+using PandaSharp.Bamboo.Services.Common.Response.Converter;
 
 namespace PandaSharp.Bamboo.Services.Plan.Response
 {
@@ -36,20 +36,20 @@ namespace PandaSharp.Bamboo.Services.Plan.Response
         [JsonProperty("isBuilding")]
         public bool? IsBuilding { get; set; }
 
+        [JsonConverter(typeof(JsonListResponseConverter<ActionResponse>), "action")]
         [JsonProperty("actions")]
-        [JsonConverter(typeof(ActionListResponseConverter))]
         public List<ActionResponse> Actions { get; set; }
 
+        [JsonConverter(typeof(JsonListResponseConverter<StageResponse>), "stage")]
         [JsonProperty("stages")]
-        [JsonConverter(typeof(StageListResponseConverter))]
         public List<StageResponse> Stages { get; set; }
 
+        [JsonConverter(typeof(JsonListResponseConverter<BranchResponse>), "branch")]
         [JsonProperty("branches")]
-        [JsonConverter(typeof(BranchListResponseConverter))]
         public List<BranchResponse> Branches { get; set; }
 
+        [JsonConverter(typeof(JsonListResponseConverter<VariableResponse>), "variable")]
         [JsonProperty("variableContext")]
-        [JsonConverter(typeof(VariableContextListResponseConverter))]
         public List<VariableResponse> Variables { get; set; }
     }
 }

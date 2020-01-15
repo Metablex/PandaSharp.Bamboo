@@ -14,8 +14,9 @@ namespace PandaSharp.Bamboo.Services.Common.Aspect
 
         public override void ApplyToRestRequest(IRestRequest restRequest)
         {
-            restRequest.AddParameterIfSet(StartIndexParameterName, StartIndex);
-            restRequest.AddParameterIfSet(MaxResultsParameterName, MaxResults);
+            restRequest
+                .AddParameterIfSet(StartIndexParameterName, StartIndex)
+                .AddParameterIfSet(MaxResultsParameterName, MaxResults);
         }
     }
 }

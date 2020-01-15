@@ -43,7 +43,33 @@ namespace PandaSharp.Bamboo.Services.Plan
                 .LatestRequest<DeletePlanCommand>()
                 .Register(context);
 
+            container
+                .RequestRegistrationFor<ICreatePlanCommand>()
+                .LatestRequest<CreatePlanCommand>()
+                .Register(context);
+
+            container
+                .RequestRegistrationFor<ILabelsOfPlanRequest>()
+                .LatestRequest<LabelsOfPlanRequest>()
+                .Register(context);
+
+            container
+                .RequestRegistrationFor<IDeleteLabelOfPlanCommand>()
+                .LatestRequest<DeleteLabelOfPlanCommand>()
+                .Register(context);
+
+            container
+                .RequestRegistrationFor<IVcsBranchesOfPlanRequest>()
+                .LatestRequest<VcsBranchesOfPlanRequest>()
+                .Register(context);
+
+            container
+                .RequestRegistrationFor<IFavouritePlanCommand>()
+                .LatestRequest<FavouritePlanCommand>()
+                .Register(context);
+
             container.RegisterType<IBranchesOfPlanParameterAspect, BranchesOfPlanParameterAspect>();
+            container.RegisterType<ICreatePlanParameterAspect, CreatePlanParameterAspect>();
             container.RegisterExpandStateParameterAspect<PlanExpandState>();
             container.RegisterExpandStateParameterAspect<PlansExpandState>();
 

@@ -1,8 +1,8 @@
 ﻿using PandaSharp.Bamboo.Attributes;
 using PandaSharp.Bamboo.Rest.Contract;
 using PandaSharp.Bamboo.Services.Common.Aspect;
-using PandaSharp.Bamboo.Services.Common.Request;
 using PandaSharp.Bamboo.Services.Plan.Contract;
+using PandaSharp.Bamboo.Services.Plan.Request.Base;
 using PandaSharp.Bamboo.Services.Plan.Response;
 using PandaSharp.Bamboo.Services.Plan.Types;
 using RestSharp;
@@ -11,7 +11,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
 {
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
     [SupportsParameterAspect(typeof(IExpandStateParameterAspect<PlansExpandState>))]
-    internal sealed class AllPlansRequest : RequestBase<PlanListResponse>, IAllPlansRequest
+    internal sealed class AllPlansRequest : PlanRequestBase<PlanListResponse>, IAllPlansRequest
     {
         public AllPlansRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)

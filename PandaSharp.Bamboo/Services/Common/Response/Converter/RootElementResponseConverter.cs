@@ -7,12 +7,21 @@ using PandaSharp.Bamboo.Attributes;
 
 namespace PandaSharp.Bamboo.Services.Common.Response.Converter
 {
-    internal abstract class RootElementResponseConverterBase<T, TItem> : JsonConverter<T>
+    internal sealed class RootElementResponseConverter<T, TItem> : JsonConverter<T>
         where T : ListResponseBase<TItem>, new()
     {
-        protected virtual string RootElement { get; } = null;
+        private readonly string _rootElement;
 
         public override bool CanWrite => false;
+
+        public RootElementResponseConverter()
+        {
+            var jsonRootElementAttribute = typeof(T).GetCustomAttribute<JsonRootElementAttribute>();
+            if (jsonRootElementAttribute != null)
+            {
+                _rootElement = jsonRootElementAttribute.RootElement;
+            }
+        }
 
         public override void WriteJson(JsonWriter writer, T value, JsonSerializer serializer)
         {
@@ -35,7 +44,7 @@ namespace PandaSharp.Bamboo.Services.Common.Response.Converter
                 }
             }
 
-            var jsonItemsAttribute = typeof(T).GetCustomAttribute<JsonItems>();
+            var jsonItemsAttribute = typeof(T).GetCustomAttribute<JsonItemsAttribute>();
             if (jsonItemsAttribute != null)
             {
                 var propertyValue = json.SelectToken(GetElementPath(jsonItemsAttribute.ItemsPath));
@@ -50,9 +59,9 @@ namespace PandaSharp.Bamboo.Services.Common.Response.Converter
 
         private string GetElementPath(string element)
         {
-            return string.IsNullOrEmpty(RootElement)
+            return string.IsNullOrEmpty(_rootElement)
                 ? element
-                : $"{RootElement}.{element}";
+                : $"{_rootElement}.{element}";
         }
     }
 }

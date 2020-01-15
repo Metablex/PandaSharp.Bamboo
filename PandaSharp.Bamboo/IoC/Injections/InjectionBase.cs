@@ -1,6 +1,6 @@
 namespace PandaSharp.Bamboo.IoC.Injections
 {
-    public abstract class InjectionBase
+    internal abstract class InjectionBase
     {
     }
 }

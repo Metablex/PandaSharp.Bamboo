@@ -14,7 +14,7 @@ namespace PandaSharp.Bamboo.IoC.Factory
 
         public override object CreateInstance(params InjectionBase[] injectedInformation)
         {
-            return _instance ?? (_instance = ConstructObject(injectedInformation));
+            return _instance ??= ConstructObject(injectedInformation);
         }
     }
 }

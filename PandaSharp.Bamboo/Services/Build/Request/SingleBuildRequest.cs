@@ -1,75 +1,65 @@
 using PandaSharp.Bamboo.Attributes;
 using PandaSharp.Bamboo.Rest.Contract;
 using PandaSharp.Bamboo.Services.Build.Contract;
+using PandaSharp.Bamboo.Services.Build.Request.Base;
 using PandaSharp.Bamboo.Services.Build.Response;
 using PandaSharp.Bamboo.Services.Build.Types;
 using PandaSharp.Bamboo.Services.Common.Aspect;
-using PandaSharp.Bamboo.Services.Common.Request;
-using PandaSharp.Bamboo.Services.Common.Types;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Build.Request
 {
     [SupportsParameterAspect(typeof(IExpandStateParameterAspect<BuildExpandState>))]
-    internal sealed class BuildRequest : RequestBase<BuildResponse>, IBuildRequest
+    internal sealed class SingleBuildRequest : BuildRequestBase<BuildResponse>, ISingleBuildRequest
     {
-        [InjectedProperty(RequestPropertyNames.ProjectKeyName)]
-        public string ProjectKey { get; set; }
-
-        [InjectedProperty(RequestPropertyNames.PlanKeyName)]
-        public string PlanKey { get; set; }
-
-        [InjectedProperty(RequestPropertyNames.BuildNumberName)]
-        public string BuildNumber { get; set; }
-
-        public BuildRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+        public SingleBuildRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
         }
 
-        public IBuildRequest IncludingArtifacts()
+        public ISingleBuildRequest IncludingArtifacts()
         {
             GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingArtifacts);
             return this;
         }
 
-        public IBuildRequest IncludingComments()
+        public ISingleBuildRequest IncludingComments()
         {
             GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingComments);
             return this;
         }
 
-        public IBuildRequest IncludingLabels()
+        public ISingleBuildRequest IncludingLabels()
         {
             GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingLabels);
             return this;
         }
 
-        public IBuildRequest IncludingJiraIssues()
+        public ISingleBuildRequest IncludingJiraIssues()
         {
             GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingJiraIssues);
             return this;
         }
 
-        public IBuildRequest IncludingVariables()
+        public ISingleBuildRequest IncludingVariables()
         {
             GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingVariables);
             return this;
         }
 
-        public IBuildRequest IncludingStages()
+        public ISingleBuildRequest IncludingStages()
         {
             GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingStages);
             return this;
         }
 
-        public IBuildRequest IncludingChanges()
+        public ISingleBuildRequest IncludingChanges()
         {
             GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingChanges);
             return this;
         }
 
-        public IBuildRequest IncludingMetaData()
+        public ISingleBuildRequest IncludingMetaData()
         {
             GetAspect<IExpandStateParameterAspect<BuildExpandState>>().AddExpandState(BuildExpandState.IncludingMetaData);
             return this;

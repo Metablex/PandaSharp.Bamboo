@@ -1,19 +1,19 @@
 ﻿using PandaSharp.Bamboo.Rest.Contract;
 using RestSharp;
 using RestSharp.Authenticators;
-using RestSharp.Deserializers;
+using RestSharp.Serialization;
 
 namespace PandaSharp.Bamboo.Rest.Common
 {
     internal sealed class RestFactory : IRestFactory
     {
         private readonly IBambooOptions _bambooOptions;
-        private readonly IDeserializer _deserializer;
+        private readonly IRestSerializer _serializer;
 
-        public RestFactory(IBambooOptions bambooOptions, IDeserializer deserializer)
+        public RestFactory(IBambooOptions bambooOptions, IRestSerializer serializer)
         {
             _bambooOptions = bambooOptions;
-            _deserializer = deserializer;
+            _serializer = serializer;
         }
 
         public IRestClient CreateClient()
@@ -23,7 +23,7 @@ namespace PandaSharp.Bamboo.Rest.Common
                 Authenticator = new HttpBasicAuthenticator(_bambooOptions.UserName, _bambooOptions.Password)
             };
 
-            client.AddHandler("application/json", () => _deserializer);
+            client.UseSerializer(() => _serializer);
             return client;
         }
 
