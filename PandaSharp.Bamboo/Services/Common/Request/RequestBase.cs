@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using PandaSharp.Bamboo.Rest.Contract;
 using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Services.Common.Contract;
@@ -15,11 +17,11 @@ namespace PandaSharp.Bamboo.Services.Common.Request
         {
         }
 
-        public T Execute()
+        public async Task<T> ExecuteAsync(CancellationToken cancellationToken)
         {
             var client = CreateRestClient();
             var request = BuildRequest();
-            var response = client.Execute<T>(request);
+            var response = await client.ExecuteTaskAsync<T>(request, cancellationToken);
 
             if (!response.IsSuccessful)
             {
@@ -32,6 +34,11 @@ namespace PandaSharp.Bamboo.Services.Common.Request
             }
 
             return response.Data;
+        }
+
+        public Task<T> ExecuteAsync()
+        {
+            return ExecuteAsync(CancellationToken.None);
         }
     }
 }

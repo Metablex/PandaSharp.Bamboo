@@ -33,22 +33,37 @@ namespace PandaSharp.Bamboo.IoC
         public IRequestProviderRegistration<T> LatestRequest<TInstance>()
             where TInstance : T
         {
+            if (_latestRequestType != null)
+            {
+                throw new InvalidOperationException($"Type of latest request for {typeof(T).Name} was already specified");
+            }
+
             _latestRequestType = typeof(TInstance);
             return this;
         }
 
         public void Register(PandaContainerContext context)
         {
-            var versionSpecificRequestType = _versionSpecificRequestTypes
-                .Where(types => types.VersionUpTo >= context.CurrentBambooVersion)
-                .OrderBy(types => types.VersionUpTo)
-                .FirstOrDefault();
+            var versionSpecificRequestType = GetVersionSpecificRequestType(context);
 
             var requestTypeToRegister = versionSpecificRequestType != null
                 ? versionSpecificRequestType.RequestType
                 : _latestRequestType;
 
             _container.RegisterType<T>(requestTypeToRegister);
+        }
+
+        private VersionSpecificRequestType GetVersionSpecificRequestType(PandaContainerContext context)
+        {
+            if (context.CurrentBambooVersion == null)
+            {
+                return null;
+            }
+
+            return _versionSpecificRequestTypes
+                .Where(types => types.VersionUpTo >= context.CurrentBambooVersion)
+                .OrderBy(types => types.VersionUpTo)
+                .FirstOrDefault();
         }
 
         private class VersionSpecificRequestType

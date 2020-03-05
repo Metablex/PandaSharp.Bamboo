@@ -63,7 +63,7 @@ namespace PandaSharp.Bamboo.Utils
             }
             catch (Exception)
             {
-                throw new InvalidOperationException("Could not retrieve current bamboo version");
+                return null;
             }
         }
 

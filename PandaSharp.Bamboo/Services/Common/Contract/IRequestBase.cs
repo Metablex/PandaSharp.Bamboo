@@ -1,7 +1,12 @@
-﻿namespace PandaSharp.Bamboo.Services.Common.Contract
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+namespace PandaSharp.Bamboo.Services.Common.Contract
 {
-    public interface IRequestBase<out T>
+    public interface IRequestBase<T>
     {
-        T Execute();
+        Task<T> ExecuteAsync(CancellationToken cancellationToken);
+
+        Task<T> ExecuteAsync();
     }
 }

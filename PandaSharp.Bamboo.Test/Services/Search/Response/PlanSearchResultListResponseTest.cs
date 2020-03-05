@@ -1,0 +1,11 @@
+using NUnit.Framework;
+using PandaSharp.Bamboo.Services.Search.Response;
+using PandaSharp.Bamboo.Test.Services.Common.Response;
+
+namespace PandaSharp.Bamboo.Test.Services.Search.Response
+{
+    [TestFixture]
+    public sealed class PlanSearchResultListResponseTest : ListResponseTestBase<PlanSearchResultListResponse>
+    {
+    }
+}

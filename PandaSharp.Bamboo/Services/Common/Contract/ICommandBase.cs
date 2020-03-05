@@ -1,7 +1,12 @@
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace PandaSharp.Bamboo.Services.Common.Contract
 {
     public interface ICommandBase
     {
-        void Execute();
+        Task ExecuteAsync(CancellationToken cancellationToken);
+
+        Task ExecuteAsync();
     }
 }

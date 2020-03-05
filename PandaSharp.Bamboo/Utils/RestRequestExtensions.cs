@@ -30,10 +30,7 @@ namespace PandaSharp.Bamboo.Utils
             if (validValues.Length > 0)
             {
                 var parameterValues = string.Join(",", validValues);
-                if (!string.IsNullOrEmpty(parameterValues))
-                {
-                    return restRequest.AddParameter(parameter, parameterValues);
-                }
+                return restRequest.AddParameter(parameter, parameterValues);
             }
 
             return restRequest;

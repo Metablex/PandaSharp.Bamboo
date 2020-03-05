@@ -22,7 +22,7 @@ namespace PandaSharp.Bamboo.Rest.Common
 
         public string Serialize(Parameter parameter)
         {
-            return JsonConvert.SerializeObject(parameter.Value);
+            return Serialize(parameter.Value);
         }
 
         public T Deserialize<T>(IRestResponse response)
