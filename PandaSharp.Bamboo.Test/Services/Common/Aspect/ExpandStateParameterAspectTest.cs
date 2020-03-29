@@ -13,22 +13,30 @@ namespace PandaSharp.Bamboo.Test.Services.Common.Aspect
         [Test]
         public void ParameterAspectTest()
         {
-            var aspect = new ExpandStateParameterAspect<TestEnum>();
-
             var restRequestMock = new Mock<IRestRequest>(MockBehavior.Strict);
             restRequestMock
-                .Setup(r => r.AddParameter(It.IsAny<string>(), It.IsAny<object>()))
+                .Setup(r => r.AddParameter("expand", "A,B"))
                 .Returns(restRequestMock.Object)
                 .Verifiable();
 
-            aspect.ApplyToRestRequest(restRequestMock.Object);
-            restRequestMock.VerifyNoOtherCalls();
-
+            var aspect = new ExpandStateParameterAspect<TestEnum>();
             aspect.AddExpandState(TestEnum.A);
             aspect.AddExpandState(TestEnum.B);
             aspect.ApplyToRestRequest(restRequestMock.Object);
 
-            restRequestMock.Verify(r => r.AddParameter("expand", "A,B"), Times.Once);
+            restRequestMock.Verify();
+            restRequestMock.VerifyNoOtherCalls();
+        }
+
+        [Test]
+        public void DefaultParameterAspectTest()
+        {
+            var restRequestMock = new Mock<IRestRequest>(MockBehavior.Strict);
+
+            var aspect = new ExpandStateParameterAspect<TestEnum>();
+            aspect.ApplyToRestRequest(restRequestMock.Object);
+
+            restRequestMock.Verify();
             restRequestMock.VerifyNoOtherCalls();
         }
 

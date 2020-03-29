@@ -98,7 +98,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Factory
         {
             if (branchName.Contains("/"))
             {
-                throw new ArgumentException($"parameter {nameof(branchName)} must not contain any backslashes");
+                throw new ArgumentException($"parameter {nameof(branchName)} must not contain any slashes");
             }
 
             return _container.Resolve<ICreatePlanCommand>(

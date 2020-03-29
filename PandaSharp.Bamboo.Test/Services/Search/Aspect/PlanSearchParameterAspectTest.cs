@@ -2,7 +2,6 @@ using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Search.Aspect;
 using RestSharp;
-using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Search.Aspect
 {
@@ -12,24 +11,41 @@ namespace PandaSharp.Bamboo.Test.Services.Search.Aspect
         [Test]
         public void ParameterAspectTest()
         {
-            var aspect = new PlanSearchParameterAspect();
-            aspect.PerformFuzzySearch.ShouldBeFalse();
-            aspect.SearchTerm.ShouldBeNull();
+            var restRequestMock = new Mock<IRestRequest>(MockBehavior.Strict);
+            restRequestMock
+                .Setup(i => i.AddParameter("fuzzy", true))
+                .Returns(restRequestMock.Object)
+                .Verifiable();
 
-            var restRequestMock = new Mock<IRestRequest>();
+            restRequestMock
+                .Setup(i => i.AddParameter("searchTerm", "SearchMe"))
+                .Returns(restRequestMock.Object)
+                .Verifiable();
 
+            var aspect = new PlanSearchParameterAspect
+            {
+                SearchTerm = "SearchMe",
+                PerformFuzzySearch = true
+            };
             aspect.ApplyToRestRequest(restRequestMock.Object);
 
-            restRequestMock.Verify(r => r.AddParameter("fuzzy", false), Times.Once);
+            restRequestMock.Verify();
             restRequestMock.VerifyNoOtherCalls();
-            restRequestMock.Invocations.Clear();
+        }
 
-            aspect.SearchTerm = "SearchMe";
-            aspect.PerformFuzzySearch = true;
+        [Test]
+        public void DefaultParameterAspectTest()
+        {
+            var restRequestMock = new Mock<IRestRequest>(MockBehavior.Strict);
+            restRequestMock
+                .Setup(i => i.AddParameter("fuzzy", false))
+                .Returns(restRequestMock.Object)
+                .Verifiable();
+
+            var aspect = new PlanSearchParameterAspect();
             aspect.ApplyToRestRequest(restRequestMock.Object);
 
-            restRequestMock.Verify(r => r.AddParameter("fuzzy", true), Times.Once);
-            restRequestMock.Verify(r => r.AddParameter("searchTerm", "SearchMe"), Times.Once);
+            restRequestMock.Verify();
             restRequestMock.VerifyNoOtherCalls();
         }
     }

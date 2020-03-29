@@ -6,7 +6,7 @@ using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Services.Search.Aspect;
 using PandaSharp.Bamboo.Services.Search.Request;
 using PandaSharp.Bamboo.Services.Search.Response;
-using PandaSharp.Bamboo.Test.Services.Common.Request;
+using PandaSharp.Bamboo.Test.Framework.Services.Request;
 using RestSharp;
 using Shouldly;
 
@@ -31,21 +31,27 @@ namespace PandaSharp.Bamboo.Test.Services.Search.Request
         }
 
         [Test]
-        public void RequestOptionsTest()
+        public void ResultCountParameterAspectTest()
         {
             CreateRequest()
                 .WithMaxResult(42)
-                .StartAtIndex(9)
-                .WithSearchTerm("Test")
-                .PerformFuzzySearch();
+                .StartAtIndex(9);
 
-            ValidateParameterAspectMock<IResultCountParameterAspect>(aspect =>
+            VerifyParameterAspectMock<IResultCountParameterAspect>(aspect =>
             {
                 aspect.MaxResults.ShouldBe(42);
                 aspect.StartIndex.ShouldBe(9);
             });
+        }
 
-            ValidateParameterAspectMock<IPlanSearchParameterAspect>(aspect =>
+        [Test]
+        public void PlanSearchParameterAspectTest()
+        {
+            CreateRequest()
+                .WithSearchTerm("Test")
+                .PerformFuzzySearch();
+
+            VerifyParameterAspectMock<IPlanSearchParameterAspect>(aspect =>
             {
                 aspect.SearchTerm.ShouldBe("Test");
                 aspect.PerformFuzzySearch.ShouldBeTrue();

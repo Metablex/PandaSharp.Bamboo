@@ -5,7 +5,7 @@ using NUnit.Framework;
 using PandaSharp.Bamboo.Attributes;
 using Shouldly;
 
-namespace PandaSharp.Bamboo.Test.Services.Common.Response
+namespace PandaSharp.Bamboo.Test.Framework.Services.Response
 {
     [TestFixture]
     public abstract class ListResponseTestBase<T> : ResponseTestBase<T>

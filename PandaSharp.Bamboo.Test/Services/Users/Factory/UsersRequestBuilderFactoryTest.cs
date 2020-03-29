@@ -1,27 +1,26 @@
-using Moq;
 using NUnit.Framework;
-using PandaSharp.Bamboo.IoC.Contract;
 using PandaSharp.Bamboo.Services.Users.Contract;
 using PandaSharp.Bamboo.Services.Users.Factory;
+using PandaSharp.Bamboo.Test.Framework.Services.Factory;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Users.Factory
 {
     [TestFixture]
-    public sealed class UsersRequestBuilderFactoryTest
+    internal sealed class UsersRequestBuilderFactoryTest : RequestBuilderFactoryTestBase
     {
         [Test]
         public void GetCurrentUserTest()
         {
-            var containerMock = new Mock<IPandaContainer>(MockBehavior.Strict);
-            containerMock
-                .Setup(c => c.Resolve<ICurrentUserRequest>())
-                .Returns(() => new Mock<ICurrentUserRequest>().Object);
+            SetupRequestRegistration<ICurrentUserRequest>(parameters => parameters.ShouldBeEmpty());
 
-            var factory = new UsersRequestBuilderFactory(containerMock.Object);
+            var factory = new UsersRequestBuilderFactory(Container.Object);
             var request = factory.GetCurrentUser();
 
             request.ShouldNotBeNull();
+
+            Container.Verify();
+            Container.VerifyNoOtherCalls();
         }
     }
 }

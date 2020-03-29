@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using Shouldly;
 
-namespace PandaSharp.Bamboo.Test.Services.Common.Response
+namespace PandaSharp.Bamboo.Test.Framework.Services.Response
 {
     [TestFixture]
     public abstract class ResponseTestBase<T>

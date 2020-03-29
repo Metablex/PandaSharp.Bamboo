@@ -31,7 +31,7 @@ namespace PandaSharp.Bamboo.Services.Build.Factory
             return _container.Resolve<ISingleBuildRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
-                new InjectProperty(RequestPropertyNames.BuildNumberName, buildNumber.ToString()));
+                new InjectProperty(RequestPropertyNames.BuildNumberName, buildNumber));
         }
 
         public ISingleBuildRequest InformationOfLatestBuild(string projectKey, string planKey)

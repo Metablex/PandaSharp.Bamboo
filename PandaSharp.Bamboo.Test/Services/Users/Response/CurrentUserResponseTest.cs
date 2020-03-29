@@ -1,6 +1,6 @@
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Users.Response;
-using PandaSharp.Bamboo.Test.Services.Common.Response;
+using PandaSharp.Bamboo.Test.Framework.Services.Response;
 
 namespace PandaSharp.Bamboo.Test.Services.Users.Response
 {

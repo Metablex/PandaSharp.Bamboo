@@ -1,27 +1,26 @@
-using Moq;
 using NUnit.Framework;
-using PandaSharp.Bamboo.IoC.Contract;
 using PandaSharp.Bamboo.Services.Search.Contract;
 using PandaSharp.Bamboo.Services.Search.Factory;
+using PandaSharp.Bamboo.Test.Framework.Services.Factory;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Search.Factory
 {
     [TestFixture]
-    public sealed class SearchRequestBuilderFactoryTest
+    internal sealed class SearchRequestBuilderFactoryTest : RequestBuilderFactoryTestBase
     {
         [Test]
         public void ForPlansTest()
         {
-            var containerMock = new Mock<IPandaContainer>();
-            containerMock
-                .Setup(c => c.Resolve<IPlanSearchRequest>())
-                .Returns(() => new Mock<IPlanSearchRequest>().Object);
+            SetupRequestRegistration<IPlanSearchRequest>(parameters => parameters.ShouldBeEmpty());
 
-            var factory = new SearchRequestBuilderFactory(containerMock.Object);
+            var factory = new SearchRequestBuilderFactory(Container.Object);
             var request = factory.ForPlans();
 
             request.ShouldNotBeNull();
+
+            Container.Verify();
+            Container.VerifyNoOtherCalls();
         }
     }
 }

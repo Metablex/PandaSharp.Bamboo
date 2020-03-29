@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using PandaSharp.Bamboo.Rest.Contract;
@@ -20,13 +19,7 @@ namespace PandaSharp.Bamboo.Services.Common.Request
 
         protected TAspect GetAspect<TAspect>()
         {
-            var aspect = _parameterAspects.OfType<TAspect>().FirstOrDefault();
-            if (aspect == null)
-            {
-                throw new InvalidOperationException($"Aspect of type {typeof(TAspect)} is not supported.");
-            }
-
-            return aspect;
+            return _parameterAspects.OfType<TAspect>().FirstOrDefault();
         }
 
         protected abstract string GetResourcePath();

@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace PandaSharp.Bamboo.Test.Services.Common.Request
+namespace PandaSharp.Bamboo.Test.Framework.Services.Request
 {
     internal sealed class TestRequestStatusCodeAttribute : Attribute
     {
