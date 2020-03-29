@@ -19,12 +19,12 @@ for:
   dotnet_csproj:
     patch: true
     file: '**\*.csproj'
-    version: '$env:nuget_version'
-    version_prefix: '$env:nuget_version'
-    package_version: '$env:nuget_version'
-    assembly_version: '$env:nuget_version'
-    file_version: '$env:nuget_version'
-    informational_version: '$env:nuget_version'
+    version: $(nuget_version)
+    version_prefix: $(nuget_version)
+    package_version: $(nuget_version)
+    assembly_version: $(nuget_version)
+    file_version: $(nuget_version)
+    informational_version: $(nuget_version)
 
   build:
     publish_nuget: true
