@@ -1,18 +1,51 @@
-version: 1.0.0.{build}
-pull_requests:
-  do_not_increment_build_number: true
+version: '{branch}-{build}'
+
 configuration: Release
-dotnet_csproj:
-  patch: true
-  file: '**\*.csproj'
-  version: '{version}'
-  version_prefix: '{version}'
-  package_version: '{version}'
-  assembly_version: '{version}'
-  file_version: '{version}'
-  informational_version: '{version}'
+
 before_build:
 - cmd: nuget restore
-build:
-  publish_nuget: true
-  verbosity: minimal
+
+for:
+
+#configuration for master branch
+- 
+  branches:
+    only: 
+      - master
+
+  environment:
+    nuget_version: 0.9.1
+
+  dotnet_csproj:
+    patch: true
+    file: '**\*.csproj'
+    version: '{nuget_version}'
+    version_prefix: '{nuget_version}'
+    package_version: '{nuget_version}'
+    assembly_version: '{nuget_version}'
+    file_version: '{nuget_version}'
+    informational_version: '{nuget_version}'
+
+  build:
+    publish_nuget: true
+    verbosity: minimal
+  
+  artifacts:
+    - path: .\PandaSharp.Bamboo\bin\Release
+      name: PandaSharp
+  
+    - path: '**\*.nupkg'
+  
+#configuration for all other branches
+-
+  branches:
+    except: 
+      - master
+
+  build:
+    publish_nuget: false
+    verbosity: minimal
+  
+  artifacts:
+    - path: .\PandaSharp.Bamboo\bin\Release
+      name: PandaSharp
