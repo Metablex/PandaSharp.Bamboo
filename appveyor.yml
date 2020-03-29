@@ -5,6 +5,10 @@ configuration: Release
 before_build:
 - cmd: nuget restore
 
+artifacts:
+  - path: .\PandaSharp.Bamboo\bin\Release
+    name: PandaSharp
+
 for:
 
 #configuration for master branch
@@ -30,12 +34,6 @@ for:
     publish_nuget: true
     verbosity: minimal
   
-  artifacts:
-    - path: .\PandaSharp.Bamboo\bin\Release
-      name: PandaSharp
-  
-    - path: '**\*.nupkg'
-  
 #configuration for all other branches
 -
   branches:
@@ -45,7 +43,3 @@ for:
   build:
     publish_nuget: false
     verbosity: minimal
-  
-  artifacts:
-    - path: .\PandaSharp.Bamboo\bin\Release
-      name: PandaSharp
