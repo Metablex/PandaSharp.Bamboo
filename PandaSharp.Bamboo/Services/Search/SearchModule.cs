@@ -13,8 +13,8 @@ namespace PandaSharp.Bamboo.Services.Search
         public override void RegisterModule(IPandaContainer container, PandaContainerContext context)
         {
             container
-                .RequestRegistrationFor<IPlanSearchRequest>()
-                .LatestRequest<PlanSearchRequest>()
+                .RequestRegistrationFor<ISearchForPlansRequest>()
+                .LatestRequest<SearchForPlansRequest>()
                 .Register(context);
 
             container.RegisterType<IPlanSearchParameterAspect, PlanSearchParameterAspect>();

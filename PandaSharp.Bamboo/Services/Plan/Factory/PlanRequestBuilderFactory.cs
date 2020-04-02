@@ -15,49 +15,49 @@ namespace PandaSharp.Bamboo.Services.Plan.Factory
             _container = container;
         }
 
-        public IAllPlansRequest AllPlans()
+        public IGetAllPlansRequest GetAllPlans()
         {
-            return _container.Resolve<IAllPlansRequest>();
+            return _container.Resolve<IGetAllPlansRequest>();
         }
 
-        public IInformationOfPlanRequest InformationOf(string projectKey, string planKey)
+        public IGetInformationOfPlanRequest GetInformationOf(string projectKey, string planKey)
         {
-            return _container.Resolve<IInformationOfPlanRequest>(
+            return _container.Resolve<IGetInformationOfPlanRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
         }
 
-        public IBranchesOfPlanRequest BranchesOf(string projectKey, string planKey)
+        public IGetBranchesOfPlanRequest GetBranchesOf(string projectKey, string planKey)
         {
-            return _container.Resolve<IBranchesOfPlanRequest>(
+            return _container.Resolve<IGetBranchesOfPlanRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
         }
 
-        public IArtifactsOfPlanRequest ArtifactsOf(string projectKey, string planKey)
+        public IGetArtifactsOfPlanRequest GetArtifactsOf(string projectKey, string planKey)
         {
-            return _container.Resolve<IArtifactsOfPlanRequest>(
+            return _container.Resolve<IGetArtifactsOfPlanRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
         }
 
-        public ILabelsOfPlanRequest LabelsOf(string projectKey, string planKey)
+        public IGetLabelsOfPlanRequest GetLabelsOf(string projectKey, string planKey)
         {
-            return _container.Resolve<ILabelsOfPlanRequest>(
+            return _container.Resolve<IGetLabelsOfPlanRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
         }
 
-        public IVcsBranchesOfPlanRequest VcsBranchesOf(string projectKey, string planKey)
+        public IGetVcsBranchesOfPlanRequest GetVcsBranchesOf(string projectKey, string planKey)
         {
-            return _container.Resolve<IVcsBranchesOfPlanRequest>(
+            return _container.Resolve<IGetVcsBranchesOfPlanRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
         }
 
-        public ILabelsOfPlanRequest AddLabelToPlan(string projectKey, string planKey, string labelName)
+        public IAddLabelToPlanCommand AddLabelToPlan(string projectKey, string planKey, string labelName)
         {
-            return _container.Resolve<ILabelsOfPlanRequest>(
+            return _container.Resolve<IAddLabelToPlanCommand>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
                 new InjectProperty(RequestPropertyNames.LabelName, labelName));

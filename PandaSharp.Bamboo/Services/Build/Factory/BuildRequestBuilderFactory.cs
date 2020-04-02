@@ -14,48 +14,75 @@ namespace PandaSharp.Bamboo.Services.Build.Factory
             _container = container;
         }
 
-        public IMultipleBuildsRequest AllBuilds()
+        public IGetBuildsOfPlanRequest GetAllBuilds()
         {
-            return _container.Resolve<IMultipleBuildsRequest>();
+            return _container.Resolve<IGetBuildsOfPlanRequest>();
         }
 
-        public IMultipleBuildsRequest BuildsOfPlan(string projectKey, string planKey)
+        public IGetBuildsOfPlanRequest GetBuildsOfPlan(string projectKey, string planKey)
         {
-            return _container.Resolve<IMultipleBuildsRequest>(
+            return _container.Resolve<IGetBuildsOfPlanRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
         }
 
-        public ISingleBuildRequest InformationOfBuild(string projectKey, string planKey, uint buildNumber)
+        public IGetInformationOfBuildRequest GetInformationOfBuild(string projectKey, string planKey, uint buildNumber)
         {
-            return _container.Resolve<ISingleBuildRequest>(
+            return _container.Resolve<IGetInformationOfBuildRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
                 new InjectProperty(RequestPropertyNames.BuildNumberName, buildNumber));
         }
 
-        public ISingleBuildRequest InformationOfLatestBuild(string projectKey, string planKey)
+        public IGetInformationOfBuildRequest GetInformationOfLatestBuild(string projectKey, string planKey)
         {
-            return _container.Resolve<ISingleBuildRequest>(
+            return _container.Resolve<IGetInformationOfBuildRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
                 new InjectProperty(RequestPropertyNames.BuildNumberName, "latest"));
         }
 
-        public ICommentsOfBuildRequest CommentsOfBuild(string projectKey, string planKey, uint buildNumber)
+        public IGetCommentsOfBuildRequest GetCommentsOfBuild(string projectKey, string planKey, uint buildNumber)
         {
-            return _container.Resolve<ICommentsOfBuildRequest>(
+            return _container.Resolve<IGetCommentsOfBuildRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
                 new InjectProperty(RequestPropertyNames.BuildNumberName, buildNumber));
         }
 
-        public ILabelsOfBuildRequest LabelsOfBuild(string projectKey, string planKey, uint buildNumber)
+        public IAddCommentToBuildCommand AddCommentToBuild(string projectKey, string planKey, uint buildNumber, string comment)
         {
-            return _container.Resolve<ILabelsOfBuildRequest>(
+            return _container.Resolve<IAddCommentToBuildCommand>(
+                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
+                new InjectProperty(RequestPropertyNames.BuildNumberName, buildNumber),
+                new InjectProperty(RequestPropertyNames.Comment, comment));
+        }
+
+        public IGetLabelsOfBuildRequest GetLabelsOfBuild(string projectKey, string planKey, uint buildNumber)
+        {
+            return _container.Resolve<IGetLabelsOfBuildRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
                 new InjectProperty(RequestPropertyNames.BuildNumberName, buildNumber));
+        }
+
+        public IAddLabelToBuildCommand AddLabelToBuild(string projectKey, string planKey, uint buildNumber, string label)
+        {
+            return _container.Resolve<IAddLabelToBuildCommand>(
+                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
+                new InjectProperty(RequestPropertyNames.BuildNumberName, buildNumber),
+                new InjectProperty(RequestPropertyNames.LabelName, label));
+        }
+
+        public IDeleteLabelOfBuildCommand DeleteLabelOfBuild(string projectKey, string planKey, uint buildNumber, string label)
+        {
+            return _container.Resolve<IDeleteLabelOfBuildCommand>(
+                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
+                new InjectProperty(RequestPropertyNames.BuildNumberName, buildNumber),
+                new InjectProperty(RequestPropertyNames.LabelName, label));
         }
     }
 }

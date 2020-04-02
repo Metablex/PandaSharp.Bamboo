@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using PandaSharp.Bamboo.Services.Common.Response;
 using PandaSharp.Bamboo.Services.Common.Response.Converter;
 using PandaSharp.Bamboo.Services.Plan.Response;
 

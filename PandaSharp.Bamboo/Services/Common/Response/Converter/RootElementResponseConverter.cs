@@ -4,6 +4,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PandaSharp.Bamboo.Attributes;
+using PandaSharp.Bamboo.Utils;
 
 namespace PandaSharp.Bamboo.Services.Common.Response.Converter
 {
@@ -59,7 +60,7 @@ namespace PandaSharp.Bamboo.Services.Common.Response.Converter
 
         private string GetElementPath(string element)
         {
-            return string.IsNullOrEmpty(_rootElement)
+            return _rootElement.IsNullOrEmpty()
                 ? element
                 : $"{_rootElement}.{element}";
         }

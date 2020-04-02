@@ -12,7 +12,7 @@ namespace PandaSharp.Bamboo.Test.Services.Users.Factory
         [Test]
         public void GetCurrentUserTest()
         {
-            SetupRequestRegistration<ICurrentUserRequest>(parameters => parameters.ShouldBeEmpty());
+            SetupRequestRegistration<IGetCurrentUserRequest>(parameters => parameters.ShouldBeEmpty());
 
             var factory = new UsersRequestBuilderFactory(Container.Object);
             var request = factory.GetCurrentUser();

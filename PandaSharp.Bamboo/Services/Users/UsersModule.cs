@@ -12,8 +12,8 @@ namespace PandaSharp.Bamboo.Services.Users
         public override void RegisterModule(IPandaContainer container, PandaContainerContext context)
         {
             container
-                .RequestRegistrationFor<ICurrentUserRequest>()
-                .LatestRequest<CurrentUserRequest>()
+                .RequestRegistrationFor<IGetCurrentUserRequest>()
+                .LatestRequest<GetCurrentUserRequest>()
                 .Register(context);
 
             container.RegisterType<IUsersRequestBuilderFactory, UsersRequestBuilderFactory>();

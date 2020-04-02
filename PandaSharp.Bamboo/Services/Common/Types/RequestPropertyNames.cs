@@ -9,5 +9,6 @@ namespace PandaSharp.Bamboo.Services.Common.Types
         public const string BranchName = "BranchName";
         public const string LabelName = "LabelName";
         public const string SetFavouriteName = "SetFavourite";
+        public const string Comment = "Comment";
     }
 }

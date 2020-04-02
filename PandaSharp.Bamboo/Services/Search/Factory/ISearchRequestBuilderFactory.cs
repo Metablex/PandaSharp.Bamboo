@@ -4,6 +4,6 @@ namespace PandaSharp.Bamboo.Services.Search.Factory
 {
     public interface ISearchRequestBuilderFactory
     {
-        IPlanSearchRequest ForPlans();
+        ISearchForPlansRequest SearchForPlans();
     }
 }

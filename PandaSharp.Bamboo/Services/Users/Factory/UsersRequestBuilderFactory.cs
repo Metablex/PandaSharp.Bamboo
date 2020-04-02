@@ -12,9 +12,9 @@ namespace PandaSharp.Bamboo.Services.Users.Factory
             _container = container;
         }
 
-        public ICurrentUserRequest GetCurrentUser()
+        public IGetCurrentUserRequest GetCurrentUser()
         {
-            return _container.Resolve<ICurrentUserRequest>();
+            return _container.Resolve<IGetCurrentUserRequest>();
         }
     }
 }

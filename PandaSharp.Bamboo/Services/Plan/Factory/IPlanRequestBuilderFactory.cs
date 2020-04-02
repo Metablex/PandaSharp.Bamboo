@@ -4,19 +4,19 @@ namespace PandaSharp.Bamboo.Services.Plan.Factory
 {
     public interface IPlanRequestBuilderFactory
     {
-        IAllPlansRequest AllPlans();
+        IGetAllPlansRequest GetAllPlans();
 
-        IInformationOfPlanRequest InformationOf(string projectKey, string planKey);
+        IGetInformationOfPlanRequest GetInformationOf(string projectKey, string planKey);
 
-        IBranchesOfPlanRequest BranchesOf(string projectKey, string planKey);
+        IGetBranchesOfPlanRequest GetBranchesOf(string projectKey, string planKey);
 
-        IArtifactsOfPlanRequest ArtifactsOf(string projectKey, string planKey);
+        IGetArtifactsOfPlanRequest GetArtifactsOf(string projectKey, string planKey);
 
-        ILabelsOfPlanRequest LabelsOf(string projectKey, string planKey);
+        IGetLabelsOfPlanRequest GetLabelsOf(string projectKey, string planKey);
 
-        IVcsBranchesOfPlanRequest VcsBranchesOf(string projectKey, string planKey);
+        IGetVcsBranchesOfPlanRequest GetVcsBranchesOf(string projectKey, string planKey);
 
-        ILabelsOfPlanRequest AddLabelToPlan(string projectKey, string planKey, string labelName);
+        IAddLabelToPlanCommand AddLabelToPlan(string projectKey, string planKey, string labelName);
 
         IDeleteLabelOfPlanCommand DeleteLabelOfPlan(string projectKey, string planKey, string labelName);
 

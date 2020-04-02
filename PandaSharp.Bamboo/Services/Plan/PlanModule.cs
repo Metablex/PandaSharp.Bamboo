@@ -14,23 +14,23 @@ namespace PandaSharp.Bamboo.Services.Plan
         public override void RegisterModule(IPandaContainer container, PandaContainerContext context)
         {
             container
-                .RequestRegistrationFor<IAllPlansRequest>()
-                .LatestRequest<AllPlansRequest>()
+                .RequestRegistrationFor<IGetAllPlansRequest>()
+                .LatestRequest<GetAllPlansRequest>()
                 .Register(context);
 
             container
-                .RequestRegistrationFor<IInformationOfPlanRequest>()
-                .LatestRequest<InformationOfPlanRequest>()
+                .RequestRegistrationFor<IGetInformationOfPlanRequest>()
+                .LatestRequest<GetInformationOfPlanRequest>()
                 .Register(context);
 
             container
-                .RequestRegistrationFor<IBranchesOfPlanRequest>()
-                .LatestRequest<BranchesOfPlanRequest>()
+                .RequestRegistrationFor<IGetBranchesOfPlanRequest>()
+                .LatestRequest<GetBranchesOfPlanRequest>()
                 .Register(context);
 
             container
-                .RequestRegistrationFor<IArtifactsOfPlanRequest>()
-                .LatestRequest<ArtifactsOfPlanRequest>()
+                .RequestRegistrationFor<IGetArtifactsOfPlanRequest>()
+                .LatestRequest<GetArtifactsOfPlanRequest>()
                 .Register(context);
 
             container
@@ -49,8 +49,13 @@ namespace PandaSharp.Bamboo.Services.Plan
                 .Register(context);
 
             container
-                .RequestRegistrationFor<ILabelsOfPlanRequest>()
-                .LatestRequest<LabelsOfPlanRequest>()
+                .RequestRegistrationFor<IGetLabelsOfPlanRequest>()
+                .LatestRequest<GetLabelsOfPlanRequest>()
+                .Register(context);
+
+            container
+                .RequestRegistrationFor<IAddLabelToPlanCommand>()
+                .LatestRequest<AddLabelToPlanCommand>()
                 .Register(context);
 
             container
@@ -59,8 +64,8 @@ namespace PandaSharp.Bamboo.Services.Plan
                 .Register(context);
 
             container
-                .RequestRegistrationFor<IVcsBranchesOfPlanRequest>()
-                .LatestRequest<VcsBranchesOfPlanRequest>()
+                .RequestRegistrationFor<IGetVcsBranchesOfPlanRequest>()
+                .LatestRequest<GetVcsBranchesOfPlanRequest>()
                 .Register(context);
 
             container

@@ -4,6 +4,6 @@ namespace PandaSharp.Bamboo.Services.Users.Factory
 {
     public interface IUsersRequestBuilderFactory
     {
-        ICurrentUserRequest GetCurrentUser();
+        IGetCurrentUserRequest GetCurrentUser();
     }
 }

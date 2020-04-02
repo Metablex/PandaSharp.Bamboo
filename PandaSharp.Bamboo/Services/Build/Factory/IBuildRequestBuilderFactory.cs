@@ -4,16 +4,22 @@ namespace PandaSharp.Bamboo.Services.Build.Factory
 {
     public interface IBuildRequestBuilderFactory
     {
-        IMultipleBuildsRequest AllBuilds();
+        IGetBuildsOfPlanRequest GetAllBuilds();
 
-        IMultipleBuildsRequest BuildsOfPlan(string projectKey, string planKey);
+        IGetBuildsOfPlanRequest GetBuildsOfPlan(string projectKey, string planKey);
 
-        ISingleBuildRequest InformationOfBuild(string projectKey, string planKey, uint buildNumber);
+        IGetInformationOfBuildRequest GetInformationOfBuild(string projectKey, string planKey, uint buildNumber);
 
-        ISingleBuildRequest InformationOfLatestBuild(string projectKey, string planKey);
+        IGetInformationOfBuildRequest GetInformationOfLatestBuild(string projectKey, string planKey);
 
-        ICommentsOfBuildRequest CommentsOfBuild(string projectKey, string planKey, uint buildNumber);
+        IGetCommentsOfBuildRequest GetCommentsOfBuild(string projectKey, string planKey, uint buildNumber);
 
-        ILabelsOfBuildRequest LabelsOfBuild(string projectKey, string planKey, uint buildNumber);
+        IAddCommentToBuildCommand AddCommentToBuild(string projectKey, string planKey, uint buildNumber, string comment);
+
+        IGetLabelsOfBuildRequest GetLabelsOfBuild(string projectKey, string planKey, uint buildNumber);
+
+        IAddLabelToBuildCommand AddLabelToBuild(string projectKey, string planKey, uint buildNumber, string label);
+
+        IDeleteLabelOfBuildCommand DeleteLabelOfBuild(string projectKey, string planKey, uint buildNumber, string label);
     }
 }
