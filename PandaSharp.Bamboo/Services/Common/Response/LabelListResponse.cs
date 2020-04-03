@@ -5,8 +5,8 @@ using PandaSharp.Bamboo.Services.Common.Response.Converter;
 namespace PandaSharp.Bamboo.Services.Common.Response
 {
     [JsonConverter(typeof(RootElementResponseConverter<LabelListResponse, LabelResponse>))]
-    [JsonItems("label")]
-    [JsonRootElement("labels")]
+    [JsonRootElementPath("labels")]
+    [JsonListContentPath("labels.label.[*]")]
     public sealed class LabelListResponse : ListResponseBase<LabelResponse>
     {
     }

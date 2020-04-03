@@ -20,10 +20,10 @@ namespace PandaSharp.Bamboo.Test.Framework.Services.Response
             converterAttribute.ShouldNotBeNull();
             InheritsFrom(converterAttribute.ConverterType, typeof(JsonConverter<T>)).ShouldBeTrue();
 
-            responseType.GetCustomAttribute<JsonItemsAttribute>().ShouldNotBeNull();
+            responseType.GetCustomAttribute<JsonListContentPathAttribute>().ShouldNotBeNull();
         }
 
-        private bool InheritsFrom(Type type, Type baseType)
+        private static bool InheritsFrom(Type type, Type baseType)
         {
             var nextBaseType = type.BaseType;
             while (nextBaseType != null)

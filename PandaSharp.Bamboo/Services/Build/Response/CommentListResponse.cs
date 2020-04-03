@@ -6,8 +6,8 @@ using PandaSharp.Bamboo.Services.Common.Response.Converter;
 namespace PandaSharp.Bamboo.Services.Build.Response
 {
     [JsonConverter(typeof(RootElementResponseConverter<CommentListResponse, CommentResponse>))]
-    [JsonItems("comment")]
-    [JsonRootElement("comments")]
+    [JsonRootElementPath("comments")]
+    [JsonListContentPath("comments.comment.[*]")]
     public sealed class CommentListResponse : ListResponseBase<CommentResponse>
     {
     }

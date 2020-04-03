@@ -6,8 +6,8 @@ using PandaSharp.Bamboo.Services.Common.Response.Converter;
 namespace PandaSharp.Bamboo.Services.Plan.Response
 {
     [JsonConverter(typeof(RootElementResponseConverter<ArtifactListResponse, ArtifactResponse>))]
-    [JsonItems("artifact")]
-    [JsonRootElement("artifacts")]
+    [JsonRootElementPath("artifacts")]
+    [JsonListContentPath("artifacts.artifact.[*]")]
     public sealed class ArtifactListResponse : ListResponseBase<ArtifactResponse>
     {
     }

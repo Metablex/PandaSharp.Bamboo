@@ -5,7 +5,7 @@ using PandaSharp.Bamboo.Test.Framework.Services.Response;
 namespace PandaSharp.Bamboo.Test.Services.Search.Response
 {
     [TestFixture]
-    public sealed class PlanSearchResultEntityResponseTest : ResponseTestBase<PlanSearchResultEntityResponse>
+    public sealed class PlanSearchResultEntityResponseTest : ResponseTestBase<PlanSearchResultResponse>
     {
     }
 }

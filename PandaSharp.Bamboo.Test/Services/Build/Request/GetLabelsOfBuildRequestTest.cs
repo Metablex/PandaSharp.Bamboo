@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Build.Request;
-using PandaSharp.Bamboo.Services.Build.Response;
+using PandaSharp.Bamboo.Services.Common.Response;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
 using RestSharp;
 using Shouldly;
