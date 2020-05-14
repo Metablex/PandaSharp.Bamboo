@@ -4,6 +4,7 @@ using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Services.Plan.Aspect;
+using PandaSharp.Bamboo.Services.Plan.Contract;
 using PandaSharp.Bamboo.Services.Plan.Request;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
 using RestSharp;
@@ -47,7 +48,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
             });
         }
 
-        private CreatePlanCommand CreateCommand()
+        private ICreatePlanCommand CreateCommand()
         {
             var request = CreateRequest();
             request.ProjectKey = ProjectKey;

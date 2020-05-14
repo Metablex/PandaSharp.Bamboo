@@ -82,15 +82,15 @@ namespace PandaSharp.Bamboo.Test.Services.Common.Response.Converter
             public string Name { get; set; }
         }
 
-        [JsonRootElement("plans")]
-        [JsonItems("plan")]
+        [JsonRootElementPath("plans")]
+        [JsonListContentPath("plans.plan.[*]")]
         private sealed class TestListResponse : ListResponseBase<TestResponse>
         {
             [JsonProperty("number")]
             public int Number { get; set; }
         }
 
-        [JsonItems("plans.plan")]
+        [JsonListContentPath("plans.plan.[*]")]
         private sealed class TestListNoRootResponse : ListResponseBase<TestResponse>
         {
         }

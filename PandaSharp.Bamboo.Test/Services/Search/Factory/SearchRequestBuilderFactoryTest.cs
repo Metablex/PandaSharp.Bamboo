@@ -10,12 +10,12 @@ namespace PandaSharp.Bamboo.Test.Services.Search.Factory
     internal sealed class SearchRequestBuilderFactoryTest : RequestBuilderFactoryTestBase
     {
         [Test]
-        public void ForPlansTest()
+        public void SearchForPlansTest()
         {
-            SetupRequestRegistration<IPlanSearchRequest>(parameters => parameters.ShouldBeEmpty());
+            SetupRequestRegistration<ISearchForPlansRequest>(parameters => parameters.ShouldBeEmpty());
 
             var factory = new SearchRequestBuilderFactory(Container.Object);
-            var request = factory.ForPlans();
+            var request = factory.SearchForPlans();
 
             request.ShouldNotBeNull();
 

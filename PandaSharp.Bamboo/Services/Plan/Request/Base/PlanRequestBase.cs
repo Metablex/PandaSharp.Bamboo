@@ -9,10 +9,10 @@ namespace PandaSharp.Bamboo.Services.Plan.Request.Base
     internal abstract class PlanRequestBase<T> : RequestBase<T>
         where T : class, new()
     {
-        [InjectedProperty(RequestPropertyNames.ProjectKeyName)]
+        [InjectedProperty(RequestPropertyNames.ProjectKey)]
         public string ProjectKey { get; set; }
 
-        [InjectedProperty(RequestPropertyNames.PlanKeyName)]
+        [InjectedProperty(RequestPropertyNames.PlanKey)]
         public string PlanKey { get; set; }
 
         protected PlanRequestBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)

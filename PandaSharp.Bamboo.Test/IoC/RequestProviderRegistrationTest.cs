@@ -3,6 +3,10 @@ using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.IoC;
 using PandaSharp.Bamboo.IoC.Contract;
+using PandaSharp.Bamboo.Rest.Contract;
+using PandaSharp.Bamboo.Services.Common.Aspect;
+using PandaSharp.Bamboo.Services.Common.Request;
+using RestSharp;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.IoC
@@ -72,15 +76,33 @@ namespace PandaSharp.Bamboo.Test.IoC
         {
         }
 
-        private class TestRequestA : ITestRequest
+        private class TestRequestBase : RestCommunicationBase, ITestRequest
+        {
+            protected TestRequestBase()
+                : base(new Mock<IRestFactory>().Object, new Mock<IRequestParameterAspectFactory>().Object)
+            {
+            }
+
+            protected override string GetResourcePath()
+            {
+                return "TestPath";
+            }
+
+            protected override Method GetRequestMethod()
+            {
+                return Method.GET;
+            }
+        }
+
+        private class TestRequestA : TestRequestBase
         {
         }
 
-        private class TestRequestB : ITestRequest
+        private class TestRequestB : TestRequestBase
         {
         }
 
-        private class TestRequestC : ITestRequest
+        private class TestRequestC : TestRequestBase
         {
         }
     }

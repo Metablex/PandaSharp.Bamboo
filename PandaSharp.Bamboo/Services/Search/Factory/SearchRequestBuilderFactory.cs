@@ -12,9 +12,9 @@ namespace PandaSharp.Bamboo.Services.Search.Factory
             _container = container;
         }
 
-        public IPlanSearchRequest ForPlans()
+        public ISearchForPlansRequest SearchForPlans()
         {
-            return _container.Resolve<IPlanSearchRequest>();
+            return _container.Resolve<ISearchForPlansRequest>();
         }
     }
 }

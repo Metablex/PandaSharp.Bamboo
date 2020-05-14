@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
+using PandaSharp.Bamboo.Services.Plan.Contract;
 using PandaSharp.Bamboo.Services.Plan.Request;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
 using RestSharp;
@@ -28,7 +29,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
             VerifyRestRequestCreation($"plan/{ProjectKey}-{PlanKey}/favourite", Method.DELETE);
         }
 
-        private FavouritePlanCommand CreateCommand(bool setFavourite)
+        private IFavouritePlanCommand CreateCommand(bool setFavourite)
         {
             var request = CreateRequest();
             request.ProjectKey = ProjectKey;

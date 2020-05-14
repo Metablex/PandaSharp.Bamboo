@@ -13,14 +13,16 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Factory
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
         private const uint BuildNumber = 42;
+        private const string Label = "BlackLabel";
+        private const string Comment = "Comment";
 
         [Test]
-        public void AllBuildsTest()
+        public void GetAllBuildsTest()
         {
-            SetupRequestRegistration<IMultipleBuildsRequest>(parameters => parameters.ShouldBeEmpty());
+            SetupRequestRegistration<IGetBuildsOfPlanRequest>(parameters => parameters.ShouldBeEmpty());
 
             var factory = new BuildRequestBuilderFactory(Container.Object);
-            var request = factory.AllBuilds();
+            var request = factory.GetAllBuilds();
 
             request.ShouldNotBeNull();
 
@@ -29,19 +31,19 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Factory
         }
 
         [Test]
-        public void BuildsOfPlanTest()
+        public void GetBuildsOfPlanTest()
         {
-            SetupRequestRegistration<IMultipleBuildsRequest>(
+            SetupRequestRegistration<IGetBuildsOfPlanRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
                 });
 
             var factory = new BuildRequestBuilderFactory(Container.Object);
-            var request = factory.BuildsOfPlan(ProjectKey, PlanKey);
+            var request = factory.GetBuildsOfPlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
@@ -50,20 +52,20 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Factory
         }
 
         [Test]
-        public void InformationOfBuildTest()
+        public void GetInformationOfBuildTest()
         {
-            SetupRequestRegistration<ISingleBuildRequest>(
+            SetupRequestRegistration<IGetInformationOfBuildRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumberName, BuildNumber);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, BuildNumber);
                 });
 
             var factory = new BuildRequestBuilderFactory(Container.Object);
-            var request = factory.InformationOfBuild(ProjectKey, PlanKey, BuildNumber);
+            var request = factory.GetInformationOfBuild(ProjectKey, PlanKey, BuildNumber);
 
             request.ShouldNotBeNull();
 
@@ -72,20 +74,20 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Factory
         }
 
         [Test]
-        public void InformationOfLatestBuildTest()
+        public void GetInformationOfLatestBuildTest()
         {
-            SetupRequestRegistration<ISingleBuildRequest>(
+            SetupRequestRegistration<IGetInformationOfBuildRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumberName, "latest");
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, "latest");
                 });
 
             var factory = new BuildRequestBuilderFactory(Container.Object);
-            var request = factory.InformationOfLatestBuild(ProjectKey, PlanKey);
+            var request = factory.GetInformationOfLatestBuild(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
@@ -94,20 +96,20 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Factory
         }
 
         [Test]
-        public void CommentsOfBuildTest()
+        public void GetCommentsOfBuildTest()
         {
-            SetupRequestRegistration<ICommentsOfBuildRequest>(
+            SetupRequestRegistration<IGetCommentsOfBuildRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumberName, BuildNumber);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, BuildNumber);
                 });
 
             var factory = new BuildRequestBuilderFactory(Container.Object);
-            var request = factory.CommentsOfBuild(ProjectKey, PlanKey, BuildNumber);
+            var request = factory.GetCommentsOfBuild(ProjectKey, PlanKey, BuildNumber);
 
             request.ShouldNotBeNull();
 
@@ -116,20 +118,89 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Factory
         }
 
         [Test]
-        public void LabelsOfBuildTest()
+        public void GetLabelsOfBuildTest()
         {
-            SetupRequestRegistration<ILabelsOfBuildRequest>(
+            SetupRequestRegistration<IGetLabelsOfBuildRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumberName, BuildNumber);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, BuildNumber);
                 });
 
             var factory = new BuildRequestBuilderFactory(Container.Object);
-            var request = factory.LabelsOfBuild(ProjectKey, PlanKey, BuildNumber);
+            var request = factory.GetLabelsOfBuild(ProjectKey, PlanKey, BuildNumber);
+
+            request.ShouldNotBeNull();
+
+            Container.Verify();
+            Container.VerifyNoOtherCalls();
+        }
+
+        [Test]
+        public void AddCommentToBuildTest()
+        {
+            SetupRequestRegistration<IAddCommentToBuildCommand>(
+                parameters =>
+                {
+                    parameters.Length.ShouldBe(4);
+
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, BuildNumber);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.Comment, Comment);
+                });
+
+            var factory = new BuildRequestBuilderFactory(Container.Object);
+            var request = factory.AddCommentToBuild(ProjectKey, PlanKey, BuildNumber, Comment);
+
+            request.ShouldNotBeNull();
+
+            Container.Verify();
+            Container.VerifyNoOtherCalls();
+        }
+
+        [Test]
+        public void AddLabelToBuildTest()
+        {
+            SetupRequestRegistration<IAddLabelToBuildCommand>(
+                parameters =>
+                {
+                    parameters.Length.ShouldBe(4);
+
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, BuildNumber);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.Label, Label);
+                });
+
+            var factory = new BuildRequestBuilderFactory(Container.Object);
+            var request = factory.AddLabelToBuild(ProjectKey, PlanKey, BuildNumber, Label);
+
+            request.ShouldNotBeNull();
+
+            Container.Verify();
+            Container.VerifyNoOtherCalls();
+        }
+
+        [Test]
+        public void DeleteLabelOfBuildTest()
+        {
+            SetupRequestRegistration<IDeleteLabelOfBuildCommand>(
+                parameters =>
+                {
+                    parameters.Length.ShouldBe(4);
+
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, BuildNumber);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.Label, Label);
+                });
+
+            var factory = new BuildRequestBuilderFactory(Container.Object);
+            var request = factory.DeleteLabelOfBuild(ProjectKey, PlanKey, BuildNumber, Label);
 
             request.ShouldNotBeNull();
 

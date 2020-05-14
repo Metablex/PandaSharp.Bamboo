@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
+using PandaSharp.Bamboo.Services.Plan.Contract;
 using PandaSharp.Bamboo.Services.Plan.Request;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
 using RestSharp;
@@ -19,7 +20,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
             VerifyRestRequestCreation($"plan/{ProjectKey}-{PlanKey}", Method.DELETE);
         }
 
-        private DeletePlanCommand CreateCommand()
+        private IDeletePlanCommand CreateCommand()
         {
             var request = CreateRequest();
             request.ProjectKey = ProjectKey;

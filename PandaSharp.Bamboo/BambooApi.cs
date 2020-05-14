@@ -4,6 +4,7 @@ using PandaSharp.Bamboo.IoC.Contract;
 using PandaSharp.Bamboo.Rest.Contract;
 using PandaSharp.Bamboo.Services.Build.Factory;
 using PandaSharp.Bamboo.Services.Plan.Factory;
+using PandaSharp.Bamboo.Services.Project.Factory;
 using PandaSharp.Bamboo.Services.Search.Factory;
 using PandaSharp.Bamboo.Services.Users.Factory;
 using PandaSharp.Bamboo.Utils;
@@ -13,6 +14,8 @@ namespace PandaSharp.Bamboo
     public sealed class BambooApi
     {
         private readonly Lazy<IPandaContainer> _container;
+
+        public IProjectRequestBuilderFactory ProjectRequest => _container.Value.Resolve<IProjectRequestBuilderFactory>();
 
         public IPlanRequestBuilderFactory PlanRequest => _container.Value.Resolve<IPlanRequestBuilderFactory>();
 

@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>0.0.0.1</Version>
+    <Version>1.0.0</Version>
     <Company />
     <Authors>Tom Birras</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>C# wrapper for Atlassian Bamboo</Description>
     <PackageProjectUrl>https://github.com/Metablex/PandaSharp</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

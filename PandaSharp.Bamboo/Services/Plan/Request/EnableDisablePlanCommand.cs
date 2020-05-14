@@ -10,7 +10,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
 {
     internal sealed class EnableDisablePlanCommand : PlanCommandBase, IEnableDisablePlanCommand
     {
-        [InjectedProperty(RequestPropertyNames.SetEnabledName)]
+        [InjectedProperty(RequestPropertyNames.SetEnabled)]
         public bool SetEnabled { get; set; }
 
         public EnableDisablePlanCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)

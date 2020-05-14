@@ -13,11 +13,11 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Aspect
         {
             var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
             requestMock
-                .Setup(i => i.AddParameter("enabledOnly", true))
+                .Setup(i => i.AddParameter("enabledOnly", null))
                 .Returns(requestMock.Object)
                 .Verifiable();
 
-            var aspect = new BranchesOfPlanParameterAspect
+            var aspect = new GetBranchesOfPlanParameterAspect
             {
                 OnlyEnabledBranches = true
             };
@@ -31,12 +31,8 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Aspect
         public void DefaultParameterAspectTest()
         {
             var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
-            requestMock
-                .Setup(i => i.AddParameter("enabledOnly", false))
-                .Returns(requestMock.Object)
-                .Verifiable();
 
-            var aspect = new BranchesOfPlanParameterAspect();
+            var aspect = new GetBranchesOfPlanParameterAspect();
             aspect.ApplyToRestRequest(requestMock.Object);
 
             requestMock.Verify();

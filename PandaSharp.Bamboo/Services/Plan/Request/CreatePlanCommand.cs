@@ -12,7 +12,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
     [SupportsParameterAspect(typeof(ICreatePlanParameterAspect))]
     internal sealed class CreatePlanCommand : PlanCommandBase, ICreatePlanCommand
     {
-        [InjectedProperty(RequestPropertyNames.BranchName)]
+        [InjectedProperty(RequestPropertyNames.Branch)]
         public string BranchName { get; set; }
 
         public CreatePlanCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)

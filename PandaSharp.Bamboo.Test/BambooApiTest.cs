@@ -15,6 +15,7 @@ namespace PandaSharp.Bamboo.Test
             bambooApi.PlanRequest.ShouldNotBeNull();
             bambooApi.SearchRequest.ShouldNotBeNull();
             bambooApi.UsersRequest.ShouldNotBeNull();
+            bambooApi.ProjectRequest.ShouldNotBeNull();
         }
     }
 }

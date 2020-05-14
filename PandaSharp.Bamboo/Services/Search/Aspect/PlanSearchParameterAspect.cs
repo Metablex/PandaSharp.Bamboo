@@ -1,4 +1,5 @@
 using PandaSharp.Bamboo.Services.Common.Aspect;
+using PandaSharp.Bamboo.Utils;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Search.Aspect
@@ -11,7 +12,7 @@ namespace PandaSharp.Bamboo.Services.Search.Aspect
 
         public override void ApplyToRestRequest(IRestRequest restRequest)
         {
-            if (!string.IsNullOrEmpty(SearchTerm))
+            if (!SearchTerm.IsNullOrEmpty())
             {
                 restRequest.AddParameter("searchTerm", SearchTerm);
             }

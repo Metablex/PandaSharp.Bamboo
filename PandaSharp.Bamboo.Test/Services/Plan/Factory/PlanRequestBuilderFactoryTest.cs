@@ -15,12 +15,12 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
         private const string ProjectKey = "ProjectX";
 
         [Test]
-        public void AllPlansTest()
+        public void GetAllPlansTest()
         {
-            SetupRequestRegistration<IAllPlansRequest>(parameters => parameters.ShouldBeEmpty());
+            SetupRequestRegistration<IGetAllPlansRequest>(parameters => parameters.ShouldBeEmpty());
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
-            var request = factory.AllPlans();
+            var request = factory.GetAllPlans();
 
             request.ShouldNotBeNull();
 
@@ -29,19 +29,19 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
         }
 
         [Test]
-        public void InformationOfTest()
+        public void GetInformationOfTest()
         {
-            SetupRequestRegistration<IInformationOfPlanRequest>(
+            SetupRequestRegistration<IGetInformationOfPlanRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
-            var request = factory.InformationOf(ProjectKey, PlanKey);
+            var request = factory.GetInformationOf(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
@@ -50,19 +50,19 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
         }
 
         [Test]
-        public void BranchesOfTest()
+        public void GetBranchesOfTest()
         {
-            SetupRequestRegistration<IBranchesOfPlanRequest>(
+            SetupRequestRegistration<IGetBranchesOfPlanRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
-            var request = factory.BranchesOf(ProjectKey, PlanKey);
+            var request = factory.GetBranchesOf(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
@@ -71,19 +71,19 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
         }
 
         [Test]
-        public void ArtifactsOfTest()
+        public void GetArtifactsOfTest()
         {
-            SetupRequestRegistration<IArtifactsOfPlanRequest>(
+            SetupRequestRegistration<IGetArtifactsOfPlanRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
-            var request = factory.ArtifactsOf(ProjectKey, PlanKey);
+            var request = factory.GetArtifactsOf(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
@@ -92,19 +92,19 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
         }
 
         [Test]
-        public void LabelsOfTest()
+        public void GetLabelsOfTest()
         {
-            SetupRequestRegistration<ILabelsOfPlanRequest>(
+            SetupRequestRegistration<IGetLabelsOfPlanRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
-            var request = factory.LabelsOf(ProjectKey, PlanKey);
+            var request = factory.GetLabelsOf(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
@@ -113,19 +113,19 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
         }
 
         [Test]
-        public void VcsBranchesOfTest()
+        public void GetVcsBranchesOfTest()
         {
-            SetupRequestRegistration<IVcsBranchesOfPlanRequest>(
+            SetupRequestRegistration<IGetVcsBranchesOfPlanRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
-            var request = factory.VcsBranchesOf(ProjectKey, PlanKey);
+            var request = factory.GetVcsBranchesOf(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
@@ -136,14 +136,14 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
         [Test]
         public void AddLabelToPlanTest()
         {
-            SetupRequestRegistration<ILabelsOfPlanRequest>(
+            SetupRequestRegistration<IAddLabelToPlanCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.LabelName, "LabelMe");
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.Label, "LabelMe");
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
@@ -163,9 +163,9 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
                 {
                     parameters.Length.ShouldBe(3);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.LabelName, "LabelMe");
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.Label, "LabelMe");
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
@@ -185,9 +185,9 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
                 {
                     parameters.Length.ShouldBe(3);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.SetEnabledName, true);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.SetEnabled, true);
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
@@ -207,9 +207,9 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
                 {
                     parameters.Length.ShouldBe(3);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.SetEnabledName, false);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.SetEnabled, false);
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
@@ -229,8 +229,8 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
                 {
                     parameters.Length.ShouldBe(2);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
@@ -250,9 +250,9 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
                 {
                     parameters.Length.ShouldBe(3);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BranchName, "BranchTest");
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.Branch, "BranchTest");
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
@@ -274,9 +274,9 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
                 {
                     parameters.Length.ShouldBe(3);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.SetFavouriteName, true);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.SetFavourite, true);
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
@@ -296,9 +296,9 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
                 {
                     parameters.Length.ShouldBe(3);
 
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKeyName, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKeyName, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.SetFavouriteName, false);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.SetFavourite, false);
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);

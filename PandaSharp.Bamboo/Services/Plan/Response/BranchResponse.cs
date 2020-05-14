@@ -5,16 +5,10 @@ namespace PandaSharp.Bamboo.Services.Plan.Response
     public sealed class BranchResponse
     {
         [JsonProperty("shortName")]
-        public string ShortName { get; set; }
+        public string BranchName { get; set; }
 
         [JsonProperty("shortKey")]
-        public string ShortKey { get; set; }
-
-        [JsonProperty("name")]
-        public string LongName { get; set; }
-
-        [JsonProperty("key")]
-        public string LongKey { get; set; }
+        public string BranchKey { get; set; }
 
         [JsonProperty("enabled")]
         public bool IsEnabled { get; set; }

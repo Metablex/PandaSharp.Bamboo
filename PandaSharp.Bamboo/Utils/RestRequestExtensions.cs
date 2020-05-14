@@ -24,7 +24,7 @@ namespace PandaSharp.Bamboo.Utils
             }
 
             var validValues = values
-                .Where(value => !string.IsNullOrEmpty(value))
+                .Where(value => !value.IsNullOrEmpty())
                 .ToArray();
 
             if (validValues.Length > 0)

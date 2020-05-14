@@ -12,17 +12,11 @@ namespace PandaSharp.Bamboo.Services.Plan.Response
         [JsonProperty("projectName")]
         public string ProjectName { get; set; }
 
-        [JsonProperty("name")]
-        public string LongPlanName { get; set; }
-
         [JsonProperty("shortName")]
-        public string ShortPlanName { get; set; }
-
-        [JsonProperty("key")]
-        public string LongPlanKey { get; set; }
+        public string PlanName { get; set; }
 
         [JsonProperty("shortKey")]
-        public string ShortPlanKey { get; set; }
+        public string PlanKey { get; set; }
 
         [JsonProperty("enabled")]
         public bool IsEnabled { get; set; }

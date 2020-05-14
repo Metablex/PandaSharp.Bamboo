@@ -5,6 +5,6 @@ namespace PandaSharp.Bamboo.Services.Common.Response
     public sealed class LabelResponse
     {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Label { get; set; }
     }
 }

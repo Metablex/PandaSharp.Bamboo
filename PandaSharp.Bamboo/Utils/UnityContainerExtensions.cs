@@ -14,7 +14,7 @@ namespace PandaSharp.Bamboo.Utils
     {
         public static void RegisterPandaModules(this IPandaContainer container, Action onAfterCoreModulesRegistered = null)
         {
-            var coreModules = GetAllDerivedClassesOf<PandaModuleBase>();
+            var coreModules = GetAllImplementationsOf<IPandaCoreModule>();
             foreach (var coreModule in coreModules)
             {
                 coreModule.RegisterModule(container);
@@ -23,7 +23,7 @@ namespace PandaSharp.Bamboo.Utils
             onAfterCoreModulesRegistered?.Invoke();
 
             var context = GetPandaContainerContext(container);
-            var contextBasedModules = GetAllDerivedClassesOf<PandaContextModuleBase>();
+            var contextBasedModules = GetAllImplementationsOf<IPandaContextModule>();
             foreach (var contextBasedModule in contextBasedModules)
             {
                 contextBasedModule.RegisterModule(container, context);
@@ -67,12 +67,12 @@ namespace PandaSharp.Bamboo.Utils
             }
         }
 
-        private static IEnumerable<T> GetAllDerivedClassesOf<T>()
+        private static IEnumerable<T> GetAllImplementationsOf<T>()
         {
             return typeof(T)
                 .Assembly
                 .GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(T)))
+                .Where(t => t.IsClass && t.GetInterfaces().Contains(typeof(T)))
                 .Select(Activator.CreateInstance)
                 .OfType<T>();
         }

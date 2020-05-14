@@ -9,14 +9,14 @@ namespace PandaSharp.Bamboo.Services.Build.Request.Base
     internal abstract class BuildRequestBase<T> : RequestBase<T>
         where T : class, new()
     {
-        [InjectedProperty(RequestPropertyNames.ProjectKeyName)]
+        [InjectedProperty(RequestPropertyNames.ProjectKey)]
         public string ProjectKey { get; set; }
 
-        [InjectedProperty(RequestPropertyNames.PlanKeyName)]
+        [InjectedProperty(RequestPropertyNames.PlanKey)]
         public string PlanKey { get; set; }
 
-        [InjectedProperty(RequestPropertyNames.BuildNumberName)]
-        public string BuildNumber { get; set; }
+        [InjectedProperty(RequestPropertyNames.BuildNumber)]
+        public uint BuildNumber { get; set; }
 
         protected BuildRequestBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
