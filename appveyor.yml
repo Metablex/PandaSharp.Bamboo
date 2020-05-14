@@ -21,9 +21,6 @@ for:
     only: 
       - master
 
-  environment:
-    nuget_version: 0.9.1
-
   dotnet_csproj:
     patch: true
     file: '**\*.csproj'
