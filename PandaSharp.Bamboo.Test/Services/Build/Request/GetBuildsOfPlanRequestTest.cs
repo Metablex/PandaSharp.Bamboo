@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Build.Aspect;
+using PandaSharp.Bamboo.Services.Build.Contract;
 using PandaSharp.Bamboo.Services.Build.Request;
 using PandaSharp.Bamboo.Services.Build.Response;
 using PandaSharp.Bamboo.Services.Build.Types;
@@ -151,7 +152,7 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Request
             });
         }
 
-        private GetBuildsOfPlanRequest CreateRequest(string projectKey = ProjectKey, string planKey = PlanKey)
+        private IGetBuildsOfPlanRequest CreateRequest(string projectKey = ProjectKey, string planKey = PlanKey)
         {
             var request = base.CreateRequest();
             request.ProjectKey = projectKey;

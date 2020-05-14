@@ -11,7 +11,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
 {
     internal  sealed class AddLabelToPlanCommand : PlanCommandBase, IAddLabelToPlanCommand
     {
-        [InjectedProperty(RequestPropertyNames.LabelName)]
+        [InjectedProperty(RequestPropertyNames.Label)]
         public string LabelName { get; set; }
 
         public AddLabelToPlanCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
@@ -31,8 +31,10 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
 
         protected override void ApplyToRestRequest(IRestRequest restRequest)
         {
-            var json = new JObject(
-                new JProperty("name", LabelName));
+            var json = new JObject
+            {
+                { "name", LabelName }
+            };
 
             restRequest.AddJsonBody(json);
         }

@@ -1,4 +1,5 @@
 using System;
+using PandaSharp.Bamboo.Services.Common.Request;
 
 namespace PandaSharp.Bamboo.IoC.Contract
 {
@@ -8,7 +9,7 @@ namespace PandaSharp.Bamboo.IoC.Contract
             where TInstance : T;
 
         IRequestProviderRegistration<T> LatestRequest<TInstance>()
-            where TInstance : T;
+            where TInstance : RestCommunicationBase, T;
 
         void Register(PandaContainerContext context);
     }

@@ -23,75 +23,75 @@ namespace PandaSharp.Bamboo.Services.Plan.Factory
         public IGetInformationOfPlanRequest GetInformationOf(string projectKey, string planKey)
         {
             return _container.Resolve<IGetInformationOfPlanRequest>(
-                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
+                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKey, planKey));
         }
 
         public IGetBranchesOfPlanRequest GetBranchesOf(string projectKey, string planKey)
         {
             return _container.Resolve<IGetBranchesOfPlanRequest>(
-                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
+                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKey, planKey));
         }
 
         public IGetArtifactsOfPlanRequest GetArtifactsOf(string projectKey, string planKey)
         {
             return _container.Resolve<IGetArtifactsOfPlanRequest>(
-                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
+                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKey, planKey));
         }
 
         public IGetLabelsOfPlanRequest GetLabelsOf(string projectKey, string planKey)
         {
             return _container.Resolve<IGetLabelsOfPlanRequest>(
-                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
+                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKey, planKey));
         }
 
         public IGetVcsBranchesOfPlanRequest GetVcsBranchesOf(string projectKey, string planKey)
         {
             return _container.Resolve<IGetVcsBranchesOfPlanRequest>(
-                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
+                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKey, planKey));
         }
 
         public IAddLabelToPlanCommand AddLabelToPlan(string projectKey, string planKey, string labelName)
         {
             return _container.Resolve<IAddLabelToPlanCommand>(
-                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
-                new InjectProperty(RequestPropertyNames.LabelName, labelName));
+                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
+                new InjectProperty(RequestPropertyNames.Label, labelName));
         }
 
         public IDeleteLabelOfPlanCommand DeleteLabelOfPlan(string projectKey, string planKey, string labelName)
         {
             return _container.Resolve<IDeleteLabelOfPlanCommand>(
-                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
-                new InjectProperty(RequestPropertyNames.LabelName, labelName));
+                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
+                new InjectProperty(RequestPropertyNames.Label, labelName));
         }
 
         public IEnableDisablePlanCommand EnablePlan(string projectKey, string planKey)
         {
             return _container.Resolve<IEnableDisablePlanCommand>(
-                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
-                new InjectProperty(RequestPropertyNames.SetEnabledName, true));
+                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
+                new InjectProperty(RequestPropertyNames.SetEnabled, true));
         }
 
         public IEnableDisablePlanCommand DisablePlan(string projectKey, string planKey)
         {
             return _container.Resolve<IEnableDisablePlanCommand>(
-                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
-                new InjectProperty(RequestPropertyNames.SetEnabledName, false));
+                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
+                new InjectProperty(RequestPropertyNames.SetEnabled, false));
         }
 
         public IDeletePlanCommand DeletePlan(string projectKey, string planKey)
         {
             return _container.Resolve<IDeletePlanCommand>(
-                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey));
+                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKey, planKey));
         }
 
         public ICreatePlanCommand CreateBranch(string projectKey, string planKey, string branchName)
@@ -102,25 +102,25 @@ namespace PandaSharp.Bamboo.Services.Plan.Factory
             }
 
             return _container.Resolve<ICreatePlanCommand>(
-                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
-                new InjectProperty(RequestPropertyNames.BranchName, branchName));
+                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
+                new InjectProperty(RequestPropertyNames.Branch, branchName));
         }
 
         public IFavouritePlanCommand FavouritePlan(string projectKey, string planKey)
         {
             return _container.Resolve<IFavouritePlanCommand>(
-                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
-                new InjectProperty(RequestPropertyNames.SetFavouriteName, true));
+                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
+                new InjectProperty(RequestPropertyNames.SetFavourite, true));
         }
 
         public IFavouritePlanCommand UnfavouritePlan(string projectKey, string planKey)
         {
             return _container.Resolve<IFavouritePlanCommand>(
-                new InjectProperty(RequestPropertyNames.ProjectKeyName, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKeyName, planKey),
-                new InjectProperty(RequestPropertyNames.SetFavouriteName, false));
+                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
+                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
+                new InjectProperty(RequestPropertyNames.SetFavourite, false));
         }
     }
 }

@@ -10,7 +10,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
 {
     internal sealed class DeleteLabelOfPlanCommand : PlanCommandBase, IDeleteLabelOfPlanCommand
     {
-        [InjectedProperty(RequestPropertyNames.LabelName)]
+        [InjectedProperty(RequestPropertyNames.Label)]
         public string LabelName { get; set; }
 
         public DeleteLabelOfPlanCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)

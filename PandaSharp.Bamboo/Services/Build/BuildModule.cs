@@ -9,9 +9,9 @@ using PandaSharp.Bamboo.Utils;
 
 namespace PandaSharp.Bamboo.Services.Build
 {
-    internal sealed class BuildModule : PandaContextModuleBase
+    internal sealed class BuildModule : IPandaContextModule
     {
-        public override void RegisterModule(IPandaContainer container, PandaContainerContext context)
+        public void RegisterModule(IPandaContainer container, PandaContainerContext context)
         {
             container
                 .RequestRegistrationFor<IGetBuildsOfPlanRequest>()

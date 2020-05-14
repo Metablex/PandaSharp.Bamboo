@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
+using PandaSharp.Bamboo.Services.Plan.Contract;
 using PandaSharp.Bamboo.Services.Plan.Request;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
 using RestSharp;
@@ -27,7 +28,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
             VerifyRestRequestCreation($"plan/{ProjectKey}-{PlanKey}/enable", Method.DELETE);
         }
 
-        private EnableDisablePlanCommand CreateCommand(bool setEnabled)
+        private IEnableDisablePlanCommand CreateCommand(bool setEnabled)
         {
             var request = CreateRequest();
             request.ProjectKey = ProjectKey;

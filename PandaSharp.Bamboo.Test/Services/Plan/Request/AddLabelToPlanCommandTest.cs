@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Moq;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using PandaSharp.Bamboo.Services.Plan.Contract;
 using PandaSharp.Bamboo.Services.Plan.Request;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
 using RestSharp;
@@ -36,7 +37,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
             VerifyRestRequestCreation($"plan/{ProjectKey}-{PlanKey}/label", Method.POST);
         }
 
-        private new AddLabelToPlanCommand CreateRequest()
+        private new IAddLabelToPlanCommand CreateRequest()
         {
             var request = base.CreateRequest();
             request.ProjectKey = ProjectKey;

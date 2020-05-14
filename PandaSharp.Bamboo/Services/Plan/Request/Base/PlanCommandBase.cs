@@ -8,10 +8,10 @@ namespace PandaSharp.Bamboo.Services.Plan.Request.Base
 {
     internal abstract class PlanCommandBase : CommandBase
     {
-        [InjectedProperty(RequestPropertyNames.ProjectKeyName)]
+        [InjectedProperty(RequestPropertyNames.ProjectKey)]
         public string ProjectKey { get; set; }
 
-        [InjectedProperty(RequestPropertyNames.PlanKeyName)]
+        [InjectedProperty(RequestPropertyNames.PlanKey)]
         public string PlanKey { get; set; }
 
         protected PlanCommandBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)

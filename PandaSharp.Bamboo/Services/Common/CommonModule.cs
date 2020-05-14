@@ -1,12 +1,11 @@
-using PandaSharp.Bamboo.IoC;
 using PandaSharp.Bamboo.IoC.Contract;
 using PandaSharp.Bamboo.Services.Common.Aspect;
 
-namespace PandaSharp.Bamboo.Services
+namespace PandaSharp.Bamboo.Services.Common
 {
-    internal sealed class ServicesModule : PandaModuleBase
+    internal sealed class CommonModule : IPandaCoreModule
     {
-        public override void RegisterModule(IPandaContainer container)
+        public void RegisterModule(IPandaContainer container)
         {
             container.RegisterType<IRequestParameterAspectFactory, RequestParameterAspectFactory>();
             container.RegisterType<IResultCountParameterAspect, ResultCountParameterAspect>();

@@ -3,7 +3,7 @@ using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Plan.Aspect
 {
-    internal sealed class BranchesOfPlanParameterAspect : RequestParameterAspectBase, IBranchesOfPlanParameterAspect
+    internal sealed class GetBranchesOfPlanParameterAspect : RequestParameterAspectBase, IGetBranchesOfPlanParameterAspect
     {
         public bool OnlyEnabledBranches { get; set; }
 

@@ -9,9 +9,9 @@ using PandaSharp.Bamboo.Utils;
 
 namespace PandaSharp.Bamboo.Services.Plan
 {
-    internal sealed class PlanModule : PandaContextModuleBase
+    internal sealed class PlanModule : IPandaContextModule
     {
-        public override void RegisterModule(IPandaContainer container, PandaContainerContext context)
+        public void RegisterModule(IPandaContainer container, PandaContainerContext context)
         {
             container
                 .RequestRegistrationFor<IGetAllPlansRequest>()
@@ -73,7 +73,7 @@ namespace PandaSharp.Bamboo.Services.Plan
                 .LatestRequest<FavouritePlanCommand>()
                 .Register(context);
 
-            container.RegisterType<IBranchesOfPlanParameterAspect, BranchesOfPlanParameterAspect>();
+            container.RegisterType<IGetBranchesOfPlanParameterAspect, GetBranchesOfPlanParameterAspect>();
             container.RegisterType<ICreatePlanParameterAspect, CreatePlanParameterAspect>();
             container.RegisterExpandStateParameterAspect<PlanExpandState>();
             container.RegisterExpandStateParameterAspect<PlansExpandState>();

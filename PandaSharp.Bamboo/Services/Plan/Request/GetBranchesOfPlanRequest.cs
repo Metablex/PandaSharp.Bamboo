@@ -10,7 +10,7 @@ using RestSharp;
 namespace PandaSharp.Bamboo.Services.Plan.Request
 {
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
-    [SupportsParameterAspect(typeof(IBranchesOfPlanParameterAspect))]
+    [SupportsParameterAspect(typeof(IGetBranchesOfPlanParameterAspect))]
     internal sealed class GetBranchesOfPlanRequest : PlanRequestBase<BranchListResponse>, IGetBranchesOfPlanRequest
     {
         public GetBranchesOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
@@ -32,7 +32,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
 
         public IGetBranchesOfPlanRequest OnlyEnabledBranches()
         {
-            GetAspect<IBranchesOfPlanParameterAspect>().OnlyEnabledBranches = true;
+            GetAspect<IGetBranchesOfPlanParameterAspect>().OnlyEnabledBranches = true;
             return this;
         }
 

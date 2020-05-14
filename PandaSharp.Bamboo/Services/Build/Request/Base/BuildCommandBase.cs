@@ -8,13 +8,13 @@ namespace PandaSharp.Bamboo.Services.Build.Request.Base
 {
     internal abstract class BuildCommandBase : CommandBase
     {
-        [InjectedProperty(RequestPropertyNames.ProjectKeyName)]
+        [InjectedProperty(RequestPropertyNames.ProjectKey)]
         public string ProjectKey { get; set; }
 
-        [InjectedProperty(RequestPropertyNames.PlanKeyName)]
+        [InjectedProperty(RequestPropertyNames.PlanKey)]
         public string PlanKey { get; set; }
 
-        [InjectedProperty(RequestPropertyNames.BuildNumberName)]
+        [InjectedProperty(RequestPropertyNames.BuildNumber)]
         public uint BuildNumber { get; set; }
 
         protected BuildCommandBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)

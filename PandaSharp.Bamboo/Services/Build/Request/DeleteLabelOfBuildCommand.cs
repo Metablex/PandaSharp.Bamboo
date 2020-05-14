@@ -10,7 +10,7 @@ namespace PandaSharp.Bamboo.Services.Build.Request
 {
     internal sealed class DeleteLabelOfBuildCommand : BuildCommandBase, IDeleteLabelOfBuildCommand
     {
-        [InjectedProperty(RequestPropertyNames.LabelName)]
+        [InjectedProperty(RequestPropertyNames.Label)]
         public string Label { get; set; }
 
         public DeleteLabelOfBuildCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)

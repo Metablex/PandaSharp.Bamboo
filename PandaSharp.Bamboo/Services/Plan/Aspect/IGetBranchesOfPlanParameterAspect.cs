@@ -1,6 +1,6 @@
 namespace PandaSharp.Bamboo.Services.Plan.Aspect
 {
-    internal interface IBranchesOfPlanParameterAspect
+    internal interface IGetBranchesOfPlanParameterAspect
     {
         bool OnlyEnabledBranches { get; set; }
     }

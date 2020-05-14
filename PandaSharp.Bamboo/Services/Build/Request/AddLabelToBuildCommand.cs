@@ -11,7 +11,7 @@ namespace PandaSharp.Bamboo.Services.Build.Request
 {
     internal sealed class AddLabelToBuildCommand : BuildCommandBase, IAddLabelToBuildCommand
     {
-        [InjectedProperty(RequestPropertyNames.LabelName)]
+        [InjectedProperty(RequestPropertyNames.Label)]
         public string Label { get; set; }
 
         public AddLabelToBuildCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
@@ -31,8 +31,10 @@ namespace PandaSharp.Bamboo.Services.Build.Request
 
         protected override void ApplyToRestRequest(IRestRequest restRequest)
         {
-            var json = new JObject(
-                new JProperty("name", Label));
+            var json = new JObject
+            {
+                { "name", Label }
+            };
 
             restRequest.AddJsonBody(json);
         }

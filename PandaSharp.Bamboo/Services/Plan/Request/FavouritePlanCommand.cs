@@ -10,7 +10,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
 {
     internal sealed class FavouritePlanCommand : PlanCommandBase, IFavouritePlanCommand
     {
-        [InjectedProperty(RequestPropertyNames.SetFavouriteName)]
+        [InjectedProperty(RequestPropertyNames.SetFavourite)]
         public bool SetFavourite { get; set; }
 
         public FavouritePlanCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)

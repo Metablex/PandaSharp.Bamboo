@@ -31,8 +31,10 @@ namespace PandaSharp.Bamboo.Services.Build.Request
 
         protected override void ApplyToRestRequest(IRestRequest restRequest)
         {
-            var json = new JObject(
-                new JProperty("content", Comment));
+            var json = new JObject
+            {
+                { "content", Comment }
+            };
 
             restRequest.AddJsonBody(json);
         }

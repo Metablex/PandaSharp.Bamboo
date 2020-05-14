@@ -7,9 +7,9 @@ using PandaSharp.Bamboo.Utils;
 
 namespace PandaSharp.Bamboo.Services.Users
 {
-    internal sealed class UsersModule : PandaContextModuleBase
+    internal sealed class UsersModule : IPandaContextModule
     {
-        public override void RegisterModule(IPandaContainer container, PandaContainerContext context)
+        public void RegisterModule(IPandaContainer container, PandaContainerContext context)
         {
             container
                 .RequestRegistrationFor<IGetCurrentUserRequest>()

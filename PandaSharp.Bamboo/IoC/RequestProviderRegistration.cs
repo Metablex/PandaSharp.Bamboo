@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PandaSharp.Bamboo.IoC.Contract;
+using PandaSharp.Bamboo.Services.Common.Request;
 
 namespace PandaSharp.Bamboo.IoC
 {
@@ -31,7 +32,7 @@ namespace PandaSharp.Bamboo.IoC
         }
 
         public IRequestProviderRegistration<T> LatestRequest<TInstance>()
-            where TInstance : T
+            where TInstance : RestCommunicationBase, T
         {
             if (_latestRequestType != null)
             {

@@ -8,9 +8,9 @@ using PandaSharp.Bamboo.Utils;
 
 namespace PandaSharp.Bamboo.Services.Search
 {
-    internal sealed class SearchModule : PandaContextModuleBase
+    internal sealed class SearchModule : IPandaContextModule
     {
-        public override void RegisterModule(IPandaContainer container, PandaContainerContext context)
+        public void RegisterModule(IPandaContainer container, PandaContainerContext context)
         {
             container
                 .RequestRegistrationFor<ISearchForPlansRequest>()

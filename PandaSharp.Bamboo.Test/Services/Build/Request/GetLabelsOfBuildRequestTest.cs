@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
+using PandaSharp.Bamboo.Services.Build.Contract;
 using PandaSharp.Bamboo.Services.Build.Request;
 using PandaSharp.Bamboo.Services.Common.Response;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
@@ -24,7 +25,7 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Request
             VerifyRestRequestCreation($"result/{ProjectKey}-{PlanKey}-{BuildNumber}/label", Method.GET);
         }
 
-        private new GetLabelsOfBuildRequest CreateRequest()
+        private new IGetLabelsOfBuildRequest CreateRequest()
         {
             var request = base.CreateRequest();
             request.ProjectKey = ProjectKey;

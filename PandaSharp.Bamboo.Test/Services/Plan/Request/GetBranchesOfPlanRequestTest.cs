@@ -21,7 +21,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
         protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
         {
             yield return CreateParameterAspectMock<IResultCountParameterAspect>();
-            yield return CreateParameterAspectMock<IBranchesOfPlanParameterAspect>();
+            yield return CreateParameterAspectMock<IGetBranchesOfPlanParameterAspect>();
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
         {
             CreateRequest().OnlyEnabledBranches();
 
-            VerifyParameterAspectMock<IBranchesOfPlanParameterAspect>(aspect =>
+            VerifyParameterAspectMock<IGetBranchesOfPlanParameterAspect>(aspect =>
             {
                 aspect.OnlyEnabledBranches.ShouldBeTrue();
             });
