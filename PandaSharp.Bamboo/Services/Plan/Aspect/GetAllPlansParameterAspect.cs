@@ -3,9 +3,9 @@ using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Services.Plan.Expansion;
 using RestSharp;
 
-namespace PandaSharp.Bamboo.Services.Project.Aspect
+namespace PandaSharp.Bamboo.Services.Plan.Aspect
 {
-    internal sealed class GetInformationOfRequestAspect : RequestParameterAspectBase, IGetInformationOfRequestAspect
+    internal sealed class GetAllPlansParameterAspect : RequestParameterAspectBase, IGetAllPlansParameterAspect
     {
         private PlanListInformationExpansion _planListInformationExpansion;
 

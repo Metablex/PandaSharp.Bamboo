@@ -22,13 +22,13 @@ namespace PandaSharp.Bamboo.Services.Plan.Response
         public bool IsEnabled { get; set; }
 
         [JsonProperty("isFavourite")]
-        public bool? IsFavourite { get; set; }
+        public bool IsFavourite { get; set; }
 
         [JsonProperty("isActive")]
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         [JsonProperty("isBuilding")]
-        public bool? IsBuilding { get; set; }
+        public bool IsBuilding { get; set; }
 
         [JsonConverter(typeof(JsonListResponseConverter<ActionResponse>), "action")]
         [JsonProperty("actions")]

@@ -1,13 +1,15 @@
+using System;
 using PandaSharp.Bamboo.Services.Common.Aspect;
+using PandaSharp.Bamboo.Services.Plan.Expansion;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Project.Aspect
 {
     internal sealed class GetAllProjectsParameterAspect : RequestParameterAspectBase, IGetAllProjectsParameterAspect
     {
-        public bool IncludeEmptyProjects { get; set; }
+        private PlanListInformationExpansion _planListInformationExpansion;
 
-        public bool IncludePlanInformation { get; set; }
+        public bool IncludeEmptyProjects { get; set; }
 
         public override void ApplyToRestRequest(IRestRequest restRequest)
         {
@@ -16,13 +18,17 @@ namespace PandaSharp.Bamboo.Services.Project.Aspect
                 restRequest.AddParameter("showEmpty", null);
             }
 
-            var expandStateValue = "projects.project";
-            if (IncludePlanInformation)
-            {
-                expandStateValue += ".plans";
-            }
+            var expandState = _planListInformationExpansion?.ToString() ?? "projects.project";
+            restRequest.AddParameter("expand", expandState);
+        }
 
-            restRequest.AddParameter("expand", expandStateValue);
+        public void IncludePlanInformation(params Action<IPlanListInformationExpansion>[] expansions)
+        {
+            _planListInformationExpansion = new PlanListInformationExpansion("projects.project.plans.plan");
+            foreach (var expansion in expansions)
+            {
+                expansion(_planListInformationExpansion);
+            }
         }
     }
 }

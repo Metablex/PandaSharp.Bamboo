@@ -1,8 +1,10 @@
+using System;
 using PandaSharp.Bamboo.Attributes;
 using PandaSharp.Bamboo.Rest.Contract;
 using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Services.Common.Request;
 using PandaSharp.Bamboo.Services.Common.Types;
+using PandaSharp.Bamboo.Services.Plan.Expansion;
 using PandaSharp.Bamboo.Services.Project.Aspect;
 using PandaSharp.Bamboo.Services.Project.Contract;
 using PandaSharp.Bamboo.Services.Project.Response;
@@ -34,9 +36,9 @@ namespace PandaSharp.Bamboo.Services.Project.Request
             return this;
         }
 
-        public IGetInformationOfRequest IncludePlanInformation()
+        public IGetInformationOfRequest IncludePlanInformation(params Action<IPlanListInformationExpansion>[] expansions)
         {
-            GetAspect<IGetInformationOfRequestAspect>().IncludePlanInformation = true;
+            GetAspect<IGetInformationOfRequestAspect>().IncludePlanInformation(expansions);
             return this;
         }
 

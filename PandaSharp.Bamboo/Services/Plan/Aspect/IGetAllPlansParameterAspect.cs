@@ -1,12 +1,10 @@
 using System;
 using PandaSharp.Bamboo.Services.Plan.Expansion;
 
-namespace PandaSharp.Bamboo.Services.Project.Aspect
+namespace PandaSharp.Bamboo.Services.Plan.Aspect
 {
-    internal interface IGetAllProjectsParameterAspect
+    internal interface IGetAllPlansParameterAspect
     {
-        bool IncludeEmptyProjects { get; set; }
-
         void IncludePlanInformation(params Action<IPlanListInformationExpansion>[] expansions);
     }
 }

@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Common.Aspect;
+using PandaSharp.Bamboo.Services.Plan.Expansion;
 using PandaSharp.Bamboo.Services.Project.Aspect;
 using PandaSharp.Bamboo.Services.Project.Contract;
 using PandaSharp.Bamboo.Services.Project.Request;
@@ -18,10 +20,31 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
     {
         private const string ProjectKey = "ProjectX";
 
+        private Mock<IPlanListInformationExpansion> _expandState;
+
         protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
         {
-            yield return CreateParameterAspectMock<IGetInformationOfRequestAspect>();
+            yield return CreateParameterAspectMock<IGetInformationOfRequestAspect>(
+                aspect =>
+                {
+                    aspect
+                        .Setup(i => i.IncludePlanInformation(It.IsAny<Action<IPlanListInformationExpansion>[]>()))
+                        .Callback<Action<IPlanListInformationExpansion>[]>(
+                            expansions =>
+                            {
+                                foreach (var expansion in expansions)
+                                {
+                                    expansion(_expandState.Object);
+                                }
+                            });
+                });
+
             yield return CreateParameterAspectMock<IResultCountParameterAspect>();
+        }
+
+        protected override void SetupEachTest()
+        {
+            _expandState = new Mock<IPlanListInformationExpansion>();
         }
 
         [Test]
@@ -30,7 +53,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
             var response = await CreateRequest()
                 .WithMaxResult(10)
                 .StartAtIndex(5)
-                .IncludePlanInformation()
+                .IncludePlanInformation(i => i.IncludeStages())
                 .ExecuteAsync();
 
             response.ShouldNotBeNull();
@@ -38,7 +61,9 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
 
             VerifyParameterAspectMock<IGetInformationOfRequestAspect>(aspect =>
             {
-                aspect.IncludePlanInformation.ShouldBeTrue();
+                _expandState.Verify(i => i.IncludeActions(), Times.Never);
+                _expandState.Verify(i => i.IncludeBranches(), Times.Never);
+                _expandState.Verify(i => i.IncludeStages(), Times.Once);
             });
 
             VerifyParameterAspectMock<IResultCountParameterAspect>(aspect =>

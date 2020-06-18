@@ -1,4 +1,6 @@
+using System;
 using PandaSharp.Bamboo.Services.Common.Contract;
+using PandaSharp.Bamboo.Services.Plan.Expansion;
 using PandaSharp.Bamboo.Services.Project.Response;
 
 namespace PandaSharp.Bamboo.Services.Project.Contract
@@ -9,6 +11,6 @@ namespace PandaSharp.Bamboo.Services.Project.Contract
 
         IGetInformationOfRequest StartAtIndex(int startIndex);
 
-        IGetInformationOfRequest IncludePlanInformation();
+        IGetInformationOfRequest IncludePlanInformation(params Action<IPlanListInformationExpansion>[] expansions);
     }
 }
