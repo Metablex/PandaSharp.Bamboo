@@ -9,7 +9,7 @@ using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Plan.Request
 {
-    internal  sealed class AddLabelToPlanCommand : PlanCommandBase, IAddLabelToPlanCommand
+    internal sealed class AddLabelToPlanCommand : PlanCommandBase, IAddLabelToPlanCommand
     {
         [InjectedProperty(RequestPropertyNames.Label)]
         public string LabelName { get; set; }

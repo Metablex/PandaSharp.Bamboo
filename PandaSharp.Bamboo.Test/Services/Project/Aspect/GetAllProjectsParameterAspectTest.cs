@@ -18,7 +18,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Aspect
                 .Verifiable();
 
             requestMock
-                .Setup(i => i.AddParameter("expand", "projects.project.plans.plan"))
+                .Setup(i => i.AddParameter("expand", "projects.project.plans.plan.actions"))
                 .Returns(requestMock.Object)
                 .Verifiable();
 
@@ -26,7 +26,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Aspect
             {
                 IncludeEmptyProjects = true
             };
-            aspect.IncludePlanInformation();
+            aspect.IncludePlanInformation(i => i.IncludeActions());
             aspect.ApplyToRestRequest(requestMock.Object);
 
             requestMock.Verify();

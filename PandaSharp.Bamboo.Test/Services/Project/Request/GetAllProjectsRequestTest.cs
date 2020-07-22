@@ -21,6 +21,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
 
         protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
         {
+            yield return CreateParameterAspectMock<IResultCountParameterAspect>();
             yield return CreateParameterAspectMock<IGetAllProjectsParameterAspect>(
                 aspect =>
                 {
@@ -48,6 +49,8 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
             var response = await CreateRequest()
                 .IncludeEmptyProjects()
                 .IncludePlanInformation(i => i.IncludeBranches())
+                .StartAtIndex(5)
+                .WithMaxResult(25)
                 .ExecuteAsync();
 
             response.ShouldNotBeNull();
@@ -60,6 +63,12 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
                 _expandState.Verify(i => i.IncludeActions(), Times.Never);
                 _expandState.Verify(i => i.IncludeBranches(), Times.Once);
                 _expandState.Verify(i => i.IncludeStages(), Times.Never);
+            });
+
+            VerifyParameterAspectMock<IResultCountParameterAspect>(aspect =>
+            {
+                aspect.StartIndex.ShouldBe(5);
+                aspect.MaxResults.ShouldBe(25);
             });
         }
     }

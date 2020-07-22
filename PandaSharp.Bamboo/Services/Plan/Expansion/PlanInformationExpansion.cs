@@ -4,8 +4,8 @@ namespace PandaSharp.Bamboo.Services.Plan.Expansion
 {
     internal sealed class PlanInformationExpansion : RequestExpansionBase, IPlanInformationExpansion
     {
-        public PlanInformationExpansion(string expansionRoot)
-            : base(expansionRoot)
+        public PlanInformationExpansion()
+            : base(null)
         {
         }
 

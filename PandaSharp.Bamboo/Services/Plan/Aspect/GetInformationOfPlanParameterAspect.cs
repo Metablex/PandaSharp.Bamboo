@@ -20,7 +20,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Aspect
 
         public void IncludePlanInformation(params Action<IPlanInformationExpansion>[] expansions)
         {
-            _planInformationExpansion = new PlanInformationExpansion(string.Empty);
+            _planInformationExpansion = new PlanInformationExpansion();
             foreach (var expansion in expansions)
             {
                 expansion(_planInformationExpansion);

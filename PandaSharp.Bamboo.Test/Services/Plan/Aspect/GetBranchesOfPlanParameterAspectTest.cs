@@ -1,24 +1,26 @@
 using Moq;
 using NUnit.Framework;
-using PandaSharp.Bamboo.Services.Project.Aspect;
+using PandaSharp.Bamboo.Services.Plan.Aspect;
 using RestSharp;
 
-namespace PandaSharp.Bamboo.Test.Services.Project.Aspect
+namespace PandaSharp.Bamboo.Test.Services.Plan.Aspect
 {
     [TestFixture]
-    public sealed class GetInformationOfRequestAspectTest
+    public sealed class GetBranchesOfPlanParameterAspectTest
     {
         [Test]
         public void ParameterAspectTest()
         {
             var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
             requestMock
-                .Setup(i => i.AddParameter("expand", "plans.plan.branches"))
+                .Setup(i => i.AddParameter("enabledOnly", null))
                 .Returns(requestMock.Object)
                 .Verifiable();
 
-            var aspect = new GetInformationOfRequestAspect();
-            aspect.IncludePlanInformation(i => i.IncludeBranches());
+            var aspect = new GetBranchesOfPlanParameterAspect
+            {
+                OnlyEnabledBranches = true
+            };
             aspect.ApplyToRestRequest(requestMock.Object);
 
             requestMock.Verify();
@@ -30,7 +32,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Aspect
         {
             var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
 
-            var aspect = new GetInformationOfRequestAspect();
+            var aspect = new GetBranchesOfPlanParameterAspect();
             aspect.ApplyToRestRequest(requestMock.Object);
 
             requestMock.Verify();

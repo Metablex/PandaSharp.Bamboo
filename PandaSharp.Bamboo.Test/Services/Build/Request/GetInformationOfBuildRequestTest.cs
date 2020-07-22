@@ -1,14 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
+using PandaSharp.Bamboo.Services.Build.Aspect;
 using PandaSharp.Bamboo.Services.Build.Contract;
+using PandaSharp.Bamboo.Services.Build.Expansion;
 using PandaSharp.Bamboo.Services.Build.Request;
 using PandaSharp.Bamboo.Services.Build.Response;
-using PandaSharp.Bamboo.Services.Build.Types;
 using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
-using PandaSharp.Bamboo.Utils;
 using RestSharp;
 using Shouldly;
 
@@ -21,21 +22,29 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Request
         private const string PlanKey = "MasterPlan";
         private const uint BuildNumber = 42;
 
-        private BuildExpandState? _expandState;
+        private Mock<IBuildInformationExpansion> _expandState;
 
         protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
         {
-            yield return CreateParameterAspectMock<IExpandStateParameterAspect<BuildExpandState>>();
+            yield return CreateParameterAspectMock<IGetInformationOfBuildParameterAspect>(
+                aspect =>
+                {
+                    aspect
+                        .Setup(i => i.IncludeBuildInformation(It.IsAny<Action<IBuildInformationExpansion>[]>()))
+                        .Callback<Action<IBuildInformationExpansion>[]>(
+                            expansions =>
+                            {
+                                foreach (var expansion in expansions)
+                                {
+                                    expansion(_expandState.Object);
+                                }
+                            });
+                });
         }
 
         protected override void SetupEachTest()
         {
-            _expandState = null;
-
-            var expandStateMock = GetParameterAspectMock<IExpandStateParameterAspect<BuildExpandState>>();
-            expandStateMock
-                .Setup(i => i.AddExpandState(It.IsAny<BuildExpandState>()))
-                .Callback<BuildExpandState>(state => _expandState.AddEnumMember(state));
+            _expandState = new Mock<IBuildInformationExpansion>();
         }
 
         [Test]
@@ -51,27 +60,20 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Request
         public void ExpandStateParameterAspectTest()
         {
             CreateRequest()
-                .IncludingArtifacts()
-                .IncludingChanges()
-                .IncludingComments()
-                .IncludingLabels()
-                .IncludingStages()
-                .IncludingVariables()
-                .IncludingJiraIssues()
-                .IncludingMetaData();
+                .IncludeBuildInformation(
+                    i => i.IncludingArtifacts(),
+                    i => i.IncludingJiraIssues());
 
-            VerifyParameterAspectMock<IExpandStateParameterAspect<BuildExpandState>>(aspect =>
+            VerifyParameterAspectMock<IGetInformationOfBuildParameterAspect>(aspect =>
             {
-                _expandState.ShouldNotBeNull();
-                _expandState.ShouldBe(
-                    BuildExpandState.IncludingArtifacts
-                    | BuildExpandState.IncludingChanges
-                    | BuildExpandState.IncludingComments
-                    | BuildExpandState.IncludingLabels
-                    | BuildExpandState.IncludingStages
-                    | BuildExpandState.IncludingVariables
-                    | BuildExpandState.IncludingJiraIssues
-                    | BuildExpandState.IncludingMetaData);
+                _expandState.Verify(i => i.IncludingArtifacts(), Times.Once);
+                _expandState.Verify(i => i.IncludingComments(), Times.Never);
+                _expandState.Verify(i => i.IncludingLabels(), Times.Never);
+                _expandState.Verify(i => i.IncludingStages(), Times.Never);
+                _expandState.Verify(i => i.IncludingVariables(), Times.Never);
+                _expandState.Verify(i => i.IncludingJiraIssues(), Times.Once);
+                _expandState.Verify(i => i.IncludingChanges(), Times.Never);
+                _expandState.Verify(i => i.IncludingMetaData(), Times.Never);
             });
         }
 
