@@ -5,7 +5,6 @@ using System.Net;
 using System.Reflection;
 using Moq;
 using NUnit.Framework;
-using PandaSharp.Bamboo.Attributes;
 using PandaSharp.Bamboo.Rest.Contract;
 using PandaSharp.Bamboo.Services.Common.Aspect;
 using RestSharp;
@@ -40,15 +39,19 @@ namespace PandaSharp.Bamboo.Test.Framework.Services.Request
             return Enumerable.Empty<Mock<IRequestParameterAspect>>();
         }
 
-        protected Mock<IRequestParameterAspect> CreateParameterAspectMock<TAspect>()
+        protected Mock<IRequestParameterAspect> CreateParameterAspectMock<TAspect>(Action<Mock<TAspect>> setupAspect = null)
             where TAspect : class
         {
-            var mock = new Mock<TAspect>(MockBehavior.Strict)
+            var mock = new Mock<TAspect>(MockBehavior.Strict);
+            setupAspect?.Invoke(mock);
+
+            var aspectMock = mock
                 .As<IRequestParameterAspect>()
                 .SetupAllProperties();
 
-            mock.Setup(i => i.ApplyToRestRequest(It.IsAny<IRestRequest>()));
-            return mock;
+            aspectMock.Setup(i => i.ApplyToRestRequest(It.IsAny<IRestRequest>()));
+
+            return aspectMock;
         }
 
         protected Mock<TAspect> GetParameterAspectMock<TAspect>()

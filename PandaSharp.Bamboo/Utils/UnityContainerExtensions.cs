@@ -5,7 +5,6 @@ using Newtonsoft.Json.Linq;
 using PandaSharp.Bamboo.IoC;
 using PandaSharp.Bamboo.IoC.Contract;
 using PandaSharp.Bamboo.Rest.Contract;
-using PandaSharp.Bamboo.Services.Common.Aspect;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Utils
@@ -35,12 +34,6 @@ namespace PandaSharp.Bamboo.Utils
             return new RequestProviderRegistration<T>(container);
         }
 
-        public static void RegisterExpandStateParameterAspect<T>(this IPandaContainer container)
-            where T : struct, Enum
-        {
-            container.RegisterType<IExpandStateParameterAspect<T>, ExpandStateParameterAspect<T>>();
-        }
-
         private static PandaContainerContext GetPandaContainerContext(IPandaContainer container)
         {
             var bambooVersion = GetCurrentBambooVersion(container);
@@ -59,7 +52,7 @@ namespace PandaSharp.Bamboo.Utils
                 var jsonResponse = JObject.Parse(infoResponse.Content);
                 var version = (string)jsonResponse.SelectToken("version");
 
-                return new Version(version);
+                return new Version(version!);
             }
             catch (Exception)
             {

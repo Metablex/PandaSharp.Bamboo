@@ -4,7 +4,6 @@ using PandaSharp.Bamboo.Services.Plan.Aspect;
 using PandaSharp.Bamboo.Services.Plan.Contract;
 using PandaSharp.Bamboo.Services.Plan.Factory;
 using PandaSharp.Bamboo.Services.Plan.Request;
-using PandaSharp.Bamboo.Services.Plan.Types;
 using PandaSharp.Bamboo.Utils;
 
 namespace PandaSharp.Bamboo.Services.Plan
@@ -75,8 +74,8 @@ namespace PandaSharp.Bamboo.Services.Plan
 
             container.RegisterType<IGetBranchesOfPlanParameterAspect, GetBranchesOfPlanParameterAspect>();
             container.RegisterType<ICreatePlanParameterAspect, CreatePlanParameterAspect>();
-            container.RegisterExpandStateParameterAspect<PlanExpandState>();
-            container.RegisterExpandStateParameterAspect<PlansExpandState>();
+            container.RegisterType<IGetAllPlansParameterAspect, GetAllPlansParameterAspect>();
+            container.RegisterType<IGetInformationOfPlanParameterAspect, GetInformationOfPlanParameterAspect>();
 
             container.RegisterType<IPlanRequestBuilderFactory, PlanRequestBuilderFactory>();
         }

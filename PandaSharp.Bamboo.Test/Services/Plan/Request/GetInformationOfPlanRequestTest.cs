@@ -1,14 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Common.Aspect;
+using PandaSharp.Bamboo.Services.Plan.Aspect;
 using PandaSharp.Bamboo.Services.Plan.Contract;
+using PandaSharp.Bamboo.Services.Plan.Expansion;
 using PandaSharp.Bamboo.Services.Plan.Request;
 using PandaSharp.Bamboo.Services.Plan.Response;
-using PandaSharp.Bamboo.Services.Plan.Types;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
-using PandaSharp.Bamboo.Utils;
 using RestSharp;
 using Shouldly;
 
@@ -20,22 +21,30 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
 
-        private PlanExpandState? _expandState;
+        private Mock<IPlanInformationExpansion> _expandState;
 
         protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
         {
             yield return CreateParameterAspectMock<IResultCountParameterAspect>();
-            yield return CreateParameterAspectMock<IExpandStateParameterAspect<PlanExpandState>>();
+            yield return CreateParameterAspectMock<IGetInformationOfPlanParameterAspect>(
+                aspect =>
+                {
+                    aspect
+                        .Setup(i => i.IncludePlanInformation(It.IsAny<Action<IPlanInformationExpansion>[]>()))
+                        .Callback<Action<IPlanInformationExpansion>[]>(
+                            expansions =>
+                            {
+                                foreach (var expansion in expansions)
+                                {
+                                    expansion(_expandState.Object);
+                                }
+                            });
+                });
         }
 
         protected override void SetupEachTest()
         {
-            _expandState = null;
-
-            var expandStateMock = GetParameterAspectMock<IExpandStateParameterAspect<PlanExpandState>>();
-            expandStateMock
-                .Setup(i => i.AddExpandState(It.IsAny<PlanExpandState>()))
-                .Callback<PlanExpandState>(state => _expandState.AddEnumMember(state));
+            _expandState = new Mock<IPlanInformationExpansion>();
         }
 
         [Test]
@@ -51,19 +60,28 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
         public void ExpandStateParameterAspectTest()
         {
             CreateRequest()
-                .IncludeActions()
-                .IncludeStages()
-                .IncludeVariableContext()
-                .IncludeBranches(30);
+                .WithMaxBranchResults(30)
+                .IncludePlanInformation(
+                    i =>
+                    {
+                        i.IncludeActions();
+                        i.IncludeBranches();
+                        i.IncludeStages();
+                        i.IncludeVariableContext();
+                    });
 
-            VerifyParameterAspectMock<IExpandStateParameterAspect<PlanExpandState>>(aspect =>
+            VerifyParameterAspectMock<IGetInformationOfPlanParameterAspect>(aspect =>
             {
-                _expandState.ShouldNotBeNull();
-                _expandState.ShouldBe(
-                    PlanExpandState.IncludingActions
-                    | PlanExpandState.IncludingBranches
-                    | PlanExpandState.IncludingVariableContext
-                    | PlanExpandState.IncludingStages);
+                _expandState.Verify(i => i.IncludeActions(), Times.Once);
+                _expandState.Verify(i => i.IncludeStages(), Times.Once);
+                _expandState.Verify(i => i.IncludeVariableContext(), Times.Once);
+                _expandState.Verify(i => i.IncludeBranches(), Times.Once);
+            });
+
+            VerifyParameterAspectMock<IResultCountParameterAspect>(aspect =>
+            {
+                aspect.MaxResults.ShouldBe(30);
+                aspect.StartIndex.ShouldBeNull();
             });
         }
 

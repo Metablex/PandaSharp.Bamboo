@@ -1,13 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Common.Aspect;
+using PandaSharp.Bamboo.Services.Plan.Aspect;
+using PandaSharp.Bamboo.Services.Plan.Expansion;
 using PandaSharp.Bamboo.Services.Plan.Request;
 using PandaSharp.Bamboo.Services.Plan.Response;
-using PandaSharp.Bamboo.Services.Plan.Types;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
-using PandaSharp.Bamboo.Utils;
 using RestSharp;
 using Shouldly;
 
@@ -16,22 +17,30 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
     [TestFixture]
     internal sealed class GetAllPlansRequestTest : RequestBaseTest<GetAllPlansRequest, PlanListResponse>
     {
-        private PlansExpandState? _expandState;
+        private Mock<IPlanListInformationExpansion> _expandState;
 
         protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
         {
             yield return CreateParameterAspectMock<IResultCountParameterAspect>();
-            yield return CreateParameterAspectMock<IExpandStateParameterAspect<PlansExpandState>>();
+            yield return CreateParameterAspectMock<IGetAllPlansParameterAspect>(
+                aspect =>
+                {
+                    aspect
+                        .Setup(i => i.IncludePlanInformation(It.IsAny<Action<IPlanListInformationExpansion>[]>()))
+                        .Callback<Action<IPlanListInformationExpansion>[]>(
+                            expansions =>
+                            {
+                                foreach (var expansion in expansions)
+                                {
+                                    expansion(_expandState.Object);
+                                }
+                            });
+                });
         }
 
         protected override void SetupEachTest()
         {
-            _expandState = null;
-
-            var expandStateMock = GetParameterAspectMock<IExpandStateParameterAspect<PlansExpandState>>();
-            expandStateMock
-                .Setup(i => i.AddExpandState(It.IsAny<PlansExpandState>()))
-                .Callback<PlansExpandState>(state => _expandState.AddEnumMember(state));
+            _expandState = new Mock<IPlanListInformationExpansion>();
         }
 
         [Test]
@@ -58,22 +67,31 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
         }
 
         [Test]
-        public void ExpandStateParameterAspectTest()
+        public void GetAllPlansParameterAspectTest()
         {
-            CreateRequest()
-                .IncludeActions()
-                .IncludeBranches()
-                .IncludeDetails()
-                .IncludeStages();
+            CreateRequest().IncludePlanInformation();
 
-            VerifyParameterAspectMock<IExpandStateParameterAspect<PlansExpandState>>(aspect =>
+            VerifyParameterAspectMock<IGetAllPlansParameterAspect>(aspect =>
             {
-                _expandState.ShouldNotBeNull();
-                _expandState.ShouldBe(
-                    PlansExpandState.IncludingActions
-                    | PlansExpandState.IncludingBranches
-                    | PlansExpandState.IncludingDetails
-                    | PlansExpandState.IncludingStages);
+                _expandState.Verify(i => i.IncludeActions(), Times.Never);
+                _expandState.Verify(i => i.IncludeBranches(), Times.Never);
+                _expandState.Verify(i => i.IncludeStages(), Times.Never);
+            });
+
+            CreateRequest()
+                .IncludePlanInformation(
+                    i =>
+                    {
+                        i.IncludeStages();
+                        i.IncludeActions();
+                        i.IncludeBranches();
+                    });
+
+            VerifyParameterAspectMock<IGetAllPlansParameterAspect>(aspect =>
+            {
+                _expandState.Verify(i => i.IncludeActions(), Times.Once);
+                _expandState.Verify(i => i.IncludeBranches(), Times.Once);
+                _expandState.Verify(i => i.IncludeStages(), Times.Once);
             });
         }
     }

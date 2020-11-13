@@ -1,16 +1,18 @@
-﻿using PandaSharp.Bamboo.Attributes;
+﻿using System;
+using PandaSharp.Bamboo.Attributes;
 using PandaSharp.Bamboo.Rest.Contract;
 using PandaSharp.Bamboo.Services.Common.Aspect;
+using PandaSharp.Bamboo.Services.Plan.Aspect;
 using PandaSharp.Bamboo.Services.Plan.Contract;
+using PandaSharp.Bamboo.Services.Plan.Expansion;
 using PandaSharp.Bamboo.Services.Plan.Request.Base;
 using PandaSharp.Bamboo.Services.Plan.Response;
-using PandaSharp.Bamboo.Services.Plan.Types;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Plan.Request
 {
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
-    [SupportsParameterAspect(typeof(IExpandStateParameterAspect<PlansExpandState>))]
+    [SupportsParameterAspect(typeof(IGetAllPlansParameterAspect))]
     internal sealed class GetAllPlansRequest : PlanRequestBase<PlanListResponse>, IGetAllPlansRequest
     {
         public GetAllPlansRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
@@ -18,27 +20,9 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
         {
         }
 
-        public IGetAllPlansRequest IncludeDetails()
+        public IGetAllPlansRequest IncludePlanInformation(params Action<IPlanListInformationExpansion>[] expansions)
         {
-            GetAspect<IExpandStateParameterAspect<PlansExpandState>>().AddExpandState(PlansExpandState.IncludingDetails);
-            return this;
-        }
-
-        public IGetAllPlansRequest IncludeActions()
-        {
-            GetAspect<IExpandStateParameterAspect<PlansExpandState>>().AddExpandState(PlansExpandState.IncludingActions);
-            return this;
-        }
-
-        public IGetAllPlansRequest IncludeStages()
-        {
-            GetAspect<IExpandStateParameterAspect<PlansExpandState>>().AddExpandState(PlansExpandState.IncludingStages);
-            return this;
-        }
-
-        public IGetAllPlansRequest IncludeBranches()
-        {
-            GetAspect<IExpandStateParameterAspect<PlansExpandState>>().AddExpandState(PlansExpandState.IncludingBranches);
+            GetAspect<IGetAllPlansParameterAspect>().IncludePlanInformation(expansions);
             return this;
         }
 

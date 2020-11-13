@@ -1,4 +1,6 @@
-﻿using PandaSharp.Bamboo.Services.Common.Contract;
+﻿using System;
+using PandaSharp.Bamboo.Services.Common.Contract;
+using PandaSharp.Bamboo.Services.Plan.Expansion;
 using PandaSharp.Bamboo.Services.Plan.Response;
 
 namespace PandaSharp.Bamboo.Services.Plan.Contract
@@ -9,12 +11,6 @@ namespace PandaSharp.Bamboo.Services.Plan.Contract
 
         IGetAllPlansRequest StartAtIndex(int startIndex);
 
-        IGetAllPlansRequest IncludeDetails();
-
-        IGetAllPlansRequest IncludeActions();
-
-        IGetAllPlansRequest IncludeStages();
-
-        IGetAllPlansRequest IncludeBranches();
+        IGetAllPlansRequest IncludePlanInformation(params Action<IPlanListInformationExpansion>[] expansions);
     }
 }

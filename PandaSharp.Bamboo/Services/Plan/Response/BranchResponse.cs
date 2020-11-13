@@ -15,5 +15,8 @@ namespace PandaSharp.Bamboo.Services.Plan.Response
 
         [JsonProperty("description")]
         public string Description { get; set; }
+
+        [JsonProperty("latestCurrentlyActive")]
+        public CurrentlyActiveBuildResponse ActiveBuild { get; set; }
     }
 }

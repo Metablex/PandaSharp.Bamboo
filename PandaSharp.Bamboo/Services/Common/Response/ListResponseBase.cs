@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
 namespace PandaSharp.Bamboo.Services.Common.Response
@@ -22,6 +23,7 @@ namespace PandaSharp.Bamboo.Services.Common.Response
             return _items.GetEnumerator();
         }
 
+        [ExcludeFromCodeCoverage]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

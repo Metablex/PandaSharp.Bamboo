@@ -18,15 +18,15 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Aspect
                 .Verifiable();
 
             requestMock
-                .Setup(i => i.AddParameter("expand", "projects.project.plans"))
+                .Setup(i => i.AddParameter("expand", "projects.project.plans.plan.actions"))
                 .Returns(requestMock.Object)
                 .Verifiable();
 
             var aspect = new GetAllProjectsParameterAspect
             {
-                IncludeEmptyProjects = true,
-                IncludePlanInformation = true
+                IncludeEmptyProjects = true
             };
+            aspect.IncludePlanInformation(i => i.IncludeActions());
             aspect.ApplyToRestRequest(requestMock.Object);
 
             requestMock.Verify();

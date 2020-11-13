@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Common.Aspect;
+using PandaSharp.Bamboo.Services.Plan.Expansion;
 using PandaSharp.Bamboo.Services.Project.Aspect;
 using PandaSharp.Bamboo.Services.Project.Request;
 using PandaSharp.Bamboo.Services.Project.Response;
@@ -15,9 +17,30 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
     [TestFixture]
     internal sealed class GetAllProjectsRequestTest : RequestBaseTest<GetAllProjectsRequest, ProjectListResponse>
     {
+        private Mock<IPlanListInformationExpansion> _expandState;
+
         protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
         {
-            yield return CreateParameterAspectMock<IGetAllProjectsParameterAspect>();
+            yield return CreateParameterAspectMock<IResultCountParameterAspect>();
+            yield return CreateParameterAspectMock<IGetAllProjectsParameterAspect>(
+                aspect =>
+                {
+                    aspect
+                        .Setup(i => i.IncludePlanInformation(It.IsAny<Action<IPlanListInformationExpansion>[]>()))
+                        .Callback<Action<IPlanListInformationExpansion>[]>(
+                            expansions =>
+                            {
+                                foreach (var expansion in expansions)
+                                {
+                                    expansion(_expandState.Object);
+                                }
+                            });
+                });
+        }
+
+        protected override void SetupEachTest()
+        {
+            _expandState = new Mock<IPlanListInformationExpansion>();
         }
 
         [Test]
@@ -25,7 +48,9 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
         {
             var response = await CreateRequest()
                 .IncludeEmptyProjects()
-                .IncludePlanInformation()
+                .IncludePlanInformation(i => i.IncludeBranches())
+                .StartAtIndex(5)
+                .WithMaxResult(25)
                 .ExecuteAsync();
 
             response.ShouldNotBeNull();
@@ -34,7 +59,16 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
             VerifyParameterAspectMock<IGetAllProjectsParameterAspect>(aspect =>
             {
                 aspect.IncludeEmptyProjects.ShouldBeTrue();
-                aspect.IncludePlanInformation.ShouldBeTrue();
+
+                _expandState.Verify(i => i.IncludeActions(), Times.Never);
+                _expandState.Verify(i => i.IncludeBranches(), Times.Once);
+                _expandState.Verify(i => i.IncludeStages(), Times.Never);
+            });
+
+            VerifyParameterAspectMock<IResultCountParameterAspect>(aspect =>
+            {
+                aspect.StartIndex.ShouldBe(5);
+                aspect.MaxResults.ShouldBe(25);
             });
         }
     }
