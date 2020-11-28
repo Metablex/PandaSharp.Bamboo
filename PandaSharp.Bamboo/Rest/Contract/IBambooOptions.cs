@@ -4,8 +4,6 @@
     {
         string BaseUrl { get; set; }
 
-        string UserName { get; set; }
-
-        string Password { get; set; }
+        IBambooAuthentication Authentication { get; }
     }
 }

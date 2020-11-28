@@ -35,13 +35,14 @@ namespace PandaSharp.Bamboo.Test.Rest.Common
                 .SetupGet(i => i.BaseUrl)
                 .Returns("http://test.bamboo.com");
 
-            bambooOptions
-                .SetupGet(i => i.UserName)
-                .Returns("TestUser");
+            var authentication = new Mock<IBambooAuthentication>();
+            authentication
+                .Setup(i => i.CreateAuthenticator())
+                .Returns(new HttpBasicAuthenticator("TestUser", "TestPassword"));
 
             bambooOptions
-                .SetupGet(i => i.Password)
-                .Returns("admin01");
+                .Setup(i => i.Authentication)
+                .Returns(authentication.Object);
 
             var serializer = new Mock<IRestSerializer>();
             serializer
