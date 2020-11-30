@@ -20,7 +20,7 @@ namespace PandaSharp.Bamboo.Rest.Common
         {
             var client = new RestClient(_bambooOptions.BaseUrl)
             {
-                Authenticator = new HttpBasicAuthenticator(_bambooOptions.UserName, _bambooOptions.Password)
+                Authenticator = _bambooOptions.Authentication.CreateAuthenticator()
             };
 
             client.UseSerializer(() => _serializer);

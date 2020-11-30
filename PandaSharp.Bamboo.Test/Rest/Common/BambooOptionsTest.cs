@@ -21,16 +21,5 @@ namespace PandaSharp.Bamboo.Test.Rest.Common
             options.BaseUrl = "http://test.bamboo.com";
             options.BaseUrl.ShouldBe(BambooTestAddress);
         }
-
-        [Test]
-        public void BasePropertyTest()
-        {
-            var options = new BambooOptions();
-            options.Password = "PasswordTest";
-            options.UserName = "UserTest";
-
-            options.Password.ShouldBe("PasswordTest");
-            options.UserName.ShouldBe("UserTest");
-        }
     }
 }

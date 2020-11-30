@@ -21,8 +21,6 @@ namespace PandaSharp.Bamboo.Rest.Common
             }
         }
 
-        public string UserName { get; set; }
-
-        public string Password { get; set; }
+        public IBambooAuthentication Authentication { get; } = new BambooAuthentication();
     }
 }

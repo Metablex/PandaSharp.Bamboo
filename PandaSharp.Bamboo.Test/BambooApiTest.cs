@@ -9,7 +9,7 @@ namespace PandaSharp.Bamboo.Test
         [Test]
         public void BambooApiConstructionTest()
         {
-            var bambooApi = new BambooApi("http://test.bamboo.com", "TestBob", "admin01");
+            var bambooApi = BambooApi.CreateWithBasicAuthentication("http://test.bamboo.com", "TestBob", "admin01");
 
             bambooApi.BuildRequest.ShouldNotBeNull();
             bambooApi.PlanRequest.ShouldNotBeNull();
