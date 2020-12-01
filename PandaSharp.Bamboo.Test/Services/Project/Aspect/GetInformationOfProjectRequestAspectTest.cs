@@ -6,7 +6,7 @@ using RestSharp;
 namespace PandaSharp.Bamboo.Test.Services.Project.Aspect
 {
     [TestFixture]
-    public sealed class GetInformationOfRequestAspectTest
+    public sealed class GetInformationOfProjectRequestAspectTest
     {
         [Test]
         public void ParameterAspectTest()
@@ -17,7 +17,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Aspect
                 .Returns(requestMock.Object)
                 .Verifiable();
 
-            var aspect = new GetInformationOfRequestAspect();
+            var aspect = new GetInformationOfProjectRequestAspect();
             aspect.IncludePlanInformation(i => i.IncludeBranches());
             aspect.ApplyToRestRequest(requestMock.Object);
 
@@ -30,7 +30,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Aspect
         {
             var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
 
-            var aspect = new GetInformationOfRequestAspect();
+            var aspect = new GetInformationOfProjectRequestAspect();
             aspect.ApplyToRestRequest(requestMock.Object);
 
             requestMock.Verify();

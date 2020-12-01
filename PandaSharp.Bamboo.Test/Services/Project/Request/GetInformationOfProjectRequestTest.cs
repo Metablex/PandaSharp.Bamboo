@@ -16,7 +16,7 @@ using Shouldly;
 namespace PandaSharp.Bamboo.Test.Services.Project.Request
 {
     [TestFixture]
-    internal sealed class GetInformationOfRequestTest : RequestBaseTest<GetInformationOfRequest, ProjectResponse>
+    internal sealed class GetInformationOfProjectRequestTest : RequestBaseTest<GetInformationOfProjectRequest, ProjectResponse>
     {
         private const string ProjectKey = "ProjectX";
 
@@ -24,7 +24,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
 
         protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
         {
-            yield return CreateParameterAspectMock<IGetInformationOfRequestAspect>(
+            yield return CreateParameterAspectMock<IGetInformationOfProjectRequestAspect>(
                 aspect =>
                 {
                     aspect
@@ -59,7 +59,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
             response.ShouldNotBeNull();
             VerifyRestRequestCreation($"project/{ProjectKey}", Method.GET);
 
-            VerifyParameterAspectMock<IGetInformationOfRequestAspect>(aspect =>
+            VerifyParameterAspectMock<IGetInformationOfProjectRequestAspect>(aspect =>
             {
                 _expandState.Verify(i => i.IncludeActions(), Times.Never);
                 _expandState.Verify(i => i.IncludeBranches(), Times.Never);
@@ -73,7 +73,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
             });
         }
 
-        private new IGetInformationOfRequest CreateRequest()
+        private new IGetInformationOfProjectRequest CreateRequest()
         {
             var request = base.CreateRequest();
             request.ProjectKey = ProjectKey;

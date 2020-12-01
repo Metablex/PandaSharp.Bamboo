@@ -28,11 +28,11 @@ namespace PandaSharp.Bamboo.Services.Project
                 .Register(context);
 
             container
-                .RequestRegistrationFor<IGetInformationOfRequest>()
-                .LatestRequest<GetInformationOfRequest>()
+                .RequestRegistrationFor<IGetInformationOfProjectRequest>()
+                .LatestRequest<GetInformationOfProjectRequest>()
                 .Register(context);
 
-            container.RegisterType<IGetInformationOfRequestAspect, GetInformationOfRequestAspect>();
+            container.RegisterType<IGetInformationOfProjectRequestAspect, GetInformationOfProjectRequestAspect>();
             container.RegisterType<IGetAllProjectsParameterAspect, GetAllProjectsParameterAspect>();
             container.RegisterType<ICreateProjectCommandAspect, CreateProjectCommandAspect>();
             container.RegisterType<IProjectRequestBuilderFactory, ProjectRequestBuilderFactory>();

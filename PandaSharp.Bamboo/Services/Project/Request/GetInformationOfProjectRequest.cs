@@ -12,33 +12,33 @@ using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Project.Request
 {
-    [SupportsParameterAspect(typeof(IGetInformationOfRequestAspect))]
+    [SupportsParameterAspect(typeof(IGetInformationOfProjectRequestAspect))]
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
-    internal sealed class GetInformationOfRequest : RequestBase<ProjectResponse>, IGetInformationOfRequest
+    internal sealed class GetInformationOfProjectRequest : RequestBase<ProjectResponse>, IGetInformationOfProjectRequest
     {
         [InjectedProperty(RequestPropertyNames.ProjectKey)]
         public string ProjectKey { get; set; }
 
-        public GetInformationOfRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+        public GetInformationOfProjectRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
         }
 
-        public IGetInformationOfRequest WithMaxResult(int maxResult)
+        public IGetInformationOfProjectRequest WithMaxResult(int maxResult)
         {
             GetAspect<IResultCountParameterAspect>().MaxResults = maxResult;
             return this;
         }
 
-        public IGetInformationOfRequest StartAtIndex(int startIndex)
+        public IGetInformationOfProjectRequest StartAtIndex(int startIndex)
         {
             GetAspect<IResultCountParameterAspect>().StartIndex = startIndex;
             return this;
         }
 
-        public IGetInformationOfRequest IncludePlanInformation(params Action<IPlanListInformationExpansion>[] expansions)
+        public IGetInformationOfProjectRequest IncludePlanInformation(params Action<IPlanListInformationExpansion>[] expansions)
         {
-            GetAspect<IGetInformationOfRequestAspect>().IncludePlanInformation(expansions);
+            GetAspect<IGetInformationOfProjectRequestAspect>().IncludePlanInformation(expansions);
             return this;
         }
 

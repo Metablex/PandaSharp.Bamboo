@@ -20,35 +20,35 @@ namespace PandaSharp.Bamboo.Services.Plan.Factory
             return _container.Resolve<IGetAllPlansRequest>();
         }
 
-        public IGetInformationOfPlanRequest GetInformationOf(string projectKey, string planKey)
+        public IGetInformationOfPlanRequest GetInformationOfPlan(string projectKey, string planKey)
         {
             return _container.Resolve<IGetInformationOfPlanRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKey, planKey));
         }
 
-        public IGetBranchesOfPlanRequest GetBranchesOf(string projectKey, string planKey)
+        public IGetBranchesOfPlanRequest GetBranchesOfPlan(string projectKey, string planKey)
         {
             return _container.Resolve<IGetBranchesOfPlanRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKey, planKey));
         }
 
-        public IGetArtifactsOfPlanRequest GetArtifactsOf(string projectKey, string planKey)
+        public IGetArtifactsOfPlanRequest GetArtifactsOfPlan(string projectKey, string planKey)
         {
             return _container.Resolve<IGetArtifactsOfPlanRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKey, planKey));
         }
 
-        public IGetLabelsOfPlanRequest GetLabelsOf(string projectKey, string planKey)
+        public IGetLabelsOfPlanRequest GetLabelsOfPlan(string projectKey, string planKey)
         {
             return _container.Resolve<IGetLabelsOfPlanRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
                 new InjectProperty(RequestPropertyNames.PlanKey, planKey));
         }
 
-        public IGetVcsBranchesOfPlanRequest GetVcsBranchesOf(string projectKey, string planKey)
+        public IGetVcsBranchesOfPlanRequest GetVcsBranchesOfPlan(string projectKey, string planKey)
         {
             return _container.Resolve<IGetVcsBranchesOfPlanRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),

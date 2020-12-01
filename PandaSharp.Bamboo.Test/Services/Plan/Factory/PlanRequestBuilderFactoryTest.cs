@@ -29,7 +29,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
         }
 
         [Test]
-        public void GetInformationOfTest()
+        public void GetInformationOfPlanTest()
         {
             SetupRequestRegistration<IGetInformationOfPlanRequest>(
                 parameters =>
@@ -41,7 +41,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
-            var request = factory.GetInformationOf(ProjectKey, PlanKey);
+            var request = factory.GetInformationOfPlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
@@ -50,7 +50,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
         }
 
         [Test]
-        public void GetBranchesOfTest()
+        public void GetBranchesOfPlanTest()
         {
             SetupRequestRegistration<IGetBranchesOfPlanRequest>(
                 parameters =>
@@ -62,7 +62,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
-            var request = factory.GetBranchesOf(ProjectKey, PlanKey);
+            var request = factory.GetBranchesOfPlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
@@ -71,7 +71,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
         }
 
         [Test]
-        public void GetArtifactsOfTest()
+        public void GetArtifactsOfPlanTest()
         {
             SetupRequestRegistration<IGetArtifactsOfPlanRequest>(
                 parameters =>
@@ -83,7 +83,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
-            var request = factory.GetArtifactsOf(ProjectKey, PlanKey);
+            var request = factory.GetArtifactsOfPlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
@@ -92,7 +92,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
         }
 
         [Test]
-        public void GetLabelsOfTest()
+        public void GetLabelsOfPlanTest()
         {
             SetupRequestRegistration<IGetLabelsOfPlanRequest>(
                 parameters =>
@@ -104,7 +104,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
-            var request = factory.GetLabelsOf(ProjectKey, PlanKey);
+            var request = factory.GetLabelsOfPlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
@@ -113,7 +113,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
         }
 
         [Test]
-        public void GetVcsBranchesOfTest()
+        public void GetVcsBranchesOfPlanTest()
         {
             SetupRequestRegistration<IGetVcsBranchesOfPlanRequest>(
                 parameters =>
@@ -125,7 +125,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
                 });
 
             var factory = new PlanRequestBuilderFactory(Container.Object);
-            var request = factory.GetVcsBranchesOf(ProjectKey, PlanKey);
+            var request = factory.GetVcsBranchesOfPlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 

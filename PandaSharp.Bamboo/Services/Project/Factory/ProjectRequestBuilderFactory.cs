@@ -32,9 +32,9 @@ namespace PandaSharp.Bamboo.Services.Project.Factory
                 new InjectProperty(RequestPropertyNames.ProjectKey, projectKey));
         }
 
-        public IGetInformationOfRequest GetInformationOf(string projectKey)
+        public IGetInformationOfProjectRequest GetInformationOfProject(string projectKey)
         {
-            return _container.Resolve<IGetInformationOfRequest>(
+            return _container.Resolve<IGetInformationOfProjectRequest>(
                 new InjectProperty(RequestPropertyNames.ProjectKey, projectKey));
         }
     }

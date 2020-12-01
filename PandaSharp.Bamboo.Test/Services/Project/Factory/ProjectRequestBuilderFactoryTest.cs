@@ -70,9 +70,9 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Factory
         }
 
         [Test]
-        public void GetInformationOfTest()
+        public void GetInformationOfProjectTest()
         {
-            SetupRequestRegistration<IGetInformationOfRequest>(
+            SetupRequestRegistration<IGetInformationOfProjectRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(1);
@@ -81,7 +81,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Factory
                 });
 
             var factory = new ProjectRequestBuilderFactory(Container.Object);
-            var request = factory.GetInformationOf(ProjectKey);
+            var request = factory.GetInformationOfProject(ProjectKey);
 
             request.ShouldNotBeNull();
 

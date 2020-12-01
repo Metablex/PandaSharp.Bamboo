@@ -6,15 +6,15 @@ namespace PandaSharp.Bamboo.Services.Plan.Factory
     {
         IGetAllPlansRequest GetAllPlans();
 
-        IGetInformationOfPlanRequest GetInformationOf(string projectKey, string planKey);
+        IGetInformationOfPlanRequest GetInformationOfPlan(string projectKey, string planKey);
 
-        IGetBranchesOfPlanRequest GetBranchesOf(string projectKey, string planKey);
+        IGetBranchesOfPlanRequest GetBranchesOfPlan(string projectKey, string planKey);
 
-        IGetArtifactsOfPlanRequest GetArtifactsOf(string projectKey, string planKey);
+        IGetArtifactsOfPlanRequest GetArtifactsOfPlan(string projectKey, string planKey);
 
-        IGetLabelsOfPlanRequest GetLabelsOf(string projectKey, string planKey);
+        IGetLabelsOfPlanRequest GetLabelsOfPlan(string projectKey, string planKey);
 
-        IGetVcsBranchesOfPlanRequest GetVcsBranchesOf(string projectKey, string planKey);
+        IGetVcsBranchesOfPlanRequest GetVcsBranchesOfPlan(string projectKey, string planKey);
 
         IAddLabelToPlanCommand AddLabelToPlan(string projectKey, string planKey, string labelName);
 

@@ -10,6 +10,6 @@ namespace PandaSharp.Bamboo.Services.Project.Factory
 
         IDeleteProjectCommand DeleteProject(string projectKey);
 
-        IGetInformationOfRequest GetInformationOf(string projectKey);
+        IGetInformationOfProjectRequest GetInformationOfProject(string projectKey);
     }
 }

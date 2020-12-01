@@ -5,7 +5,7 @@ using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Project.Aspect
 {
-    internal sealed class GetInformationOfRequestAspect : RequestParameterAspectBase, IGetInformationOfRequestAspect
+    internal sealed class GetInformationOfProjectRequestAspect : RequestParameterAspectBase, IGetInformationOfProjectRequestAspect
     {
         private PlanListInformationExpansion _planListInformationExpansion;
 
