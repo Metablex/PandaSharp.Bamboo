@@ -10,6 +10,7 @@
     <PackageProjectUrl>https://github.com/Metablex/PandaSharp</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
+    <PackageVersion>1.1.0</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
