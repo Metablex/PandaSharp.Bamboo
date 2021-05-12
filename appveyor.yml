@@ -8,7 +8,7 @@ before_build:
 artifacts:
   - path: .\PandaSharp.Bamboo\bin\Release
     name: PandaSharp
-    
+
 test_script:
   - cmd: nuget install Appveyor.TestLogger -Version 2.0.0
   - cmd: dotnet test --no-build --no-restore --test-adapter-path:. --logger:Appveyor
@@ -16,25 +16,15 @@ test_script:
 for:
 
 #configuration for master branch
-- 
+-
   branches:
-    only: 
+    only:
       - master
-
-  dotnet_csproj:
-    patch: true
-    file: '**\*.csproj'
-    version: $(nuget_version)
-    version_prefix: $(nuget_version)
-    package_version: $(nuget_version)
-    assembly_version: $(nuget_version)
-    file_version: $(nuget_version)
-    informational_version: $(nuget_version)
 
   build:
     publish_nuget: true
     verbosity: minimal
-    
+
   deploy:
     - provider: NuGet
       name: Push to NuGet
@@ -42,11 +32,11 @@ for:
         secure: 3bVQSfmfWu/xsvc7xwIJMsm/RIVXFdKvMU1r1idingh5ESWKJKqZpT9Hl1hXgUYq
       on:
         APPVEYOR_REPO_TAG: true
-  
+
 #configuration for all other branches
 -
   branches:
-    except: 
+    except:
       - master
 
   build:
