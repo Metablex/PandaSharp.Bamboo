@@ -32,6 +32,16 @@ namespace PandaSharp.Bamboo.Test.Framework.Services.Request
             Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
         }
 
+        [Test]
+        public void GetCommandUriTest()
+        {
+            var request = CreateRequest();
+            var uri = request.GetCommandUri();
+
+            uri.ShouldNotBeNull();
+            uri.AbsoluteUri.ShouldBe("https://testme.com/resource");
+        }
+
         protected override Mock<IRestClient> SetupRestClientMock()
         {
             var response = new Mock<IRestResponse>(MockBehavior.Loose);
@@ -51,6 +61,10 @@ namespace PandaSharp.Bamboo.Test.Framework.Services.Request
             client
                 .Setup(i => i.ExecuteTaskAsync(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.Run(() => response.Object));
+
+            client
+                .Setup(i => i.BuildUri(It.IsAny<IRestRequest>()))
+                .Returns<IRestRequest>(request => new Uri("https://testme.com/resource"));
 
             return client;
         }

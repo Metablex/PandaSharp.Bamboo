@@ -37,5 +37,13 @@ namespace PandaSharp.Bamboo.Services.Common.Request
         {
             return ExecuteAsync(CancellationToken.None);
         }
+
+        public Uri GetCommandUri()
+        {
+            var client = CreateRestClient();
+            var request = BuildRequest();
+
+            return client.BuildUri(request);
+        }
     }
 }

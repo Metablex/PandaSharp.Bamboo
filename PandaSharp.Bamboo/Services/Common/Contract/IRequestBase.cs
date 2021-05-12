@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PandaSharp.Bamboo.Services.Common.Contract
@@ -8,5 +9,7 @@ namespace PandaSharp.Bamboo.Services.Common.Contract
         Task<T> ExecuteAsync(CancellationToken cancellationToken);
 
         Task<T> ExecuteAsync();
+
+        Uri GetRequestUri();
     }
 }
