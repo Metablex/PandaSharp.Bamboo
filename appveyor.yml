@@ -12,33 +12,11 @@ artifacts:
 test_script:
   - cmd: nuget install Appveyor.TestLogger -Version 2.0.0
   - cmd: dotnet test --no-build --no-restore --test-adapter-path:. --logger:Appveyor
-
-for:
-
-#configuration for master branch
--
-  branches:
-    only:
-      - master
-
-  build:
-    publish_nuget: true
-    verbosity: minimal
-
-  deploy:
-    - provider: NuGet
-      name: Push to NuGet
-      api_key:
-        secure: 3bVQSfmfWu/xsvc7xwIJMsm/RIVXFdKvMU1r1idingh5ESWKJKqZpT9Hl1hXgUYq
-      on:
-        APPVEYOR_REPO_TAG: true
-
-#configuration for all other branches
--
-  branches:
-    except:
-      - master
-
-  build:
-    publish_nuget: false
-    verbosity: minimal
+  
+deploy:
+  - provider: NuGet
+    name: Push to NuGet
+    api_key:
+      secure: 3bVQSfmfWu/xsvc7xwIJMsm/RIVXFdKvMU1r1idingh5ESWKJKqZpT9Hl1hXgUYq
+    on:
+      APPVEYOR_REPO_TAG: true
