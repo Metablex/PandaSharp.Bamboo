@@ -13,5 +13,8 @@ namespace PandaSharp.Bamboo.Services.Build.Response
 
         [JsonProperty("link")]
         public LinkResponse LinkedResource { get; set; }
+
+        [JsonProperty("size")]
+        public long FileSizeInBytes { get; set; }
     }
 }
