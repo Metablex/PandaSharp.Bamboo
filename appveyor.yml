@@ -39,7 +39,7 @@ for:
     - provider: NuGet
       name: Push to NuGet
       api_key:
-        secure: VUHSM/vL4fAX/SdO77tiSRWMls1wG51gJ4krWx6w6ThUWYPzgKMBmLg+iBela0h2
+        secure: 3bVQSfmfWu/xsvc7xwIJMsm/RIVXFdKvMU1r1idingh5ESWKJKqZpT9Hl1hXgUYq
       on:
         APPVEYOR_REPO_TAG: true
   
