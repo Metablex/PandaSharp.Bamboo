@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
-using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Services.Project.Aspect;
 using PandaSharp.Bamboo.Services.Project.Contract;
 using PandaSharp.Bamboo.Services.Project.Request;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
+using PandaSharp.Framework.Services.Aspect;
 using RestSharp;
 using Shouldly;
 

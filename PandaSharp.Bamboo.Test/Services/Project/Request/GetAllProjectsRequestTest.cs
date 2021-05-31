@@ -9,6 +9,7 @@ using PandaSharp.Bamboo.Services.Project.Aspect;
 using PandaSharp.Bamboo.Services.Project.Request;
 using PandaSharp.Bamboo.Services.Project.Response;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
+using PandaSharp.Framework.Services.Aspect;
 using RestSharp;
 using Shouldly;
 

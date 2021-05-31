@@ -1,7 +1,7 @@
-using PandaSharp.Bamboo.IoC.Contract;
-using PandaSharp.Bamboo.IoC.Injections;
 using PandaSharp.Bamboo.Services.Common.Types;
 using PandaSharp.Bamboo.Services.Project.Contract;
+using PandaSharp.Framework.IoC.Contract;
+using PandaSharp.Framework.IoC.Injections;
 
 namespace PandaSharp.Bamboo.Services.Project.Factory
 {

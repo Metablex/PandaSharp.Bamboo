@@ -7,6 +7,7 @@ using PandaSharp.Bamboo.Services.Search.Aspect;
 using PandaSharp.Bamboo.Services.Search.Request;
 using PandaSharp.Bamboo.Services.Search.Response;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
+using PandaSharp.Framework.Services.Aspect;
 using RestSharp;
 using Shouldly;
 

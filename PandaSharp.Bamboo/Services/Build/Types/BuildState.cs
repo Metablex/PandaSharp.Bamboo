@@ -1,4 +1,4 @@
-using PandaSharp.Bamboo.Attributes;
+using PandaSharp.Framework.Attributes;
 
 namespace PandaSharp.Bamboo.Services.Build.Types
 {

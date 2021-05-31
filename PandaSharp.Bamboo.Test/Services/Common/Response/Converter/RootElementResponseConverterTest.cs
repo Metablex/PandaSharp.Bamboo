@@ -3,9 +3,9 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using PandaSharp.Bamboo.Attributes;
 using PandaSharp.Bamboo.Services.Common.Response;
 using PandaSharp.Bamboo.Services.Common.Response.Converter;
+using PandaSharp.Framework.Attributes;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Common.Response.Converter
@@ -56,7 +56,7 @@ namespace PandaSharp.Bamboo.Test.Services.Common.Response.Converter
 
         private static JsonTextReader CreateTestReader()
         {
-            const string json = @"
+            const string Json = @"
             {
                 ""plans"": {
                     ""number"":""42"",
@@ -71,7 +71,7 @@ namespace PandaSharp.Bamboo.Test.Services.Common.Response.Converter
                 }
             }";
 
-            var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+            var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(Json));
             var streamReader = new StreamReader(memoryStream);
             return new JsonTextReader(streamReader);
         }

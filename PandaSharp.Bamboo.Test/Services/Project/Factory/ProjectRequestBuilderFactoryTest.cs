@@ -10,7 +10,6 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Factory
     [TestFixture]
     internal sealed class ProjectRequestBuilderFactoryTest : RequestBuilderFactoryTestBase
     {
-        private const string PlanKey = "MasterPlan";
         private const string ProjectKey = "ProjectX";
         private const string ProjectName = "ProjectName";
 

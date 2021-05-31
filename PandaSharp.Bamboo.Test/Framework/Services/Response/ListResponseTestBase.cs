@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using PandaSharp.Bamboo.Attributes;
+using PandaSharp.Framework.Attributes;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Framework.Services.Response

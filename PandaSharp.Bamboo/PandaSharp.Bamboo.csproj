@@ -3,19 +3,18 @@
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <Version>1.1.0</Version>
-    <Company />
     <Authors>Tom Birras</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>C# wrapper for Atlassian Bamboo</Description>
-    <PackageProjectUrl>https://github.com/Metablex/PandaSharp</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Metablex/PandaSharp.Bamboo</PackageProjectUrl>
+    <PackageTags>wrapper csharp rest-api bamboo fluent</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="RestSharp" Version="106.6.10" />
-  </ItemGroup>
+  <PropertyGroup>
+    <PandaSharpFramework>..\..\PandaSharp.Framework\PandaSharp.Framework\PandaSharp.Framework.csproj</PandaSharpFramework>
+  </PropertyGroup>
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
@@ -24,6 +23,14 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
     </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(BuildWithLocalReferences)' == true">
+    <ProjectReference Include="$(PandaSharpFramework)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(BuildWithLocalReferences)' != true">
+    <PackageReference Include="PandaSharp.Framework" Version="1.0.1" />
   </ItemGroup>
 
 </Project>

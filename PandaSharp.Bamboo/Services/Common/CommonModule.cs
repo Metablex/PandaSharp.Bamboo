@@ -1,5 +1,5 @@
-using PandaSharp.Bamboo.IoC.Contract;
 using PandaSharp.Bamboo.Services.Common.Aspect;
+using PandaSharp.Framework.IoC.Contract;
 
 namespace PandaSharp.Bamboo.Services.Common
 {
@@ -7,7 +7,6 @@ namespace PandaSharp.Bamboo.Services.Common
     {
         public void RegisterModule(IPandaContainer container)
         {
-            container.RegisterType<IRequestParameterAspectFactory, RequestParameterAspectFactory>();
             container.RegisterType<IResultCountParameterAspect, ResultCountParameterAspect>();
         }
     }

@@ -1,6 +1,4 @@
 using System;
-using PandaSharp.Bamboo.Attributes;
-using PandaSharp.Bamboo.Rest.Contract;
 using PandaSharp.Bamboo.Services.Build.Aspect;
 using PandaSharp.Bamboo.Services.Build.Contract;
 using PandaSharp.Bamboo.Services.Build.Expansion;
@@ -8,7 +6,10 @@ using PandaSharp.Bamboo.Services.Build.Request.Base;
 using PandaSharp.Bamboo.Services.Build.Response;
 using PandaSharp.Bamboo.Services.Build.Types;
 using PandaSharp.Bamboo.Services.Common.Aspect;
-using PandaSharp.Bamboo.Utils;
+using PandaSharp.Framework.Attributes;
+using PandaSharp.Framework.Rest.Contract;
+using PandaSharp.Framework.Services.Aspect;
+using PandaSharp.Framework.Utils;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Build.Request

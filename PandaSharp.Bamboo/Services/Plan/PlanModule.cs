@@ -1,16 +1,15 @@
-﻿using PandaSharp.Bamboo.IoC;
-using PandaSharp.Bamboo.IoC.Contract;
-using PandaSharp.Bamboo.Services.Plan.Aspect;
+﻿using PandaSharp.Bamboo.Services.Plan.Aspect;
 using PandaSharp.Bamboo.Services.Plan.Contract;
 using PandaSharp.Bamboo.Services.Plan.Factory;
 using PandaSharp.Bamboo.Services.Plan.Request;
-using PandaSharp.Bamboo.Utils;
+using PandaSharp.Framework.IoC.Contract;
+using PandaSharp.Framework.Utils;
 
 namespace PandaSharp.Bamboo.Services.Plan
 {
     internal sealed class PlanModule : IPandaContextModule
     {
-        public void RegisterModule(IPandaContainer container, PandaContainerContext context)
+        public void RegisterModule(IPandaContainer container, IPandaContainerContext context)
         {
             container
                 .RequestRegistrationFor<IGetAllPlansRequest>()

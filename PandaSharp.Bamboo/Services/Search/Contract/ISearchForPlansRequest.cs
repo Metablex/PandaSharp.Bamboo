@@ -1,5 +1,5 @@
-using PandaSharp.Bamboo.Services.Common.Contract;
 using PandaSharp.Bamboo.Services.Search.Response;
+using PandaSharp.Framework.Services.Contract;
 
 namespace PandaSharp.Bamboo.Services.Search.Contract
 {

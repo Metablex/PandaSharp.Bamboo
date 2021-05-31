@@ -11,6 +11,7 @@ using PandaSharp.Bamboo.Services.Build.Response;
 using PandaSharp.Bamboo.Services.Build.Types;
 using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
+using PandaSharp.Framework.Services.Aspect;
 using RestSharp;
 using Shouldly;
 

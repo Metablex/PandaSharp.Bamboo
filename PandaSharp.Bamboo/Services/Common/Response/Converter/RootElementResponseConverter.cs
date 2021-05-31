@@ -3,8 +3,8 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using PandaSharp.Bamboo.Attributes;
-using PandaSharp.Bamboo.Utils;
+using PandaSharp.Framework.Attributes;
+using PandaSharp.Framework.Utils;
 
 namespace PandaSharp.Bamboo.Services.Common.Response.Converter
 {

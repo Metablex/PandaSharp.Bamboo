@@ -1,5 +1,5 @@
 using PandaSharp.Bamboo.Services.Build.Types;
-using PandaSharp.Bamboo.Services.Common.Aspect;
+using PandaSharp.Framework.Services.Aspect;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Build.Aspect

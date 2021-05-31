@@ -1,7 +1,7 @@
 using System;
 using PandaSharp.Bamboo.Services.Build.Expansion;
-using PandaSharp.Bamboo.Services.Common.Aspect;
-using PandaSharp.Bamboo.Utils;
+using PandaSharp.Framework.Services.Aspect;
+using PandaSharp.Framework.Utils;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Build.Aspect

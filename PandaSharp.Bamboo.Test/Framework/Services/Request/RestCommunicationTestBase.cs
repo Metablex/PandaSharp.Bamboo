@@ -5,8 +5,8 @@ using System.Net;
 using System.Reflection;
 using Moq;
 using NUnit.Framework;
-using PandaSharp.Bamboo.Rest.Contract;
-using PandaSharp.Bamboo.Services.Common.Aspect;
+using PandaSharp.Framework.Rest.Contract;
+using PandaSharp.Framework.Services.Aspect;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Test.Framework.Services.Request

@@ -1,9 +1,9 @@
-using PandaSharp.Bamboo.Attributes;
-using PandaSharp.Bamboo.Rest.Contract;
-using PandaSharp.Bamboo.Services.Common.Aspect;
-using PandaSharp.Bamboo.Services.Common.Request;
 using PandaSharp.Bamboo.Services.Common.Types;
 using PandaSharp.Bamboo.Services.Project.Contract;
+using PandaSharp.Framework.Attributes;
+using PandaSharp.Framework.Rest.Contract;
+using PandaSharp.Framework.Services.Aspect;
+using PandaSharp.Framework.Services.Request;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Project.Request

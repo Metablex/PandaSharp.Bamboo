@@ -1,5 +1,5 @@
 using PandaSharp.Bamboo.Services.Build.Response;
-using PandaSharp.Bamboo.Services.Common.Contract;
+using PandaSharp.Framework.Services.Contract;
 
 namespace PandaSharp.Bamboo.Services.Build.Contract
 {

@@ -1,16 +1,15 @@
-using PandaSharp.Bamboo.IoC;
-using PandaSharp.Bamboo.IoC.Contract;
 using PandaSharp.Bamboo.Services.Search.Aspect;
 using PandaSharp.Bamboo.Services.Search.Contract;
 using PandaSharp.Bamboo.Services.Search.Factory;
 using PandaSharp.Bamboo.Services.Search.Request;
-using PandaSharp.Bamboo.Utils;
+using PandaSharp.Framework.IoC.Contract;
+using PandaSharp.Framework.Utils;
 
 namespace PandaSharp.Bamboo.Services.Search
 {
     internal sealed class SearchModule : IPandaContextModule
     {
-        public void RegisterModule(IPandaContainer container, PandaContainerContext context)
+        public void RegisterModule(IPandaContainer container, IPandaContainerContext context)
         {
             container
                 .RequestRegistrationFor<ISearchForPlansRequest>()

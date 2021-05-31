@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
-using PandaSharp.Bamboo.Services.Common.Request;
+using PandaSharp.Framework.Services.Request;
 using RestSharp;
 using Shouldly;
 

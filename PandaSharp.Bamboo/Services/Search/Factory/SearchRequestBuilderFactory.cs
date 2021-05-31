@@ -1,5 +1,5 @@
-﻿using PandaSharp.Bamboo.IoC.Contract;
-using PandaSharp.Bamboo.Services.Search.Contract;
+﻿using PandaSharp.Bamboo.Services.Search.Contract;
+using PandaSharp.Framework.IoC.Contract;
 
 namespace PandaSharp.Bamboo.Services.Search.Factory
 {

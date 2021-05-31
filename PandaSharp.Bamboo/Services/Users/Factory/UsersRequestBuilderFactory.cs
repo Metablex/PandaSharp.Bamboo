@@ -1,5 +1,5 @@
-using PandaSharp.Bamboo.IoC.Contract;
 using PandaSharp.Bamboo.Services.Users.Contract;
+using PandaSharp.Framework.IoC.Contract;
 
 namespace PandaSharp.Bamboo.Services.Users.Factory
 {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using PandaSharp.Bamboo.Utils;
+using PandaSharp.Framework.Utils;
 
 namespace PandaSharp.Bamboo.Services.Common.Expansion
 {

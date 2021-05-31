@@ -1,15 +1,14 @@
-using PandaSharp.Bamboo.IoC;
-using PandaSharp.Bamboo.IoC.Contract;
 using PandaSharp.Bamboo.Services.Users.Contract;
 using PandaSharp.Bamboo.Services.Users.Factory;
 using PandaSharp.Bamboo.Services.Users.Request;
-using PandaSharp.Bamboo.Utils;
+using PandaSharp.Framework.IoC.Contract;
+using PandaSharp.Framework.Utils;
 
 namespace PandaSharp.Bamboo.Services.Users
 {
     internal sealed class UsersModule : IPandaContextModule
     {
-        public void RegisterModule(IPandaContainer container, PandaContainerContext context)
+        public void RegisterModule(IPandaContainer container, IPandaContainerContext context)
         {
             container
                 .RequestRegistrationFor<IGetCurrentUserRequest>()

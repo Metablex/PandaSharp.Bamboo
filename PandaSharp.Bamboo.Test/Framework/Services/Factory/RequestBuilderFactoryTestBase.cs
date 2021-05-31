@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using PandaSharp.Bamboo.IoC.Contract;
-using PandaSharp.Bamboo.IoC.Injections;
+using PandaSharp.Framework.IoC.Contract;
+using PandaSharp.Framework.IoC.Injections;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Framework.Services.Factory
