@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Tom Birras</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>C# wrapper for Atlassian Bamboo</Description>
