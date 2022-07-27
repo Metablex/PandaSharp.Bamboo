@@ -1,6 +1,6 @@
-using Castle.Core.Internal;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Build.Expansion;
+using PandaSharp.Framework.Utils;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Build.Expansion

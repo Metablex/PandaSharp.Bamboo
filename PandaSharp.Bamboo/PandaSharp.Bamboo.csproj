@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <Version>1.1.1</Version>
     <Authors>Tom Birras</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -9,7 +9,7 @@
     <PackageProjectUrl>https://github.com/Metablex/PandaSharp.Bamboo</PackageProjectUrl>
     <PackageTags>wrapper csharp rest-api bamboo fluent</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>

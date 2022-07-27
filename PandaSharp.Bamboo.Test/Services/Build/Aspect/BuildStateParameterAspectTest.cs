@@ -14,7 +14,7 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Aspect
         {
             var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
             requestMock
-                .Setup(i => i.AddParameter("buildstate", BuildState.Successful))
+                .Setup(i => i.AddParameter("buildstate", "successful"))
                 .Returns(requestMock.Object)
                 .Verifiable();
 

@@ -13,7 +13,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Aspect
         {
             var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
             requestMock
-                .Setup(i => i.AddParameter("expand", "stages", ParameterType.QueryString))
+                .Setup(i => i.AddQueryParameter("expand", "stages"))
                 .Returns(() => requestMock.Object)
                 .Verifiable();
 

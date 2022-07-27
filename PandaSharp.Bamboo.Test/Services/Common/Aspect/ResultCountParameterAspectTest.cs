@@ -13,7 +13,7 @@ namespace PandaSharp.Bamboo.Test.Services.Common.Aspect
         {
             var restRequestMock = new Mock<IRestRequest>(MockBehavior.Strict);
             restRequestMock
-                .Setup(r => r.AddParameter(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<ParameterType>()))
+                .Setup(r => r.AddQueryParameter(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(restRequestMock.Object)
                 .Verifiable();
 

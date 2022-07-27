@@ -54,7 +54,7 @@ namespace PandaSharp.Bamboo.Test.Framework.Services.Request
 
             var client = new Mock<IRestClient>(MockBehavior.Strict);
             client
-                .Setup(i => i.ExecuteTaskAsync<TResponse>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
+                .Setup(i => i.ExecuteAsync<TResponse>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.Run(() => response.Object));
 
             return client;

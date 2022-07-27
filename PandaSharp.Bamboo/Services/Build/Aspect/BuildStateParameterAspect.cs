@@ -1,5 +1,6 @@
 using PandaSharp.Bamboo.Services.Build.Types;
 using PandaSharp.Framework.Services.Aspect;
+using PandaSharp.Framework.Utils;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Build.Aspect
@@ -12,7 +13,7 @@ namespace PandaSharp.Bamboo.Services.Build.Aspect
         {
             if (BuildState.HasValue)
             {
-                restRequest.AddParameter("buildstate", BuildState);
+                restRequest.AddParameter("buildstate", BuildState.Value.GetEnumStringRepresentation());
             }
             else
             {

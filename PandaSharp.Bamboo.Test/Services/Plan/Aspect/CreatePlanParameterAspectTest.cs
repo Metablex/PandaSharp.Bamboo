@@ -13,15 +13,15 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Aspect
         {
             var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
             requestMock
-                .Setup(i => i.AddParameter("vcsBranch", "TestBranch", ParameterType.QueryStringWithoutEncode))
+                .Setup(i => i.AddQueryParameter("vcsBranch", "TestBranch", false))
                 .Returns(requestMock.Object);
 
             requestMock
-                .Setup(i => i.AddParameter("enabled", true, ParameterType.QueryString))
+                .Setup(i => i.AddQueryParameter("enabled", "True"))
                 .Returns(requestMock.Object);
 
             requestMock
-                .Setup(i => i.AddParameter("cleanupEnabled", false, ParameterType.QueryString))
+                .Setup(i => i.AddQueryParameter("cleanupEnabled", "False"))
                 .Returns(requestMock.Object);
 
             var aspect = new CreatePlanParameterAspect

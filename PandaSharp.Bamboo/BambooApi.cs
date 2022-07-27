@@ -6,6 +6,7 @@ using PandaSharp.Bamboo.Services.Search.Factory;
 using PandaSharp.Bamboo.Services.Users.Factory;
 using PandaSharp.Framework.IoC;
 using PandaSharp.Framework.IoC.Contract;
+using PandaSharp.Framework.Utils;
 
 namespace PandaSharp.Bamboo
 {
@@ -26,18 +27,32 @@ namespace PandaSharp.Bamboo
         private BambooApi(string baseUrl, string userName, string password)
         {
             _container = new Lazy<IPandaContainer>(
-                () => PandaContainerFactory.CreateAndRegisterContainerWithCredentials(new BambooApiContext(), baseUrl, userName, password));
+                () =>
+                {
+                    var container = new PandaContainer();
+                    container.RegisterWithBasicAuthentication(baseUrl, userName, password);
+                    container.RegisterPandaModules(new BambooApiContext());
+
+                    return container;
+                });
         }
 
         private BambooApi(string baseUrl, string consumerKey, string consumerSecret, string oAuthAccessToken, string oAuthTokenSecret)
         {
             _container = new Lazy<IPandaContainer>(
-                () => PandaContainerFactory.CreateAndRegisterContainerWithOAuth(new BambooApiContext(), baseUrl, consumerKey, consumerSecret, oAuthAccessToken, oAuthTokenSecret));
+                () =>
+                {
+                    var container = new PandaContainer();
+                    container.RegisterWithOAuthAuthentication(baseUrl, consumerKey, consumerSecret, oAuthAccessToken, oAuthTokenSecret);
+                    container.RegisterPandaModules(new BambooApiContext());
+
+                    return container;
+                });
         }
 
         public static BambooApi CreateWithBasicAuthentication(string baseUrl, string userName, string password)
         {
-            return new(baseUrl, userName, password);
+            return new BambooApi(baseUrl, userName, password);
         }
 
         public static BambooApi CreateWithOAuthAuthentication(
@@ -47,7 +62,7 @@ namespace PandaSharp.Bamboo
             string oAuthAccessToken,
             string oAuthTokenSecret)
         {
-            return new(baseUrl, consumerKey, consumerSecret, oAuthAccessToken, oAuthTokenSecret);
+            return new BambooApi(baseUrl, consumerKey, consumerSecret, oAuthAccessToken, oAuthTokenSecret);
         }
     }
 }

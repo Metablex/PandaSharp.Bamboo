@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using PandaSharp.Bamboo.Services.Common.Response;
-using PandaSharp.Bamboo.Services.Common.Response.Converter;
 using PandaSharp.Framework.Attributes;
+using PandaSharp.Framework.Services.Converter;
+using PandaSharp.Framework.Services.Response;
 
 namespace PandaSharp.Bamboo.Services.Project.Response
 {
