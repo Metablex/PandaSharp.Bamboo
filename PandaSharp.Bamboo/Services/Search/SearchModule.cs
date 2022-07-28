@@ -3,21 +3,15 @@ using PandaSharp.Bamboo.Services.Search.Contract;
 using PandaSharp.Bamboo.Services.Search.Factory;
 using PandaSharp.Bamboo.Services.Search.Request;
 using PandaSharp.Framework.IoC.Contract;
-using PandaSharp.Framework.Utils;
 
 namespace PandaSharp.Bamboo.Services.Search
 {
-    internal sealed class SearchModule : IPandaContextModule
+    internal sealed class SearchModule : IPandaContainerModule
     {
-        public void RegisterModule(IPandaContainer container, IPandaContainerContext context)
+        public void RegisterModule(IPandaContainer container)
         {
-            container
-                .RequestRegistrationFor<ISearchForPlansRequest>()
-                .LatestRequest<SearchForPlansRequest>()
-                .Register(context);
-
+            container.RegisterType<ISearchForPlansRequest, SearchForPlansRequest>();
             container.RegisterType<IPlanSearchParameterAspect, PlanSearchParameterAspect>();
-
             container.RegisterType<ISearchRequestBuilderFactory, SearchRequestBuilderFactory>();
         }
     }

@@ -3,34 +3,17 @@ using PandaSharp.Bamboo.Services.Project.Contract;
 using PandaSharp.Bamboo.Services.Project.Factory;
 using PandaSharp.Bamboo.Services.Project.Request;
 using PandaSharp.Framework.IoC.Contract;
-using PandaSharp.Framework.Utils;
 
 namespace PandaSharp.Bamboo.Services.Project
 {
-    internal sealed class ProjectModule : IPandaContextModule
+    internal sealed class ProjectModule : IPandaContainerModule
     {
-        public void RegisterModule(IPandaContainer container, IPandaContainerContext context)
+        public void RegisterModule(IPandaContainer container)
         {
-            container
-                .RequestRegistrationFor<IGetAllProjectsRequest>()
-                .LatestRequest<GetAllProjectsRequest>()
-                .Register(context);
-
-            container
-                .RequestRegistrationFor<ICreateProjectCommand>()
-                .LatestRequest<CreateProjectCommand>()
-                .Register(context);
-
-            container
-                .RequestRegistrationFor<IDeleteProjectCommand>()
-                .LatestRequest<DeleteProjectCommand>()
-                .Register(context);
-
-            container
-                .RequestRegistrationFor<IGetInformationOfProjectRequest>()
-                .LatestRequest<GetInformationOfProjectRequest>()
-                .Register(context);
-
+            container.RegisterType<IGetAllProjectsRequest, GetAllProjectsRequest>();
+            container.RegisterType<ICreateProjectCommand, CreateProjectCommand>();
+            container.RegisterType<IDeleteProjectCommand, DeleteProjectCommand>();
+            container.RegisterType<IGetInformationOfProjectRequest, GetInformationOfProjectRequest>();
             container.RegisterType<IGetInformationOfProjectRequestAspect, GetInformationOfProjectRequestAspect>();
             container.RegisterType<IGetAllProjectsParameterAspect, GetAllProjectsParameterAspect>();
             container.RegisterType<ICreateProjectCommandAspect, CreateProjectCommandAspect>();

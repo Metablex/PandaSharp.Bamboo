@@ -2,19 +2,14 @@ using PandaSharp.Bamboo.Services.Users.Contract;
 using PandaSharp.Bamboo.Services.Users.Factory;
 using PandaSharp.Bamboo.Services.Users.Request;
 using PandaSharp.Framework.IoC.Contract;
-using PandaSharp.Framework.Utils;
 
 namespace PandaSharp.Bamboo.Services.Users
 {
-    internal sealed class UsersModule : IPandaContextModule
+    internal sealed class UsersModule : IPandaContainerModule
     {
-        public void RegisterModule(IPandaContainer container, IPandaContainerContext context)
+        public void RegisterModule(IPandaContainer container)
         {
-            container
-                .RequestRegistrationFor<IGetCurrentUserRequest>()
-                .LatestRequest<GetCurrentUserRequest>()
-                .Register(context);
-
+            container.RegisterType<IGetCurrentUserRequest, GetCurrentUserRequest>();
             container.RegisterType<IUsersRequestBuilderFactory, UsersRequestBuilderFactory>();
         }
     }
