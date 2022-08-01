@@ -2,12 +2,12 @@ namespace PandaSharp.Bamboo.Services.Project.Aspect
 {
     internal interface ICreateProjectCommandAspect
     {
-        string ProjectKey { get; set; }
-
-        string ProjectName { get; set; }
-
-        string Description { get; set; }
-
-        bool EnablePublicAccess { get; set; }
+        void SetProjectKey(string projectKey);
+        
+        void SetProjectName(string projectName);
+        
+        void SetDescription(string description);
+        
+        void EnablePublicAccess(bool enablePublicAccess);
     }
 }

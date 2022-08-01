@@ -2,8 +2,8 @@ namespace PandaSharp.Bamboo.Services.Common.Aspect
 {
     internal interface IResultCountParameterAspect
     {
-        int? StartIndex { get; set; }
-
-        int? MaxResults { get; set; }
+        void SetStartIndex(int startIndex);
+        
+        void SetMaxResults(int maxResults);
     }
 }

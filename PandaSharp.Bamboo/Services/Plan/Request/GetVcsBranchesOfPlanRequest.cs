@@ -12,20 +12,20 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
     internal sealed class GetVcsBranchesOfPlanRequest : PlanRequestBase<VcsBranchListResponse>, IGetVcsBranchesOfPlanRequest
     {
-        public GetVcsBranchesOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
-            : base(restClientFactory, parameterAspectFactory)
+        public GetVcsBranchesOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
         {
         }
 
         public IGetVcsBranchesOfPlanRequest WithMaxResult(int maxResult)
         {
-            GetAspect<IResultCountParameterAspect>().MaxResults = maxResult;
+            GetAspect<IResultCountParameterAspect>().SetMaxResults(maxResult);
             return this;
         }
 
         public IGetVcsBranchesOfPlanRequest StartAtIndex(int startIndex)
         {
-            GetAspect<IResultCountParameterAspect>().StartIndex = startIndex;
+            GetAspect<IResultCountParameterAspect>().SetStartIndex(startIndex);
             return this;
         }
 

@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+using System;
+using System.Net;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
@@ -7,56 +8,58 @@ using PandaSharp.Bamboo.Services.Search.Aspect;
 using PandaSharp.Bamboo.Services.Search.Request;
 using PandaSharp.Bamboo.Services.Search.Response;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
-using PandaSharp.Framework.Services.Aspect;
 using RestSharp;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Search.Request
 {
     [TestFixture]
-    internal sealed class SearchForPlansTest : RequestBaseTest<SearchForPlansRequest, PlanSearchResultListResponse>
+    internal sealed class SearchForPlansTest
     {
-        protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
+        [Test]
+        public void UnauthorizedExecuteTest()
         {
-            yield return CreateParameterAspectMock<IResultCountParameterAspect>();
-            yield return CreateParameterAspectMock<IPlanSearchParameterAspect>();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<PlanSearchResultListResponse>(HttpStatusCode.Unauthorized);
+
+            var request = RequestTestMockBuilder.CreateRequest<SearchForPlansRequest, PlanSearchResultListResponse>(restFactoryMock);
+
+            Should.ThrowAsync<UnauthorizedAccessException>(() => request.ExecuteAsync());
         }
 
+        [Test]
+        public void AnyErrorWhileExecuteTest()
+        {
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<PlanSearchResultListResponse>(HttpStatusCode.NotFound);
+
+            var request = RequestTestMockBuilder.CreateRequest<SearchForPlansRequest, PlanSearchResultListResponse>(restFactoryMock);
+
+            Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
+        }
+        
         [Test]
         public async Task ExecuteAsyncTest()
         {
-            var response = await CreateRequest().ExecuteAsync();
-
-            response.ShouldNotBeNull();
-            VerifyRestRequestCreation("search/plans", Method.GET);
-        }
-
-        [Test]
-        public void ResultCountParameterAspectTest()
-        {
-            CreateRequest()
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<PlanSearchResultListResponse>();
+            var resultCountParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IResultCountParameterAspect>();
+            var planSearchParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IPlanSearchParameterAspect>();
+            
+            var request = RequestTestMockBuilder
+                .CreateRequest<SearchForPlansRequest, PlanSearchResultListResponse>(restFactoryMock, resultCountParameterAspect, planSearchParameterAspect)
                 .WithMaxResult(42)
-                .StartAtIndex(9);
-
-            VerifyParameterAspectMock<IResultCountParameterAspect>(aspect =>
-            {
-                aspect.MaxResults.ShouldBe(42);
-                aspect.StartIndex.ShouldBe(9);
-            });
-        }
-
-        [Test]
-        public void PlanSearchParameterAspectTest()
-        {
-            CreateRequest()
+                .StartAtIndex(9)
                 .WithSearchTerm("Test")
                 .PerformFuzzySearch();
-
-            VerifyParameterAspectMock<IPlanSearchParameterAspect>(aspect =>
-            {
-                aspect.SearchTerm.ShouldBe("Test");
-                aspect.PerformFuzzySearch.ShouldBeTrue();
-            });
+            
+            var response = await request.ExecuteAsync();
+            response.ShouldNotBeNull();
+            
+            restFactoryMock.Verify(r => r.CreateRequest("search/plans", Method.GET), Times.Once);
+            
+            resultCountParameterAspect.Verify(i => i.SetMaxResults(42), Times.Once);
+            resultCountParameterAspect.Verify(i => i.SetStartIndex(9), Times.Once);
+            
+            planSearchParameterAspect.Verify(i => i.SetSearchTerm("Test"), Times.Once);
+            planSearchParameterAspect.Verify(i => i.SetPerformFuzzySearch(true), Times.Once);
         }
     }
 }

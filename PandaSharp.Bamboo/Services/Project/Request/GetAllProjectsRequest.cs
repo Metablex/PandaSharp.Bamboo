@@ -16,26 +16,26 @@ namespace PandaSharp.Bamboo.Services.Project.Request
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
     internal sealed class GetAllProjectsRequest : RequestBase<ProjectListResponse>, IGetAllProjectsRequest
     {
-        public GetAllProjectsRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
-            : base(restClientFactory, parameterAspectFactory)
+        public GetAllProjectsRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
         {
         }
 
         public IGetAllProjectsRequest WithMaxResult(int maxResult)
         {
-            GetAspect<IResultCountParameterAspect>().MaxResults = maxResult;
+            GetAspect<IResultCountParameterAspect>().SetMaxResults(maxResult);
             return this;
         }
 
         public IGetAllProjectsRequest StartAtIndex(int startIndex)
         {
-            GetAspect<IResultCountParameterAspect>().StartIndex = startIndex;
+            GetAspect<IResultCountParameterAspect>().SetStartIndex(startIndex);
             return this;
         }
 
         public IGetAllProjectsRequest IncludeEmptyProjects()
         {
-            GetAspect<IGetAllProjectsParameterAspect>().IncludeEmptyProjects = true;
+            GetAspect<IGetAllProjectsParameterAspect>().SetIncludeEmptyProjects(true);
             return this;
         }
 

@@ -7,13 +7,18 @@ namespace PandaSharp.Bamboo.Services.Build.Aspect
 {
     internal sealed class BuildStateParameterAspect : RequestParameterAspectBase, IBuildStateParameterAspect
     {
-        public BuildState? BuildState { get; set; }
+        private BuildState? _buildState;
+
+        public void SetBuildStateFilter(BuildState buildState)
+        {
+            _buildState = buildState;
+        }
 
         public override void ApplyToRestRequest(IRestRequest restRequest)
         {
-            if (BuildState.HasValue)
+            if (_buildState.HasValue)
             {
-                restRequest.AddParameter("buildstate", BuildState.Value.GetEnumStringRepresentation());
+                restRequest.AddParameter("buildstate", _buildState.Value.GetEnumStringRepresentation());
             }
             else
             {

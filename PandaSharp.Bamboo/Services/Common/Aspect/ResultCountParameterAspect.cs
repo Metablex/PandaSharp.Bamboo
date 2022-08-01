@@ -6,18 +6,24 @@ namespace PandaSharp.Bamboo.Services.Common.Aspect
 {
     internal sealed class ResultCountParameterAspect : RequestParameterAspectBase, IResultCountParameterAspect
     {
-        private const string StartIndexParameterName = "start-index";
-        private const string MaxResultsParameterName = "max-results";
+        private int? _startIndex;
+        private int? _maxResults;
 
-        public int? StartIndex { get; set; }
+        public void SetStartIndex(int startIndex)
+        {
+            _startIndex = startIndex;
+        }
 
-        public int? MaxResults { get; set; }
+        public void SetMaxResults(int maxResults)
+        {
+            _maxResults = maxResults;
+        }
 
         public override void ApplyToRestRequest(IRestRequest restRequest)
         {
             restRequest
-                .AddParameterIfSet(StartIndexParameterName, StartIndex)
-                .AddParameterIfSet(MaxResultsParameterName, MaxResults);
+                .AddParameterIfSet("start-index", _startIndex)
+                .AddParameterIfSet("max-results", _maxResults);
         }
     }
 }

@@ -21,50 +21,50 @@ namespace PandaSharp.Bamboo.Services.Build.Request
     [SupportsParameterAspect(typeof(IGetBuildsOfPlanParameterAspect))]
     internal sealed class GetBuildsOfPlanRequest : BuildRequestBase<BuildListResponse>, IGetBuildsOfPlanRequest
     {
-        public GetBuildsOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
-            : base(restClientFactory, parameterAspectFactory)
+        public GetBuildsOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
         {
         }
 
         public IGetBuildsOfPlanRequest WithMaxResult(int maxResult)
         {
-            GetAspect<IResultCountParameterAspect>().MaxResults = maxResult;
+            GetAspect<IResultCountParameterAspect>().SetMaxResults(maxResult);
             return this;
         }
 
         public IGetBuildsOfPlanRequest StartAtIndex(int startIndex)
         {
-            GetAspect<IResultCountParameterAspect>().StartIndex = startIndex;
+            GetAspect<IResultCountParameterAspect>().SetStartIndex(startIndex);
             return this;
         }
 
         public IGetBuildsOfPlanRequest OnlyFailedBuilds()
         {
-            GetAspect<IBuildStateParameterAspect>().BuildState = BuildState.Failed;
+            GetAspect<IBuildStateParameterAspect>().SetBuildStateFilter(BuildState.Failed);
             return this;
         }
 
         public IGetBuildsOfPlanRequest OnlySuccessfulBuilds()
         {
-            GetAspect<IBuildStateParameterAspect>().BuildState = BuildState.Successful;
+            GetAspect<IBuildStateParameterAspect>().SetBuildStateFilter(BuildState.Successful);
             return this;
         }
 
         public IGetBuildsOfPlanRequest OnlyUncompletedBuilds()
         {
-            GetAspect<IBuildStateParameterAspect>().BuildState = BuildState.Unknown;
+            GetAspect<IBuildStateParameterAspect>().SetBuildStateFilter(BuildState.Unknown);
             return this;
         }
 
         public IGetBuildsOfPlanRequest OnlyWithIssues(params string[] jiraIssues)
         {
-            GetAspect<IIssueFilterParameterAspect>().Issues = jiraIssues;
+            GetAspect<IIssueFilterParameterAspect>().SetIssuesFilter(jiraIssues);
             return this;
         }
 
         public IGetBuildsOfPlanRequest OnlyWithLabels(params string[] labels)
         {
-            GetAspect<ILabelFilterParameterAspect>().Labels = labels;
+            GetAspect<ILabelFilterParameterAspect>().SetLabelsFilter(labels);
             return this;
         }
 

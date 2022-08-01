@@ -4,6 +4,6 @@ namespace PandaSharp.Bamboo.Services.Build.Aspect
 {
     internal interface IBuildStateParameterAspect
     {
-        BuildState? BuildState { get; set; }
+        void SetBuildStateFilter(BuildState buildState);
     }
 }

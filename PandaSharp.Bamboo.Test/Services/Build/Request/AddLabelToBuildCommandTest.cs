@@ -1,8 +1,9 @@
+using System;
+using System.Net;
 using System.Threading.Tasks;
 using Moq;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using PandaSharp.Bamboo.Services.Build.Contract;
 using PandaSharp.Bamboo.Services.Build.Request;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
 using RestSharp;
@@ -10,17 +11,39 @@ using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Build.Request
 {
-    internal sealed class AddLabelToBuildCommandTest : CommandBaseTest<AddLabelToBuildCommand>
+    [TestFixture]
+    internal sealed class AddLabelToBuildCommandTest
     {
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
         private const uint BuildNumber = 42;
         private const string Label = "BlackLabel";
+        
+        [Test]
+        public void UnauthorizedExecuteTest()
+        {
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock(HttpStatusCode.Unauthorized);
+
+            var request = RequestTestMockBuilder.CreateCommand<AddLabelToBuildCommand>(restFactoryMock);
+
+            Should.ThrowAsync<UnauthorizedAccessException>(() => request.ExecuteAsync());
+        }
+
+        [Test]
+        public void AnyErrorWhileExecuteTest()
+        {
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock(HttpStatusCode.NotFound);
+
+            var request = RequestTestMockBuilder.CreateCommand<AddLabelToBuildCommand>(restFactoryMock);
+
+            Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
+        }
 
         [Test]
         public async Task ExecuteAsyncTest()
         {
-            GetRestRequestMock()
+            var restRequestMock = new Mock<IRestRequest>();
+            restRequestMock
                 .Setup(i => i.AddJsonBody(It.IsAny<object>()))
                 .Callback<object>(i =>
                 {
@@ -32,20 +55,16 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Request
                     jsonValue.Value.ShouldBe(Label);
                 });
 
-            await CreateRequest().ExecuteAsync();
-
-            VerifyRestRequestCreation($"result/{ProjectKey}-{PlanKey}-{BuildNumber}/label", Method.POST);
-        }
-
-        private new IAddLabelToBuildCommand CreateRequest()
-        {
-            var request = base.CreateRequest();
-            request.ProjectKey = ProjectKey;
-            request.PlanKey = PlanKey;
-            request.BuildNumber = BuildNumber;
-            request.Label = Label;
-
-            return request;
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock(restRequestMock: restRequestMock);
+            var command = RequestTestMockBuilder.CreateCommand<AddLabelToBuildCommand>(restFactoryMock);
+            command.ProjectKey = ProjectKey;
+            command.PlanKey = PlanKey;
+            command.BuildNumber = BuildNumber;
+            command.Label = Label;
+            
+            await command.ExecuteAsync();
+            
+            restFactoryMock.Verify(r => r.CreateRequest($"result/{ProjectKey}-{PlanKey}-{BuildNumber}/label", Method.POST), Times.Once);
         }
     }
 }

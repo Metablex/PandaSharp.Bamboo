@@ -6,18 +6,31 @@ namespace PandaSharp.Bamboo.Services.Plan.Aspect
 {
     internal sealed class CreatePlanParameterAspect : RequestParameterAspectBase, ICreatePlanParameterAspect
     {
-        public string VcsBranch { get; set; }
+        private string _vcsBranch;
+        private bool? _isEnabled;
+        private bool? _isCleanupEnabled;
 
-        public bool? IsEnabled { get; set; }
+        public void SetVcsBranchFilter(string vcsBranch)
+        {
+            _vcsBranch = vcsBranch;
+        }
 
-        public bool? IsCleanupEnabled { get; set; }
+        public void SetIsEnabledFilter(bool isEnabled)
+        {
+            _isEnabled = isEnabled;
+        }
+
+        public void SetIsCleanupEnabledFilter(bool isCleanupEnabled)
+        {
+            _isCleanupEnabled = isCleanupEnabled;
+        }
 
         public override void ApplyToRestRequest(IRestRequest restRequest)
         {
             restRequest
-                .AddNotEncodedParameterIfSet("vcsBranch", VcsBranch)
-                .AddParameterIfSet("enabled", IsEnabled)
-                .AddParameterIfSet("cleanupEnabled", IsCleanupEnabled);
+                .AddNotEncodedParameterIfSet("vcsBranch", _vcsBranch)
+                .AddParameterIfSet("enabled", _isEnabled)
+                .AddParameterIfSet("cleanupEnabled", _isCleanupEnabled);
         }
     }
 }

@@ -8,45 +8,52 @@ namespace PandaSharp.Bamboo.Test.Services.Search.Aspect
     [TestFixture]
     public sealed class PlanSearchParameterAspectTest
     {
-        [Test]
-        public void ParameterAspectTest()
+        private Mock<IRestRequest> _restRequestMock;
+
+        [SetUp]
+        public void SetUp()
         {
-            var restRequestMock = new Mock<IRestRequest>(MockBehavior.Strict);
-            restRequestMock
-                .Setup(i => i.AddParameter("fuzzy", true))
-                .Returns(restRequestMock.Object)
-                .Verifiable();
-
-            restRequestMock
-                .Setup(i => i.AddParameter("searchTerm", "SearchMe"))
-                .Returns(restRequestMock.Object)
-                .Verifiable();
-
-            var aspect = new PlanSearchParameterAspect
-            {
-                SearchTerm = "SearchMe",
-                PerformFuzzySearch = true
-            };
-            aspect.ApplyToRestRequest(restRequestMock.Object);
-
-            restRequestMock.Verify();
-            restRequestMock.VerifyNoOtherCalls();
+            _restRequestMock = new Mock<IRestRequest>();
+            _restRequestMock
+                .Setup(i => i.AddParameter(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(_restRequestMock.Object);
+            
+            _restRequestMock
+                .Setup(i => i.AddQueryParameter(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(_restRequestMock.Object);
+        }
+        
+        [Test]
+        public void SetPerformFuzzySearchTest()
+        {
+            var aspect = new PlanSearchParameterAspect();
+            aspect.SetPerformFuzzySearch(true);
+            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            
+            _restRequestMock.Verify(i => i.AddParameter("fuzzy", true), Times.Once);
+            _restRequestMock.VerifyNoOtherCalls();
+        }
+        
+        [Test]
+        public void SetSearchTermTest()
+        {
+            var aspect = new PlanSearchParameterAspect();
+            aspect.SetSearchTerm("SearchMe");
+            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            
+            _restRequestMock.Verify(i => i.AddQueryParameter("searchTerm", "SearchMe"), Times.Once);
+            _restRequestMock.Verify(i => i.AddParameter("fuzzy", false), Times.Once);
+            _restRequestMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void DefaultParameterAspectTest()
         {
-            var restRequestMock = new Mock<IRestRequest>(MockBehavior.Strict);
-            restRequestMock
-                .Setup(i => i.AddParameter("fuzzy", false))
-                .Returns(restRequestMock.Object)
-                .Verifiable();
-
             var aspect = new PlanSearchParameterAspect();
-            aspect.ApplyToRestRequest(restRequestMock.Object);
+            aspect.ApplyToRestRequest(_restRequestMock.Object);
 
-            restRequestMock.Verify();
-            restRequestMock.VerifyNoOtherCalls();
+            _restRequestMock.Verify(i => i.AddParameter("fuzzy", false), Times.Once);
+            _restRequestMock.VerifyNoOtherCalls();
         }
     }
 }

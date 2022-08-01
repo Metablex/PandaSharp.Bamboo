@@ -8,18 +8,22 @@ namespace PandaSharp.Bamboo.Services.Project.Aspect
     internal sealed class GetAllProjectsParameterAspect : RequestParameterAspectBase, IGetAllProjectsParameterAspect
     {
         private PlanListInformationExpansion _planListInformationExpansion;
-
-        public bool IncludeEmptyProjects { get; set; }
+        private bool _includeEmptyProjects;
 
         public override void ApplyToRestRequest(IRestRequest restRequest)
         {
-            if (IncludeEmptyProjects)
+            if (_includeEmptyProjects)
             {
-                restRequest.AddParameter("showEmpty", null);
+                restRequest.AddParameter("showEmpty", true);
             }
 
             var expandState = _planListInformationExpansion?.ToString() ?? "projects.project";
             restRequest.AddParameter("expand", expandState);
+        }
+
+        public void SetIncludeEmptyProjects(bool includeEmptyProjects)
+        {
+            _includeEmptyProjects = includeEmptyProjects;
         }
 
         public void IncludePlanInformation(params Action<IPlanListInformationExpansion>[] expansions)

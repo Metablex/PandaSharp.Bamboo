@@ -1,85 +1,82 @@
 using System;
-using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Services.Plan.Expansion;
 using PandaSharp.Bamboo.Services.Project.Aspect;
-using PandaSharp.Bamboo.Services.Project.Contract;
 using PandaSharp.Bamboo.Services.Project.Request;
 using PandaSharp.Bamboo.Services.Project.Response;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
-using PandaSharp.Framework.Services.Aspect;
 using RestSharp;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Project.Request
 {
     [TestFixture]
-    internal sealed class GetInformationOfProjectRequestTest : RequestBaseTest<GetInformationOfProjectRequest, ProjectResponse>
+    internal sealed class GetInformationOfProjectRequestTest
     {
         private const string ProjectKey = "ProjectX";
-
-        private Mock<IPlanListInformationExpansion> _expandState;
-
-        protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
+        
+        [Test]
+        public void UnauthorizedExecuteTest()
         {
-            yield return CreateParameterAspectMock<IGetInformationOfProjectRequestAspect>(
-                aspect =>
-                {
-                    aspect
-                        .Setup(i => i.IncludePlanInformation(It.IsAny<Action<IPlanListInformationExpansion>[]>()))
-                        .Callback<Action<IPlanListInformationExpansion>[]>(
-                            expansions =>
-                            {
-                                foreach (var expansion in expansions)
-                                {
-                                    expansion(_expandState.Object);
-                                }
-                            });
-                });
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<ProjectResponse>(HttpStatusCode.Unauthorized);
 
-            yield return CreateParameterAspectMock<IResultCountParameterAspect>();
+            var request = RequestTestMockBuilder.CreateRequest<GetInformationOfProjectRequest, ProjectResponse>(restFactoryMock);
+
+            Should.ThrowAsync<UnauthorizedAccessException>(() => request.ExecuteAsync());
         }
 
-        protected override void SetupEachTest()
+        [Test]
+        public void AnyErrorWhileExecuteTest()
         {
-            _expandState = new Mock<IPlanListInformationExpansion>();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<ProjectResponse>(HttpStatusCode.NotFound);
+
+            var request = RequestTestMockBuilder.CreateRequest<GetInformationOfProjectRequest, ProjectResponse>(restFactoryMock);
+
+            Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
         }
 
         [Test]
         public async Task ExecuteAsyncTest()
         {
-            var response = await CreateRequest()
-                .WithMaxResult(10)
-                .StartAtIndex(5)
-                .IncludePlanInformation(i => i.IncludeStages())
-                .ExecuteAsync();
+            var expandState = new Mock<IPlanListInformationExpansion>();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<ProjectResponse>();
+            var resultCountParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IResultCountParameterAspect>();
 
-            response.ShouldNotBeNull();
-            VerifyRestRequestCreation($"project/{ProjectKey}", Method.GET);
+            var getInformationOfProjectRequestAspect = RequestTestMockBuilder.CreateParameterAspectMock<IGetInformationOfProjectRequestAspect>();
+            getInformationOfProjectRequestAspect
+                .Setup(i => i.IncludePlanInformation(It.IsAny<Action<IPlanListInformationExpansion>[]>()))
+                .Callback<Action<IPlanListInformationExpansion>[]>(
+                    expansions =>
+                    {
+                        foreach (var expansion in expansions)
+                        {
+                            expansion(expandState.Object);
+                        }
+                    });
 
-            VerifyParameterAspectMock<IGetInformationOfProjectRequestAspect>(aspect =>
-            {
-                _expandState.Verify(i => i.IncludeActions(), Times.Never);
-                _expandState.Verify(i => i.IncludeBranches(), Times.Never);
-                _expandState.Verify(i => i.IncludeStages(), Times.Once);
-            });
-
-            VerifyParameterAspectMock<IResultCountParameterAspect>(aspect =>
-            {
-                aspect.MaxResults.ShouldBe(10);
-                aspect.StartIndex.ShouldBe(5);
-            });
-        }
-
-        private new IGetInformationOfProjectRequest CreateRequest()
-        {
-            var request = base.CreateRequest();
+            var request = RequestTestMockBuilder.CreateRequest<GetInformationOfProjectRequest, ProjectResponse>(restFactoryMock, resultCountParameterAspect, getInformationOfProjectRequestAspect);
             request.ProjectKey = ProjectKey;
 
-            return request;
+            request
+                .WithMaxResult(10)
+                .StartAtIndex(5)
+                .IncludePlanInformation(i => i.IncludeStages());
+
+            var response = await request.ExecuteAsync();
+            response.ShouldNotBeNull();
+            
+            restFactoryMock.Verify(r => r.CreateRequest($"project/{ProjectKey}", Method.GET), Times.Once);
+            
+            resultCountParameterAspect.Verify(i => i.SetMaxResults(10), Times.Once);
+            resultCountParameterAspect.Verify(i => i.SetStartIndex(5), Times.Once);
+            
+            expandState.Verify(i => i.IncludeActions(), Times.Never);
+            expandState.Verify(i => i.IncludeBranches(), Times.Never);
+            expandState.Verify(i => i.IncludeStages(), Times.Once);
         }
     }
 }

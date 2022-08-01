@@ -5,7 +5,7 @@ namespace PandaSharp.Bamboo.Services.Project.Aspect
 {
     internal interface IGetAllProjectsParameterAspect
     {
-        bool IncludeEmptyProjects { get; set; }
+        void SetIncludeEmptyProjects(bool includeEmptyProjects);
 
         void IncludePlanInformation(params Action<IPlanListInformationExpansion>[] expansions);
     }

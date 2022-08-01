@@ -9,39 +9,36 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Aspect
     [TestFixture]
     public sealed class BuildStateParameterAspectTest
     {
-        [Test]
-        public void ParameterAspectTest()
+        private Mock<IRestRequest> _restRequestMock;
+
+        [SetUp]
+        public void SetUp()
         {
-            var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
-            requestMock
-                .Setup(i => i.AddParameter("buildstate", "successful"))
-                .Returns(requestMock.Object)
-                .Verifiable();
-
-            var aspect = new BuildStateParameterAspect
-            {
-                BuildState = BuildState.Successful
-            };
-            aspect.ApplyToRestRequest(requestMock.Object);
-
-            requestMock.Verify();
-            requestMock.VerifyNoOtherCalls();
+            _restRequestMock = new Mock<IRestRequest>();
+            _restRequestMock
+                .Setup(i => i.AddParameter(It.IsAny<string>(), It.IsAny<object>()))
+                .Returns(_restRequestMock.Object);
+        }
+        
+        [Test]
+        public void SetBuildStateFilterTest()
+        {
+            var aspect = new BuildStateParameterAspect();
+            aspect.SetBuildStateFilter(BuildState.Failed);
+            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            
+            _restRequestMock.Verify(i => i.AddParameter("buildstate", "failed"), Times.Once);
+            _restRequestMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void DefaultParameterAspectTest()
         {
-            var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
-            requestMock
-                .Setup(i => i.AddParameter("includeAllStates", true))
-                .Returns(requestMock.Object)
-                .Verifiable();
-
             var aspect = new BuildStateParameterAspect();
-            aspect.ApplyToRestRequest(requestMock.Object);
+            aspect.ApplyToRestRequest(_restRequestMock.Object);
 
-            requestMock.Verify();
-            requestMock.VerifyNoOtherCalls();
+            _restRequestMock.Verify(i => i.AddParameter("includeAllStates", true), Times.Once);
+            _restRequestMock.VerifyNoOtherCalls();
         }
     }
 }

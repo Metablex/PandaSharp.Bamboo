@@ -8,44 +8,61 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Aspect
     [TestFixture]
     public sealed class CreatePlanParameterAspectTest
     {
-        [Test]
-        public void ParameterAspectTest()
+        private Mock<IRestRequest> _restRequestMock;
+
+        [SetUp]
+        public void SetUp()
         {
-            var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
-            requestMock
-                .Setup(i => i.AddQueryParameter("vcsBranch", "TestBranch", false))
-                .Returns(requestMock.Object);
-
-            requestMock
-                .Setup(i => i.AddQueryParameter("enabled", "True"))
-                .Returns(requestMock.Object);
-
-            requestMock
-                .Setup(i => i.AddQueryParameter("cleanupEnabled", "False"))
-                .Returns(requestMock.Object);
-
-            var aspect = new CreatePlanParameterAspect
-            {
-                VcsBranch = "TestBranch",
-                IsEnabled = true,
-                IsCleanupEnabled = false
-            };
-            aspect.ApplyToRestRequest(requestMock.Object);
-
-            requestMock.Verify();
-            requestMock.VerifyNoOtherCalls();
+            _restRequestMock = new Mock<IRestRequest>();
+            _restRequestMock
+                .Setup(i => i.AddQueryParameter(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(_restRequestMock.Object);
+            
+            _restRequestMock
+                .Setup(i => i.AddQueryParameter(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()))
+                .Returns(_restRequestMock.Object);
+        }
+        
+        [Test]
+        public void SetVcsBranchFilterTest()
+        {
+            var aspect = new CreatePlanParameterAspect();
+            aspect.SetVcsBranchFilter("branch");
+            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            
+            _restRequestMock.Verify(i => i.AddQueryParameter("vcsBranch", "branch", false), Times.Once);
+            _restRequestMock.VerifyNoOtherCalls();
+        }
+        
+        [Test]
+        public void SetIsEnabledFilterTest()
+        {
+            var aspect = new CreatePlanParameterAspect();
+            aspect.SetIsEnabledFilter(true);
+            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            
+            _restRequestMock.Verify(i => i.AddQueryParameter("enabled", "True"), Times.Once);
+            _restRequestMock.VerifyNoOtherCalls();
+        }
+        
+        [Test]
+        public void SetIsCleanupEnabledFilterTest()
+        {
+            var aspect = new CreatePlanParameterAspect();
+            aspect.SetIsCleanupEnabledFilter(true);
+            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            
+            _restRequestMock.Verify(i => i.AddQueryParameter("cleanupEnabled", "True"), Times.Once);
+            _restRequestMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void DefaultParameterAspectTest()
         {
-            var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
-
             var aspect = new CreatePlanParameterAspect();
-            aspect.ApplyToRestRequest(requestMock.Object);
+            aspect.ApplyToRestRequest(_restRequestMock.Object);
 
-            requestMock.Verify();
-            requestMock.VerifyNoOtherCalls();
+            _restRequestMock.VerifyNoOtherCalls();
         }
     }
 }

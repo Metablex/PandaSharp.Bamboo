@@ -7,11 +7,16 @@ namespace PandaSharp.Bamboo.Services.Build.Aspect
 {
     internal sealed class LabelFilterParameterAspect : RequestParameterAspectBase, ILabelFilterParameterAspect
     {
-        public IList<string> Labels { get; set; }
+        private IList<string> _labels;
+
+        public void SetLabelsFilter(IList<string> labels)
+        {
+            _labels = labels;
+        }
 
         public override void ApplyToRestRequest(IRestRequest restRequest)
         {
-            restRequest.AddParameterValues("label", Labels);
+            restRequest.AddParameterValues("label", _labels);
         }
     }
 }

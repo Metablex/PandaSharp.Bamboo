@@ -1,66 +1,69 @@
 using System;
-using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Common.Aspect;
 using PandaSharp.Bamboo.Services.Plan.Aspect;
-using PandaSharp.Bamboo.Services.Plan.Contract;
 using PandaSharp.Bamboo.Services.Plan.Expansion;
 using PandaSharp.Bamboo.Services.Plan.Request;
 using PandaSharp.Bamboo.Services.Plan.Response;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
-using PandaSharp.Framework.Services.Aspect;
 using RestSharp;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Plan.Request
 {
     [TestFixture]
-    internal sealed class GetInformationOfPlanRequestTest : RequestBaseTest<GetInformationOfPlanRequest, PlanResponse>
+    internal sealed class GetInformationOfPlanRequestTest
     {
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
-
-        private Mock<IPlanInformationExpansion> _expandState;
-
-        protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
+        
+        [Test]
+        public void UnauthorizedExecuteTest()
         {
-            yield return CreateParameterAspectMock<IResultCountParameterAspect>();
-            yield return CreateParameterAspectMock<IGetInformationOfPlanParameterAspect>(
-                aspect =>
-                {
-                    aspect
-                        .Setup(i => i.IncludePlanInformation(It.IsAny<Action<IPlanInformationExpansion>[]>()))
-                        .Callback<Action<IPlanInformationExpansion>[]>(
-                            expansions =>
-                            {
-                                foreach (var expansion in expansions)
-                                {
-                                    expansion(_expandState.Object);
-                                }
-                            });
-                });
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<PlanResponse>(HttpStatusCode.Unauthorized);
+
+            var request = RequestTestMockBuilder.CreateRequest<GetInformationOfPlanRequest, PlanResponse>(restFactoryMock);
+
+            Should.ThrowAsync<UnauthorizedAccessException>(() => request.ExecuteAsync());
         }
 
-        protected override void SetupEachTest()
+        [Test]
+        public void AnyErrorWhileExecuteTest()
         {
-            _expandState = new Mock<IPlanInformationExpansion>();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<PlanResponse>(HttpStatusCode.NotFound);
+
+            var request = RequestTestMockBuilder.CreateRequest<GetInformationOfPlanRequest, PlanResponse>(restFactoryMock);
+
+            Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
         }
 
         [Test]
         public async Task ExecuteAsyncTest()
         {
-            var response = await CreateRequest().ExecuteAsync();
+            var expandState = new Mock<IPlanInformationExpansion>();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<PlanResponse>();
+            var resultCountParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IResultCountParameterAspect>();
+            
+            var getInformationOfPlanParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IGetInformationOfPlanParameterAspect>();
+            getInformationOfPlanParameterAspect
+                .Setup(i => i.IncludePlanInformation(It.IsAny<Action<IPlanInformationExpansion>[]>()))
+                .Callback<Action<IPlanInformationExpansion>[]>(
+                    expansions =>
+                    {
+                        foreach (var expansion in expansions)
+                        {
+                            expansion(expandState.Object);
+                        }
+                    });
 
-            response.ShouldNotBeNull();
-            VerifyRestRequestCreation($"plan/{ProjectKey}-{PlanKey}", Method.GET);
-        }
-
-        [Test]
-        public void ExpandStateParameterAspectTest()
-        {
-            CreateRequest()
+            var request = RequestTestMockBuilder.CreateRequest<GetInformationOfPlanRequest, PlanResponse>(restFactoryMock, resultCountParameterAspect, getInformationOfPlanParameterAspect);
+            request.ProjectKey = ProjectKey;
+            request.PlanKey = PlanKey;
+                
+            request
                 .WithMaxBranchResults(30)
                 .IncludePlanInformation(
                     i =>
@@ -70,29 +73,19 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
                         i.IncludeStages();
                         i.IncludeVariableContext();
                     });
-
-            VerifyParameterAspectMock<IGetInformationOfPlanParameterAspect>(aspect =>
-            {
-                _expandState.Verify(i => i.IncludeActions(), Times.Once);
-                _expandState.Verify(i => i.IncludeStages(), Times.Once);
-                _expandState.Verify(i => i.IncludeVariableContext(), Times.Once);
-                _expandState.Verify(i => i.IncludeBranches(), Times.Once);
-            });
-
-            VerifyParameterAspectMock<IResultCountParameterAspect>(aspect =>
-            {
-                aspect.MaxResults.ShouldBe(30);
-                aspect.StartIndex.ShouldBeNull();
-            });
-        }
-
-        private new IGetInformationOfPlanRequest CreateRequest()
-        {
-            var request = base.CreateRequest();
-            request.ProjectKey = ProjectKey;
-            request.PlanKey = PlanKey;
-
-            return request;
+            
+            var response = await request.ExecuteAsync();
+            response.ShouldNotBeNull();
+            
+            restFactoryMock.Verify(r => r.CreateRequest($"plan/{ProjectKey}-{PlanKey}", Method.GET), Times.Once);
+            
+            resultCountParameterAspect.Verify(i => i.SetMaxResults(30), Times.Once);
+            resultCountParameterAspect.Verify(i => i.SetStartIndex(It.IsAny<int>()), Times.Never);
+            
+            expandState.Verify(i => i.IncludeActions(), Times.Once);
+            expandState.Verify(i => i.IncludeStages(), Times.Once);
+            expandState.Verify(i => i.IncludeVariableContext(), Times.Once);
+            expandState.Verify(i => i.IncludeBranches(), Times.Once);
         }
     }
 }

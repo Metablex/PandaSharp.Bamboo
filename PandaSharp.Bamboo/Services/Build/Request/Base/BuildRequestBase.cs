@@ -18,8 +18,8 @@ namespace PandaSharp.Bamboo.Services.Build.Request.Base
         [InjectedProperty(RequestPropertyNames.BuildNumber)]
         public uint BuildNumber { get; set; }
 
-        protected BuildRequestBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
-            : base(restClientFactory, parameterAspectFactory)
+        protected BuildRequestBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
         {
         }
     }
