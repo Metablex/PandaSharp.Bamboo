@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <LangVersion>8.0</LangVersion>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <Authors>Tom Birras</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>C# wrapper for Atlassian Bamboo</Description>
@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(BuildWithLocalReferences)' != true">
-    <PackageReference Include="PandaSharp.Framework" Version="1.0.1" />
+    <PackageReference Include="PandaSharp.Framework" Version="1.0.2" />
   </ItemGroup>
 
 </Project>
