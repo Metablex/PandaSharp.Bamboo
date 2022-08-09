@@ -8,7 +8,7 @@ using Shouldly;
 namespace PandaSharp.Bamboo.Test.Services.Build.Factory
 {
     [TestFixture]
-    internal sealed class BuildRequestBuilderFactoryTest : RequestBuilderFactoryTestBase
+    internal sealed class BuildRequestBuilderFactoryTest
     {
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
@@ -19,193 +19,185 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Factory
         [Test]
         public void GetAllBuildsTest()
         {
-            SetupRequestRegistration<IGetBuildsOfPlanRequest>(parameters => parameters.ShouldBeEmpty());
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetBuildsOfPlanRequest>(parameters => parameters.ShouldBeEmpty());
 
-            var factory = new BuildRequestBuilderFactory(Container.Object);
+            var factory = new BuildRequestBuilderFactory(containerMock.Object);
             var request = factory.GetAllBuilds();
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void GetBuildsOfPlanTest()
         {
-            SetupRequestRegistration<IGetBuildsOfPlanRequest>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetBuildsOfPlanRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
                 });
 
-            var factory = new BuildRequestBuilderFactory(Container.Object);
+            var factory = new BuildRequestBuilderFactory(containerMock.Object);
             var request = factory.GetBuildsOfPlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void GetInformationOfBuildTest()
         {
-            SetupRequestRegistration<IGetInformationOfBuildRequest>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetInformationOfBuildRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, BuildNumber);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.BuildNumber && p.PropertyValue.Equals(BuildNumber));
                 });
 
-            var factory = new BuildRequestBuilderFactory(Container.Object);
+            var factory = new BuildRequestBuilderFactory(containerMock.Object);
             var request = factory.GetInformationOfBuild(ProjectKey, PlanKey, BuildNumber);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void GetInformationOfLatestBuildTest()
         {
-            SetupRequestRegistration<IGetInformationOfBuildRequest>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetInformationOfBuildRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, "latest");
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.BuildNumber && p.PropertyValue.Equals("latest"));
                 });
 
-            var factory = new BuildRequestBuilderFactory(Container.Object);
+            var factory = new BuildRequestBuilderFactory(containerMock.Object);
             var request = factory.GetInformationOfLatestBuild(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void GetCommentsOfBuildTest()
         {
-            SetupRequestRegistration<IGetCommentsOfBuildRequest>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetCommentsOfBuildRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, BuildNumber);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.BuildNumber && p.PropertyValue.Equals(BuildNumber));
                 });
 
-            var factory = new BuildRequestBuilderFactory(Container.Object);
+            var factory = new BuildRequestBuilderFactory(containerMock.Object);
             var request = factory.GetCommentsOfBuild(ProjectKey, PlanKey, BuildNumber);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void GetLabelsOfBuildTest()
         {
-            SetupRequestRegistration<IGetLabelsOfBuildRequest>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetLabelsOfBuildRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, BuildNumber);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.BuildNumber && p.PropertyValue.Equals(BuildNumber));
                 });
 
-            var factory = new BuildRequestBuilderFactory(Container.Object);
+            var factory = new BuildRequestBuilderFactory(containerMock.Object);
             var request = factory.GetLabelsOfBuild(ProjectKey, PlanKey, BuildNumber);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void AddCommentToBuildTest()
         {
-            SetupRequestRegistration<IAddCommentToBuildCommand>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IAddCommentToBuildCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(4);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, BuildNumber);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.Comment, Comment);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.BuildNumber && p.PropertyValue.Equals(BuildNumber));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.Comment && p.PropertyValue.Equals(Comment));
                 });
 
-            var factory = new BuildRequestBuilderFactory(Container.Object);
+            var factory = new BuildRequestBuilderFactory(containerMock.Object);
             var request = factory.AddCommentToBuild(ProjectKey, PlanKey, BuildNumber, Comment);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void AddLabelToBuildTest()
         {
-            SetupRequestRegistration<IAddLabelToBuildCommand>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IAddLabelToBuildCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(4);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, BuildNumber);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.Label, Label);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.BuildNumber && p.PropertyValue.Equals(BuildNumber));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.Label && p.PropertyValue.Equals(Label));
                 });
 
-            var factory = new BuildRequestBuilderFactory(Container.Object);
+            var factory = new BuildRequestBuilderFactory(containerMock.Object);
             var request = factory.AddLabelToBuild(ProjectKey, PlanKey, BuildNumber, Label);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void DeleteLabelOfBuildTest()
         {
-            SetupRequestRegistration<IDeleteLabelOfBuildCommand>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IDeleteLabelOfBuildCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(4);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.BuildNumber, BuildNumber);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.Label, Label);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.BuildNumber && p.PropertyValue.Equals(BuildNumber));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.Label && p.PropertyValue.Equals(Label));
                 });
 
-            var factory = new BuildRequestBuilderFactory(Container.Object);
+            var factory = new BuildRequestBuilderFactory(containerMock.Object);
             var request = factory.DeleteLabelOfBuild(ProjectKey, PlanKey, BuildNumber, Label);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
     }
 }

@@ -9,7 +9,7 @@ using Shouldly;
 namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
 {
     [TestFixture]
-    internal sealed class PlanRequestBuilderFactoryTest : RequestBuilderFactoryTestBase
+    internal sealed class PlanRequestBuilderFactoryTest
     {
         private const string PlanKey = "MasterPlan";
         private const string ProjectKey = "ProjectX";
@@ -17,297 +17,284 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Factory
         [Test]
         public void GetAllPlansTest()
         {
-            SetupRequestRegistration<IGetAllPlansRequest>(parameters => parameters.ShouldBeEmpty());
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetAllPlansRequest>(parameters => parameters.ShouldBeEmpty());
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             var request = factory.GetAllPlans();
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void GetInformationOfPlanTest()
         {
-            SetupRequestRegistration<IGetInformationOfPlanRequest>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetInformationOfPlanRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
                 });
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             var request = factory.GetInformationOfPlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void GetBranchesOfPlanTest()
         {
-            SetupRequestRegistration<IGetBranchesOfPlanRequest>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetBranchesOfPlanRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
                 });
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             var request = factory.GetBranchesOfPlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void GetArtifactsOfPlanTest()
         {
-            SetupRequestRegistration<IGetArtifactsOfPlanRequest>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetArtifactsOfPlanRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
                 });
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             var request = factory.GetArtifactsOfPlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void GetLabelsOfPlanTest()
         {
-            SetupRequestRegistration<IGetLabelsOfPlanRequest>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetLabelsOfPlanRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
                 });
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             var request = factory.GetLabelsOfPlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void GetVcsBranchesOfPlanTest()
         {
-            SetupRequestRegistration<IGetVcsBranchesOfPlanRequest>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetVcsBranchesOfPlanRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
                 });
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             var request = factory.GetVcsBranchesOfPlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void AddLabelToPlanTest()
         {
-            SetupRequestRegistration<IAddLabelToPlanCommand>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IAddLabelToPlanCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.Label, "LabelMe");
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.Label && p.PropertyValue.Equals("LabelMe"));
                 });
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             var request = factory.AddLabelToPlan(ProjectKey, PlanKey, "LabelMe");
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void DeleteLabelOfPlanTest()
         {
-            SetupRequestRegistration<IDeleteLabelOfPlanCommand>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IDeleteLabelOfPlanCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.Label, "LabelMe");
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.Label && p.PropertyValue.Equals("LabelMe"));
                 });
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             var request = factory.DeleteLabelOfPlan(ProjectKey, PlanKey, "LabelMe");
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void EnablePlanTest()
         {
-            SetupRequestRegistration<IEnableDisablePlanCommand>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IEnableDisablePlanCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.SetEnabled, true);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.SetEnabled && p.PropertyValue.Equals(true));
                 });
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             var request = factory.EnablePlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void DisablePlanTest()
         {
-            SetupRequestRegistration<IEnableDisablePlanCommand>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IEnableDisablePlanCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.SetEnabled, false);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.SetEnabled && p.PropertyValue.Equals(false));
                 });
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             var request = factory.DisablePlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void DeletePlanTest()
         {
-            SetupRequestRegistration<IDeletePlanCommand>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IDeletePlanCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
                 });
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             var request = factory.DeletePlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void CreateBranchTest()
         {
-            SetupRequestRegistration<ICreatePlanCommand>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<ICreatePlanCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.Branch, "BranchTest");
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.Branch && p.PropertyValue.Equals("BranchTest"));
                 });
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             Should.Throw<ArgumentException>(() => factory.CreateBranch(ProjectKey, PlanKey, "BranchTest/Broken"));
 
             var request = factory.CreateBranch(ProjectKey, PlanKey, "BranchTest");
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void FavouritePlanTest()
         {
-            SetupRequestRegistration<IFavouritePlanCommand>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IFavouritePlanCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.SetFavourite, true);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.SetFavourite && p.PropertyValue.Equals(true));
                 });
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             var request = factory.FavouritePlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void UnfavouritePlanTest()
         {
-            SetupRequestRegistration<IFavouritePlanCommand>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IFavouritePlanCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(3);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.PlanKey, PlanKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.SetFavourite, false);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.PlanKey && p.PropertyValue.Equals(PlanKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.SetFavourite && p.PropertyValue.Equals(false));
                 });
 
-            var factory = new PlanRequestBuilderFactory(Container.Object);
+            var factory = new PlanRequestBuilderFactory(containerMock.Object);
             var request = factory.UnfavouritePlan(ProjectKey, PlanKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
     }
 }

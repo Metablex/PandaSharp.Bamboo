@@ -16,8 +16,8 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
     [SupportsParameterAspect(typeof(IGetAllPlansParameterAspect))]
     internal sealed class GetAllPlansRequest : PlanRequestBase<PlanListResponse>, IGetAllPlansRequest
     {
-        public GetAllPlansRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
-            : base(restClientFactory, parameterAspectFactory)
+        public GetAllPlansRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
         {
         }
 
@@ -29,13 +29,13 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
 
         public IGetAllPlansRequest WithMaxResult(int maxResult)
         {
-            GetAspect<IResultCountParameterAspect>().MaxResults = maxResult;
+            GetAspect<IResultCountParameterAspect>().SetMaxResults(maxResult);
             return this;
         }
 
         public IGetAllPlansRequest StartAtIndex(int startIndex)
         {
-            GetAspect<IResultCountParameterAspect>().StartIndex = startIndex;
+            GetAspect<IResultCountParameterAspect>().SetStartIndex(startIndex);
             return this;
         }
 

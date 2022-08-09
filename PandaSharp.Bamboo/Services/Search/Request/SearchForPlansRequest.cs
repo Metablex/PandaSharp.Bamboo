@@ -14,32 +14,32 @@ namespace PandaSharp.Bamboo.Services.Search.Request
     [SupportsParameterAspect(typeof(IPlanSearchParameterAspect))]
     internal sealed class SearchForPlansRequest : RequestBase<PlanSearchResultListResponse>, ISearchForPlansRequest
     {
-        public SearchForPlansRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
-            : base(restClientFactory, parameterAspectFactory)
+        public SearchForPlansRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
         {
         }
 
         public ISearchForPlansRequest WithMaxResult(int maxResult)
         {
-            GetAspect<IResultCountParameterAspect>().MaxResults = maxResult;
+            GetAspect<IResultCountParameterAspect>().SetMaxResults(maxResult);
             return this;
         }
 
         public ISearchForPlansRequest StartAtIndex(int startIndex)
         {
-            GetAspect<IResultCountParameterAspect>().StartIndex = startIndex;
+            GetAspect<IResultCountParameterAspect>().SetStartIndex(startIndex);
             return this;
         }
 
         public ISearchForPlansRequest WithSearchTerm(string searchTerm)
         {
-            GetAspect<IPlanSearchParameterAspect>().SearchTerm = searchTerm;
+            GetAspect<IPlanSearchParameterAspect>().SetSearchTerm(searchTerm);
             return this;
         }
 
         public ISearchForPlansRequest PerformFuzzySearch()
         {
-            GetAspect<IPlanSearchParameterAspect>().PerformFuzzySearch = true;
+            GetAspect<IPlanSearchParameterAspect>().SetPerformFuzzySearch(true);
             return this;
         }
 

@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+using System;
+using System.Net;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
@@ -7,65 +8,61 @@ using PandaSharp.Bamboo.Services.Plan.Aspect;
 using PandaSharp.Bamboo.Services.Plan.Request;
 using PandaSharp.Bamboo.Services.Plan.Response;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
-using PandaSharp.Framework.Services.Aspect;
 using RestSharp;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Plan.Request
 {
     [TestFixture]
-    internal sealed class GetBranchesOfPlanRequestTest : RequestBaseTest<GetBranchesOfPlanRequest, BranchListResponse>
+    internal sealed class GetBranchesOfPlanRequestTest
     {
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
-
-        protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
+        
+        [Test]
+        public void UnauthorizedExecuteTest()
         {
-            yield return CreateParameterAspectMock<IResultCountParameterAspect>();
-            yield return CreateParameterAspectMock<IGetBranchesOfPlanParameterAspect>();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<BranchListResponse>(HttpStatusCode.Unauthorized);
+
+            var request = RequestTestMockBuilder.CreateRequest<GetBranchesOfPlanRequest, BranchListResponse>(restFactoryMock);
+
+            Should.ThrowAsync<UnauthorizedAccessException>(() => request.ExecuteAsync());
+        }
+
+        [Test]
+        public void AnyErrorWhileExecuteTest()
+        {
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<BranchListResponse>(HttpStatusCode.NotFound);
+
+            var request = RequestTestMockBuilder.CreateRequest<GetBranchesOfPlanRequest, BranchListResponse>(restFactoryMock);
+
+            Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
         }
 
         [Test]
         public async Task ExecuteAsyncTest()
         {
-            var response = await CreateRequest().ExecuteAsync();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<BranchListResponse>();
+            var resultCountParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IResultCountParameterAspect>();
+            var getBranchesOfPlanParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IGetBranchesOfPlanParameterAspect>();
 
-            response.ShouldNotBeNull();
-            VerifyRestRequestCreation($"plan/{ProjectKey}-{PlanKey}/branch", Method.GET);
-        }
-
-        [Test]
-        public void ResultCountParameterAspectTest()
-        {
-            CreateRequest()
-                .WithMaxResult(12)
-                .StartAtIndex(3);
-
-            VerifyParameterAspectMock<IResultCountParameterAspect>(aspect =>
-            {
-                aspect.MaxResults.ShouldBe(12);
-                aspect.StartIndex.ShouldBe(3);
-            });
-        }
-
-        [Test]
-        public void BranchesOfPlanParameterAspectTest()
-        {
-            CreateRequest().OnlyEnabledBranches();
-
-            VerifyParameterAspectMock<IGetBranchesOfPlanParameterAspect>(aspect =>
-            {
-                aspect.OnlyEnabledBranches.ShouldBeTrue();
-            });
-        }
-
-        private new GetBranchesOfPlanRequest CreateRequest()
-        {
-            var request = base.CreateRequest();
+            var request = RequestTestMockBuilder.CreateRequest<GetBranchesOfPlanRequest, BranchListResponse>(restFactoryMock, resultCountParameterAspect, getBranchesOfPlanParameterAspect);
             request.ProjectKey = ProjectKey;
             request.PlanKey = PlanKey;
 
-            return request;
+            request
+                .WithMaxResult(12)
+                .StartAtIndex(3)
+                .OnlyEnabledBranches();
+            
+            var response = await request.ExecuteAsync();
+            response.ShouldNotBeNull();
+            
+            restFactoryMock.Verify(r => r.CreateRequest($"plan/{ProjectKey}-{PlanKey}/branch", Method.GET), Times.Once);
+            
+            resultCountParameterAspect.Verify(i => i.SetMaxResults(12), Times.Once);
+            resultCountParameterAspect.Verify(i => i.SetStartIndex(3), Times.Once);
+            getBranchesOfPlanParameterAspect.Verify(i => i.SetOnlyEnabledBranchesFilter(true), Times.Once);
         }
     }
 }

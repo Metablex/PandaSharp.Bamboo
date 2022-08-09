@@ -8,35 +8,39 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Aspect
     [TestFixture]
     public sealed class GetBranchesOfPlanParameterAspectTest
     {
-        [Test]
-        public void ParameterAspectTest()
+        private Mock<IRestRequest> _restRequestMock;
+
+        [SetUp]
+        public void SetUp()
         {
-            var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
-            requestMock
-                .Setup(i => i.AddParameter("enabledOnly", null))
-                .Returns(requestMock.Object)
-                .Verifiable();
-
-            var aspect = new GetBranchesOfPlanParameterAspect
-            {
-                OnlyEnabledBranches = true
-            };
-            aspect.ApplyToRestRequest(requestMock.Object);
-
-            requestMock.Verify();
-            requestMock.VerifyNoOtherCalls();
+            _restRequestMock = new Mock<IRestRequest>();
+            _restRequestMock
+                .Setup(i => i.AddQueryParameter(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(_restRequestMock.Object);
+            
+            _restRequestMock
+                .Setup(i => i.AddQueryParameter(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()))
+                .Returns(_restRequestMock.Object);
+        }
+        
+        [Test]
+        public void SetOnlyEnabledBranchesFilterTest()
+        {
+            var aspect = new GetBranchesOfPlanParameterAspect();
+            aspect.SetOnlyEnabledBranchesFilter(true);
+            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            
+            _restRequestMock.Verify(i => i.AddParameter("enabledOnly", true), Times.Once);
+            _restRequestMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void DefaultParameterAspectTest()
         {
-            var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
-
             var aspect = new GetBranchesOfPlanParameterAspect();
-            aspect.ApplyToRestRequest(requestMock.Object);
+            aspect.ApplyToRestRequest(_restRequestMock.Object);
 
-            requestMock.Verify();
-            requestMock.VerifyNoOtherCalls();
+            _restRequestMock.VerifyNoOtherCalls();
         }
     }
 }

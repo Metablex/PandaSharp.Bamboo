@@ -9,8 +9,8 @@ namespace PandaSharp.Bamboo.Services.Build.Request
 {
     internal sealed class GetCommentsOfBuildRequest : BuildRequestBase<CommentListResponse>, IGetCommentsOfBuildRequest
     {
-        public GetCommentsOfBuildRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
-            : base(restClientFactory, parameterAspectFactory)
+        public GetCommentsOfBuildRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
         {
         }
 

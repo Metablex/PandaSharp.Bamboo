@@ -1,90 +1,85 @@
 using System;
-using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Build.Aspect;
-using PandaSharp.Bamboo.Services.Build.Contract;
 using PandaSharp.Bamboo.Services.Build.Expansion;
 using PandaSharp.Bamboo.Services.Build.Request;
 using PandaSharp.Bamboo.Services.Build.Response;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
-using PandaSharp.Framework.Services.Aspect;
 using RestSharp;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Build.Request
 {
     [TestFixture]
-    internal sealed class GetInformationOfBuildRequestTest : RequestBaseTest<GetInformationOfBuildRequest, BuildResponse>
+    internal sealed class GetInformationOfBuildRequestTest
     {
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
         private const uint BuildNumber = 42;
-
-        private Mock<IBuildInformationExpansion> _expandState;
-
-        protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
+        
+        [Test]
+        public void UnauthorizedExecuteTest()
         {
-            yield return CreateParameterAspectMock<IGetInformationOfBuildParameterAspect>(
-                aspect =>
-                {
-                    aspect
-                        .Setup(i => i.IncludeBuildInformation(It.IsAny<Action<IBuildInformationExpansion>[]>()))
-                        .Callback<Action<IBuildInformationExpansion>[]>(
-                            expansions =>
-                            {
-                                foreach (var expansion in expansions)
-                                {
-                                    expansion(_expandState.Object);
-                                }
-                            });
-                });
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<BuildResponse>(HttpStatusCode.Unauthorized);
+
+            var request = RequestTestMockBuilder.CreateRequest<GetInformationOfBuildRequest, BuildResponse>(restFactoryMock);
+
+            Should.ThrowAsync<UnauthorizedAccessException>(() => request.ExecuteAsync());
         }
 
-        protected override void SetupEachTest()
+        [Test]
+        public void AnyErrorWhileExecuteTest()
         {
-            _expandState = new Mock<IBuildInformationExpansion>();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<BuildResponse>(HttpStatusCode.NotFound);
+
+            var request = RequestTestMockBuilder.CreateRequest<GetInformationOfBuildRequest, BuildResponse>(restFactoryMock);
+
+            Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
         }
 
         [Test]
         public async Task ExecuteAsyncTest()
         {
-            var response = await CreateRequest().ExecuteAsync();
+            var expandState = new Mock<IBuildInformationExpansion>();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<BuildResponse>();
 
-            response.ShouldNotBeNull();
-            VerifyRestRequestCreation($"result/{ProjectKey}-{PlanKey}-{BuildNumber}", Method.GET);
-        }
-
-        [Test]
-        public void ExpandStateParameterAspectTest()
-        {
-            CreateRequest()
-                .IncludeBuildInformation(
-                    i => i.IncludingArtifacts(),
-                    i => i.IncludingJiraIssues());
-
-            VerifyParameterAspectMock<IGetInformationOfBuildParameterAspect>(aspect =>
-            {
-                _expandState.Verify(i => i.IncludingArtifacts(), Times.Once);
-                _expandState.Verify(i => i.IncludingComments(), Times.Never);
-                _expandState.Verify(i => i.IncludingLabels(), Times.Never);
-                _expandState.Verify(i => i.IncludingStages(), Times.Never);
-                _expandState.Verify(i => i.IncludingVariables(), Times.Never);
-                _expandState.Verify(i => i.IncludingJiraIssues(), Times.Once);
-                _expandState.Verify(i => i.IncludingChanges(), Times.Never);
-                _expandState.Verify(i => i.IncludingMetaData(), Times.Never);
-            });
-        }
-
-        private new IGetInformationOfBuildRequest CreateRequest()
-        {
-            var request = base.CreateRequest();
+            var getInformationOfBuildParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IGetInformationOfBuildParameterAspect>();
+            getInformationOfBuildParameterAspect
+                .Setup(i => i.IncludeBuildInformation(It.IsAny<Action<IBuildInformationExpansion>[]>()))
+                .Callback<Action<IBuildInformationExpansion>[]>(
+                    expansions =>
+                    {
+                        foreach (var expansion in expansions)
+                        {
+                            expansion(expandState.Object);
+                        }
+                    });
+            
+            var request = RequestTestMockBuilder.CreateRequest<GetInformationOfBuildRequest, BuildResponse>(restFactoryMock, getInformationOfBuildParameterAspect);
             request.ProjectKey = ProjectKey;
             request.PlanKey = PlanKey;
             request.BuildNumber = BuildNumber;
-
-            return request;
+            
+            request.IncludeBuildInformation(
+                i => i.IncludingArtifacts(),
+                i => i.IncludingJiraIssues());
+            
+            var response = await request.ExecuteAsync();
+            response.ShouldNotBeNull();
+            
+            restFactoryMock.Verify(r => r.CreateRequest($"result/{ProjectKey}-{PlanKey}-{BuildNumber}", Method.GET), Times.Once);
+            
+            expandState.Verify(i => i.IncludingArtifacts(), Times.Once);
+            expandState.Verify(i => i.IncludingComments(), Times.Never);
+            expandState.Verify(i => i.IncludingLabels(), Times.Never);
+            expandState.Verify(i => i.IncludingStages(), Times.Never);
+            expandState.Verify(i => i.IncludingVariables(), Times.Never);
+            expandState.Verify(i => i.IncludingJiraIssues(), Times.Once);
+            expandState.Verify(i => i.IncludingChanges(), Times.Never);
+            expandState.Verify(i => i.IncludingMetaData(), Times.Never);
         }
     }
 }

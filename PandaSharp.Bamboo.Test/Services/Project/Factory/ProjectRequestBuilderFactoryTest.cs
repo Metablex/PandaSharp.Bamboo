@@ -8,7 +8,7 @@ using Shouldly;
 namespace PandaSharp.Bamboo.Test.Services.Project.Factory
 {
     [TestFixture]
-    internal sealed class ProjectRequestBuilderFactoryTest : RequestBuilderFactoryTestBase
+    internal sealed class ProjectRequestBuilderFactoryTest 
     {
         private const string ProjectKey = "ProjectX";
         private const string ProjectName = "ProjectName";
@@ -16,76 +16,73 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Factory
         [Test]
         public void GetAllProjectsTest()
         {
-            SetupRequestRegistration<IGetAllProjectsRequest>(parameters => parameters.ShouldBeEmpty());
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetAllProjectsRequest>(parameters => parameters.ShouldBeEmpty());
 
-            var factory = new ProjectRequestBuilderFactory(Container.Object);
+            var factory = new ProjectRequestBuilderFactory(containerMock.Object);
             var request = factory.GetAllProjects();
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void CreateProjectTest()
         {
-            SetupRequestRegistration<ICreateProjectCommand>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<ICreateProjectCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(2);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectName, ProjectName);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectName && p.PropertyValue.Equals(ProjectName));
                 });
 
-            var factory = new ProjectRequestBuilderFactory(Container.Object);
+            var factory = new ProjectRequestBuilderFactory(containerMock.Object);
             var request = factory.CreateProject(ProjectKey, ProjectName);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void DeleteProjectTest()
         {
-            SetupRequestRegistration<IDeleteProjectCommand>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IDeleteProjectCommand>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(1);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
                 });
 
-            var factory = new ProjectRequestBuilderFactory(Container.Object);
+            var factory = new ProjectRequestBuilderFactory(containerMock.Object);
             var request = factory.DeleteProject(ProjectKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void GetInformationOfProjectTest()
         {
-            SetupRequestRegistration<IGetInformationOfProjectRequest>(
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<IGetInformationOfProjectRequest>(
                 parameters =>
                 {
                     parameters.Length.ShouldBe(1);
-
-                    ShouldContainInjectionProperty(parameters, RequestPropertyNames.ProjectKey, ProjectKey);
+                    parameters.ShouldContain(p => p.PropertyName == RequestPropertyNames.ProjectKey && p.PropertyValue.Equals(ProjectKey));
                 });
 
-            var factory = new ProjectRequestBuilderFactory(Container.Object);
+            var factory = new ProjectRequestBuilderFactory(containerMock.Object);
             var request = factory.GetInformationOfProject(ProjectKey);
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
     }
 }

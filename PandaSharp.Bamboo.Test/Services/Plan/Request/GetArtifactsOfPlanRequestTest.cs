@@ -1,59 +1,64 @@
-using System.Collections.Generic;
+using System;
+using System.Net;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Common.Aspect;
-using PandaSharp.Bamboo.Services.Plan.Contract;
 using PandaSharp.Bamboo.Services.Plan.Request;
 using PandaSharp.Bamboo.Services.Plan.Response;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
-using PandaSharp.Framework.Services.Aspect;
 using RestSharp;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Plan.Request
 {
     [TestFixture]
-    internal sealed class GetArtifactsOfPlanRequestTest : RequestBaseTest<GetArtifactsOfPlanRequest, ArtifactListResponse>
+    internal sealed class GetArtifactsOfPlanRequestTest
     {
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
-
-        protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
+        
+        [Test]
+        public void UnauthorizedExecuteTest()
         {
-            yield return CreateParameterAspectMock<IResultCountParameterAspect>();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<ArtifactListResponse>(HttpStatusCode.Unauthorized);
+
+            var request = RequestTestMockBuilder.CreateRequest<GetArtifactsOfPlanRequest, ArtifactListResponse>(restFactoryMock);
+
+            Should.ThrowAsync<UnauthorizedAccessException>(() => request.ExecuteAsync());
+        }
+
+        [Test]
+        public void AnyErrorWhileExecuteTest()
+        {
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<ArtifactListResponse>(HttpStatusCode.NotFound);
+
+            var request = RequestTestMockBuilder.CreateRequest<GetArtifactsOfPlanRequest, ArtifactListResponse>(restFactoryMock);
+
+            Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
         }
 
         [Test]
         public async Task ExecuteAsyncTest()
         {
-            var response = await CreateRequest().ExecuteAsync();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<ArtifactListResponse>();
+            var resultCountParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IResultCountParameterAspect>();
 
-            response.ShouldNotBeNull();
-            VerifyRestRequestCreation($"plan/{ProjectKey}-{PlanKey}/artifact", Method.GET);
-        }
-
-        [Test]
-        public void ResultCountParameterAspectTest()
-        {
-            CreateRequest()
-                .StartAtIndex(5)
-                .WithMaxResult(55);
-
-            VerifyParameterAspectMock<IResultCountParameterAspect>(aspect =>
-            {
-                aspect.MaxResults.ShouldBe(55);
-                aspect.StartIndex.ShouldBe(5);
-            });
-        }
-
-        private new IGetArtifactsOfPlanRequest CreateRequest()
-        {
-            var request = base.CreateRequest();
+            var request = RequestTestMockBuilder.CreateRequest<GetArtifactsOfPlanRequest, ArtifactListResponse>(restFactoryMock, resultCountParameterAspect);
             request.ProjectKey = ProjectKey;
             request.PlanKey = PlanKey;
-
-            return request;
+            
+            request
+                .StartAtIndex(5)
+                .WithMaxResult(55);
+            
+            var response = await request.ExecuteAsync();
+            response.ShouldNotBeNull();
+            
+            restFactoryMock.Verify(r => r.CreateRequest($"plan/{ProjectKey}-{PlanKey}/artifact", Method.GET), Times.Once);
+            
+            resultCountParameterAspect.Verify(i => i.SetMaxResults(55), Times.Once);
+            resultCountParameterAspect.Verify(i => i.SetStartIndex(5), Times.Once);
         }
     }
 }

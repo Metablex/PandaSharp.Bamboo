@@ -7,26 +7,43 @@ namespace PandaSharp.Bamboo.Services.Project.Aspect
 {
     internal sealed class CreateProjectCommandAspect : RequestParameterAspectBase, ICreateProjectCommandAspect
     {
-        public string ProjectKey { get; set; }
+        private string _projectKey;
+        private string _projectName;
+        private string _description;
+        private bool _enablePublicAccess;
 
-        public string ProjectName { get; set; }
+        public void SetProjectKey(string projectKey)
+        {
+            _projectKey = projectKey;
+        }
 
-        public string Description { get; set; }
+        public void SetProjectName(string projectName)
+        {
+            _projectName = projectName;
+        }
 
-        public bool EnablePublicAccess { get; set; }
+        public void SetDescription(string description)
+        {
+            _description = description;
+        }
+
+        public void EnablePublicAccess(bool enablePublicAccess)
+        {
+            _enablePublicAccess = enablePublicAccess;
+        }
 
         public override void ApplyToRestRequest(IRestRequest restRequest)
         {
             var json = new JObject
             {
-                { "key", ProjectKey },
-                { "name", ProjectName },
-                { "publicAccess", EnablePublicAccess }
+                { "key", _projectKey },
+                { "name", _projectName },
+                { "publicAccess", _enablePublicAccess }
             };
 
-            if (!Description.IsNullOrEmpty())
+            if (!_description.IsNullOrEmpty())
             {
-                json.Add("description", Description);
+                json.Add("description", _description);
             }
 
             restRequest.AddJsonBody(json);

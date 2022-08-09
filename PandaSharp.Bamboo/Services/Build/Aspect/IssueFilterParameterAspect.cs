@@ -7,11 +7,16 @@ namespace PandaSharp.Bamboo.Services.Build.Aspect
 {
     internal sealed class IssueFilterParameterAspect : RequestParameterAspectBase, IIssueFilterParameterAspect
     {
-        public IList<string> Issues { get; set; }
+        private IList<string> _issues;
+
+        public void SetIssuesFilter(IList<string> issues)
+        {
+            _issues = issues;
+        }
 
         public override void ApplyToRestRequest(IRestRequest restRequest)
         {
-            restRequest.AddParameterValues("issueKey", Issues);
+            restRequest.AddParameterValues("issueKey", _issues);
         }
     }
 }

@@ -1,32 +1,51 @@
+using System;
+using System.Net;
 using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
-using PandaSharp.Bamboo.Services.Project.Contract;
 using PandaSharp.Bamboo.Services.Project.Request;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
 using RestSharp;
+using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Project.Request
 {
     [TestFixture]
-    internal sealed class DeleteProjectCommandTest : CommandBaseTest<DeleteProjectCommand>
+    internal sealed class DeleteProjectCommandTest
     {
         private const string ProjectKey = "ProjectX";
+        
+        [Test]
+        public void UnauthorizedExecuteTest()
+        {
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock(HttpStatusCode.Unauthorized);
+
+            var request = RequestTestMockBuilder.CreateCommand<DeleteProjectCommand>(restFactoryMock);
+
+            Should.ThrowAsync<UnauthorizedAccessException>(() => request.ExecuteAsync());
+        }
+
+        [Test]
+        public void AnyErrorWhileExecuteTest()
+        {
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock(HttpStatusCode.NotFound);
+
+            var request = RequestTestMockBuilder.CreateCommand<DeleteProjectCommand>(restFactoryMock);
+
+            Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
+        }
 
         [Test]
         public async Task ExecuteAsyncTest()
         {
-            await CreateCommand()
-                .ExecuteAsync();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock();
+            
+            var command = RequestTestMockBuilder.CreateCommand<DeleteProjectCommand>(restFactoryMock);
+            command.ProjectKey = ProjectKey;
+            
+            await command.ExecuteAsync();
 
-            VerifyRestRequestCreation($"project/{ProjectKey}", Method.DELETE);
-        }
-
-        private IDeleteProjectCommand CreateCommand()
-        {
-            var request = CreateRequest();
-            request.ProjectKey = ProjectKey;
-
-            return request;
+            restFactoryMock.Verify(i => i.CreateRequest($"project/{ProjectKey}", Method.DELETE), Times.Once);
         }
     }
 }

@@ -1,15 +1,15 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test
 {
     [TestFixture]
-    public sealed class BambooApiTest
+    public sealed class BambooApiFactoryTest
     {
         [Test]
         public void BambooApiBasicConstructionTest()
         {
-            var bambooApi = BambooApi.CreateWithBasicAuthentication("http://test.bamboo.com", "TestBob", "admin01");
+            var bambooApi = BambooApiFactory.CreateWithBasicAuthentication("http://test.bamboo.com", "TestBob", "admin01");
 
             bambooApi.BuildRequest.ShouldNotBeNull();
             bambooApi.PlanRequest.ShouldNotBeNull();
@@ -21,7 +21,7 @@ namespace PandaSharp.Bamboo.Test
         [Test]
         public void BambooApiOAuthConstructionTest()
         {
-            var bambooApi = BambooApi.CreateWithOAuthAuthentication("http://test.bamboo.com", "TestBob", "admin01", "token", "tokenSecret");
+            var bambooApi = BambooApiFactory.CreateWithOAuthAuthentication("http://test.bamboo.com", "TestBob", "admin01", "token", "tokenSecret");
 
             bambooApi.BuildRequest.ShouldNotBeNull();
             bambooApi.PlanRequest.ShouldNotBeNull();

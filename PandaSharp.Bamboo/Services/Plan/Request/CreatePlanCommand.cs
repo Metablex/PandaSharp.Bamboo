@@ -22,19 +22,19 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
 
         public ICreatePlanCommand WithVcsBranch(string vcsBranch)
         {
-            GetAspect<ICreatePlanParameterAspect>().VcsBranch = vcsBranch;
+            GetAspect<ICreatePlanParameterAspect>().SetVcsBranchFilter(vcsBranch);
             return this;
         }
 
         public ICreatePlanCommand WithEnabledState(bool isEnabled)
         {
-            GetAspect<ICreatePlanParameterAspect>().IsEnabled = isEnabled;
+            GetAspect<ICreatePlanParameterAspect>().SetIsEnabledFilter(isEnabled);
             return this;
         }
 
         public ICreatePlanCommand WithCleanupEnabled(bool isCleanupEnabled)
         {
-            GetAspect<ICreatePlanParameterAspect>().IsCleanupEnabled = isCleanupEnabled;
+            GetAspect<ICreatePlanParameterAspect>().SetIsCleanupEnabledFilter(isCleanupEnabled);
             return this;
         }
 

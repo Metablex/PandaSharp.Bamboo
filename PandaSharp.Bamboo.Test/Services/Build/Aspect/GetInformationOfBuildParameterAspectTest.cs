@@ -8,33 +8,35 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Aspect
     [TestFixture]
     public sealed class GetInformationOfBuildParameterAspectTest
     {
-        [Test]
-        public void ParameterAspectTest()
-        {
-            var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
-            requestMock
-                .Setup(i => i.AddParameter("expand", "comments", ParameterType.QueryString))
-                .Returns(requestMock.Object)
-                .Verifiable();
+        private Mock<IRestRequest> _restRequestMock;
 
+        [SetUp]
+        public void SetUp()
+        {
+            _restRequestMock = new Mock<IRestRequest>();
+            _restRequestMock
+                .Setup(i => i.AddQueryParameter(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(_restRequestMock.Object);
+        }
+        
+        [Test]
+        public void IncludeBuildInformationTest()
+        {
             var aspect = new GetInformationOfBuildParameterAspect();
             aspect.IncludeBuildInformation(i => i.IncludingComments());
-            aspect.ApplyToRestRequest(requestMock.Object);
-
-            requestMock.Verify();
-            requestMock.VerifyNoOtherCalls();
+            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            
+            _restRequestMock.Verify(i => i.AddQueryParameter("expand", "comments"), Times.Once);
+            _restRequestMock.VerifyNoOtherCalls();
         }
 
         [Test]
         public void DefaultParameterAspectTest()
         {
-            var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
-
             var aspect = new GetInformationOfBuildParameterAspect();
-            aspect.ApplyToRestRequest(requestMock.Object);
+            aspect.ApplyToRestRequest(_restRequestMock.Object);
 
-            requestMock.Verify();
-            requestMock.VerifyNoOtherCalls();
+            _restRequestMock.VerifyNoOtherCalls();
         }
     }
 }

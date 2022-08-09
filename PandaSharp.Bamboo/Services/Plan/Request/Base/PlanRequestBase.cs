@@ -15,8 +15,8 @@ namespace PandaSharp.Bamboo.Services.Plan.Request.Base
         [InjectedProperty(RequestPropertyNames.PlanKey)]
         public string PlanKey { get; set; }
 
-        protected PlanRequestBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
-            : base(restClientFactory, parameterAspectFactory)
+        protected PlanRequestBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
         {
         }
     }

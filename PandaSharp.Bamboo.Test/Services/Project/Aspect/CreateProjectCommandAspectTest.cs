@@ -14,8 +14,8 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Aspect
         [Test]
         public void ParameterAspectTest()
         {
-            var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
-            requestMock
+            var restRequestMock = new Mock<IRestRequest>(MockBehavior.Strict);
+            restRequestMock
                 .Setup(i => i.AddJsonBody(It.IsAny<object>()))
                 .Callback<object>(
                     obj =>
@@ -28,27 +28,24 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Aspect
                         json["description"].ShouldBe("Description");
                         json["publicAccess"].ShouldBe(true);
                     })
-                .Returns(requestMock.Object)
-                .Verifiable();
+                .Returns(restRequestMock.Object);
 
-            var aspect = new CreateProjectCommandAspect
-            {
-                ProjectKey = "Project",
-                ProjectName = "Name",
-                Description = "Description",
-                EnablePublicAccess = true
-            };
-            aspect.ApplyToRestRequest(requestMock.Object);
+            var aspect = new CreateProjectCommandAspect();
+            aspect.SetProjectKey("Project");
+            aspect.SetProjectName("Name");
+            aspect.SetDescription("Description");
+            aspect.EnablePublicAccess(true);
+            aspect.ApplyToRestRequest(restRequestMock.Object);
 
-            requestMock.Verify();
-            requestMock.VerifyNoOtherCalls();
+            restRequestMock.Verify(i => i.AddJsonBody(It.IsAny<object>()), Times.Once);
+            restRequestMock.VerifyNoOtherCalls();
         }
-
+        
         [Test]
         public void DefaultParameterAspectTest()
         {
-            var requestMock = new Mock<IRestRequest>(MockBehavior.Strict);
-            requestMock
+            var restRequestMock = new Mock<IRestRequest>(MockBehavior.Strict);
+            restRequestMock
                 .Setup(i => i.AddJsonBody(It.IsAny<object>()))
                 .Callback<object>(
                     obj =>
@@ -60,14 +57,13 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Aspect
                         json["name"].ShouldBe(JValue.CreateString(null));
                         json["publicAccess"].ShouldBe(false);
                     })
-                .Returns(requestMock.Object)
-                .Verifiable();
+                .Returns(restRequestMock.Object);
 
             var aspect = new CreateProjectCommandAspect();
-            aspect.ApplyToRestRequest(requestMock.Object);
+            aspect.ApplyToRestRequest(restRequestMock.Object);
 
-            requestMock.Verify();
-            requestMock.VerifyNoOtherCalls();
+            restRequestMock.Verify(i => i.AddJsonBody(It.IsAny<object>()), Times.Once);
+            restRequestMock.VerifyNoOtherCalls();
         }
     }
 }

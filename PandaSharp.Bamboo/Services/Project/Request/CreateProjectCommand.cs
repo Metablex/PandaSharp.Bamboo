@@ -15,13 +15,13 @@ namespace PandaSharp.Bamboo.Services.Project.Request
         [InjectedProperty(RequestPropertyNames.ProjectKey)]
         public string ProjectKey
         {
-            set => GetAspect<ICreateProjectCommandAspect>().ProjectKey = value;
+            set => GetAspect<ICreateProjectCommandAspect>().SetProjectKey(value);
         }
 
         [InjectedProperty(RequestPropertyNames.ProjectName)]
         public string ProjectName
         {
-            set => GetAspect<ICreateProjectCommandAspect>().ProjectName = value;
+            set => GetAspect<ICreateProjectCommandAspect>().SetProjectName(value);
         }
 
         public CreateProjectCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
@@ -31,13 +31,13 @@ namespace PandaSharp.Bamboo.Services.Project.Request
 
         public ICreateProjectCommand WithDescription(string description)
         {
-            GetAspect<ICreateProjectCommandAspect>().Description = description;
+            GetAspect<ICreateProjectCommandAspect>().SetDescription(description);
             return this;
         }
 
         public ICreateProjectCommand EnablePublicAccess()
         {
-            GetAspect<ICreateProjectCommandAspect>().EnablePublicAccess = true;
+            GetAspect<ICreateProjectCommandAspect>().EnablePublicAccess(true);
             return this;
         }
 

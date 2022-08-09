@@ -1,41 +1,69 @@
+using System;
+using System.Net;
 using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
-using PandaSharp.Bamboo.Services.Plan.Contract;
 using PandaSharp.Bamboo.Services.Plan.Request;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
 using RestSharp;
+using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Plan.Request
 {
-    internal sealed class EnableDisablePlanCommandTest : CommandBaseTest<EnableDisablePlanCommand>
+    [TestFixture]
+    internal sealed class EnableDisablePlanCommandTest
     {
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
 
         [Test]
+        public void UnauthorizedExecuteTest()
+        {
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock(HttpStatusCode.Unauthorized);
+
+            var request = RequestTestMockBuilder.CreateCommand<EnableDisablePlanCommand>(restFactoryMock);
+
+            Should.ThrowAsync<UnauthorizedAccessException>(() => request.ExecuteAsync());
+        }
+
+        [Test]
+        public void AnyErrorWhileExecuteTest()
+        {
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock(HttpStatusCode.NotFound);
+
+            var request = RequestTestMockBuilder.CreateCommand<EnableDisablePlanCommand>(restFactoryMock);
+
+            Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
+        }
+
+        [Test]
         public async Task EnableExecuteAsyncTest()
         {
-            await CreateCommand(true).ExecuteAsync();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock();
+            
+            var command = RequestTestMockBuilder.CreateCommand<EnableDisablePlanCommand>(restFactoryMock);
+            command.ProjectKey = ProjectKey;
+            command.PlanKey = PlanKey;
+            command.SetEnabled = true;
+            
+            await command.ExecuteAsync();
 
-            VerifyRestRequestCreation($"plan/{ProjectKey}-{PlanKey}/enable", Method.POST);
+            restFactoryMock.Verify(i => i.CreateRequest($"plan/{ProjectKey}-{PlanKey}/enable", Method.POST), Times.Once);
         }
 
         [Test]
         public async Task DisableExecuteAsyncTest()
         {
-            await CreateCommand(false).ExecuteAsync();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock();
+            
+            var command = RequestTestMockBuilder.CreateCommand<EnableDisablePlanCommand>(restFactoryMock);
+            command.ProjectKey = ProjectKey;
+            command.PlanKey = PlanKey;
+            command.SetEnabled = false;
+            
+            await command.ExecuteAsync();
 
-            VerifyRestRequestCreation($"plan/{ProjectKey}-{PlanKey}/enable", Method.DELETE);
-        }
-
-        private IEnableDisablePlanCommand CreateCommand(bool setEnabled)
-        {
-            var request = CreateRequest();
-            request.ProjectKey = ProjectKey;
-            request.PlanKey = PlanKey;
-            request.SetEnabled = setEnabled;
-
-            return request;
+            restFactoryMock.Verify(i => i.CreateRequest($"plan/{ProjectKey}-{PlanKey}/enable", Method.DELETE), Times.Once);
         }
     }
 }

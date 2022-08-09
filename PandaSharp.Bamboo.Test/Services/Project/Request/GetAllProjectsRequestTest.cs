@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
@@ -9,68 +9,71 @@ using PandaSharp.Bamboo.Services.Project.Aspect;
 using PandaSharp.Bamboo.Services.Project.Request;
 using PandaSharp.Bamboo.Services.Project.Response;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
-using PandaSharp.Framework.Services.Aspect;
 using RestSharp;
 using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Project.Request
 {
     [TestFixture]
-    internal sealed class GetAllProjectsRequestTest : RequestBaseTest<GetAllProjectsRequest, ProjectListResponse>
+    internal sealed class GetAllProjectsRequestTest 
     {
-        private Mock<IPlanListInformationExpansion> _expandState;
-
-        protected override IEnumerable<Mock<IRequestParameterAspect>> InitializeParameterAspectMocks()
+        [Test]
+        public void UnauthorizedExecuteTest()
         {
-            yield return CreateParameterAspectMock<IResultCountParameterAspect>();
-            yield return CreateParameterAspectMock<IGetAllProjectsParameterAspect>(
-                aspect =>
-                {
-                    aspect
-                        .Setup(i => i.IncludePlanInformation(It.IsAny<Action<IPlanListInformationExpansion>[]>()))
-                        .Callback<Action<IPlanListInformationExpansion>[]>(
-                            expansions =>
-                            {
-                                foreach (var expansion in expansions)
-                                {
-                                    expansion(_expandState.Object);
-                                }
-                            });
-                });
-        }
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<ProjectListResponse>(HttpStatusCode.Unauthorized);
 
-        protected override void SetupEachTest()
-        {
-            _expandState = new Mock<IPlanListInformationExpansion>();
+            var request = RequestTestMockBuilder.CreateRequest<GetAllProjectsRequest, ProjectListResponse>(restFactoryMock);
+
+            Should.ThrowAsync<UnauthorizedAccessException>(() => request.ExecuteAsync());
         }
 
         [Test]
+        public void AnyErrorWhileExecuteTest()
+        {
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<ProjectListResponse>(HttpStatusCode.NotFound);
+
+            var request = RequestTestMockBuilder.CreateRequest<GetAllProjectsRequest, ProjectListResponse>(restFactoryMock);
+
+            Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
+        }
+        
+        [Test]
         public async Task ExecuteAsyncTest()
         {
-            var response = await CreateRequest()
+            var expandState = new Mock<IPlanListInformationExpansion>();
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<ProjectListResponse>();
+            var resultCountParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IResultCountParameterAspect>();
+            
+            var getAllProjectsParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IGetAllProjectsParameterAspect>();
+            getAllProjectsParameterAspect
+                .Setup(i => i.IncludePlanInformation(It.IsAny<Action<IPlanListInformationExpansion>[]>()))
+                .Callback<Action<IPlanListInformationExpansion>[]>(
+                    expansions =>
+                    {
+                        foreach (var expansion in expansions)
+                        {
+                            expansion(expandState.Object);
+                        }
+                    });
+
+            var request = RequestTestMockBuilder
+                .CreateRequest<GetAllProjectsRequest, ProjectListResponse>(restFactoryMock, resultCountParameterAspect, getAllProjectsParameterAspect)
                 .IncludeEmptyProjects()
                 .IncludePlanInformation(i => i.IncludeBranches())
                 .StartAtIndex(5)
-                .WithMaxResult(25)
-                .ExecuteAsync();
-
+                .WithMaxResult(25);
+            
+            var response = await request.ExecuteAsync();
             response.ShouldNotBeNull();
-            VerifyRestRequestCreation("project", Method.GET);
+            
+            restFactoryMock.Verify(r => r.CreateRequest("project", Method.GET), Times.Once);
+            
+            resultCountParameterAspect.Verify(i => i.SetMaxResults(25), Times.Once);
+            resultCountParameterAspect.Verify(i => i.SetStartIndex(5), Times.Once);
 
-            VerifyParameterAspectMock<IGetAllProjectsParameterAspect>(aspect =>
-            {
-                aspect.IncludeEmptyProjects.ShouldBeTrue();
-
-                _expandState.Verify(i => i.IncludeActions(), Times.Never);
-                _expandState.Verify(i => i.IncludeBranches(), Times.Once);
-                _expandState.Verify(i => i.IncludeStages(), Times.Never);
-            });
-
-            VerifyParameterAspectMock<IResultCountParameterAspect>(aspect =>
-            {
-                aspect.StartIndex.ShouldBe(5);
-                aspect.MaxResults.ShouldBe(25);
-            });
+            expandState.Verify(i => i.IncludeActions(), Times.Never);
+            expandState.Verify(i => i.IncludeBranches(), Times.Once);
+            expandState.Verify(i => i.IncludeStages(), Times.Never);
         }
     }
 }

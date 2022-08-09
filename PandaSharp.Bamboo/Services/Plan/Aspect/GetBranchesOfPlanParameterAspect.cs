@@ -5,13 +5,18 @@ namespace PandaSharp.Bamboo.Services.Plan.Aspect
 {
     internal sealed class GetBranchesOfPlanParameterAspect : RequestParameterAspectBase, IGetBranchesOfPlanParameterAspect
     {
-        public bool OnlyEnabledBranches { get; set; }
+        private bool _onlyEnabledBranches;
+
+        public void SetOnlyEnabledBranchesFilter(bool onlyEnabledBranches)
+        {
+            _onlyEnabledBranches = onlyEnabledBranches;
+        }
 
         public override void ApplyToRestRequest(IRestRequest restRequest)
         {
-            if (OnlyEnabledBranches)
+            if (_onlyEnabledBranches)
             {
-                restRequest.AddParameter("enabledOnly", null);
+                restRequest.AddParameter("enabledOnly", true);
             }
         }
     }

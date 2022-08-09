@@ -16,14 +16,14 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
     [SupportsParameterAspect(typeof(IGetInformationOfPlanParameterAspect))]
     internal sealed class GetInformationOfPlanRequest : PlanRequestBase<PlanResponse>, IGetInformationOfPlanRequest
     {
-        public GetInformationOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
-            : base(restClientFactory, parameterAspectFactory)
+        public GetInformationOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
         {
         }
 
         public IGetInformationOfPlanRequest WithMaxBranchResults(int maxResults = 25)
         {
-            GetAspect<IResultCountParameterAspect>().MaxResults = maxResults;
+            GetAspect<IResultCountParameterAspect>().SetMaxResults(maxResults);
             return this;
         }
 

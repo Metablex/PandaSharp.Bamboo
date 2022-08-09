@@ -9,8 +9,8 @@ namespace PandaSharp.Bamboo.Services.Users.Request
 {
     internal sealed class GetCurrentUserRequest : RequestBase<CurrentUserResponse>, IGetCurrentUserRequest
     {
-        public GetCurrentUserRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
-            : base(restClientFactory, parameterAspectFactory)
+        public GetCurrentUserRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
         {
         }
 

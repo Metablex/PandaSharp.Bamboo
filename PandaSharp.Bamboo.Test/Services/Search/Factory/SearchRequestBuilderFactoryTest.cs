@@ -7,20 +7,20 @@ using Shouldly;
 namespace PandaSharp.Bamboo.Test.Services.Search.Factory
 {
     [TestFixture]
-    internal sealed class SearchRequestBuilderFactoryTest : RequestBuilderFactoryTestBase
+    internal sealed class SearchRequestBuilderFactoryTest 
     {
         [Test]
         public void SearchForPlansTest()
         {
-            SetupRequestRegistration<ISearchForPlansRequest>(parameters => parameters.ShouldBeEmpty());
+            var containerMock = RequestBuilderFactoryMockBuilder.CreateRequestRegistrationMock<ISearchForPlansRequest>(parameters => parameters.ShouldBeEmpty());
 
-            var factory = new SearchRequestBuilderFactory(Container.Object);
+            var factory = new SearchRequestBuilderFactory(containerMock.Object);
             var request = factory.SearchForPlans();
 
             request.ShouldNotBeNull();
 
-            Container.Verify();
-            Container.VerifyNoOtherCalls();
+            containerMock.Verify();
+            containerMock.VerifyNoOtherCalls();
         }
     }
 }
