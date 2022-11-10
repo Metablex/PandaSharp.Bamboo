@@ -20,22 +20,22 @@ namespace PandaSharp.Bamboo.Test.Framework.Services.Request
             where TRequest : IRequestBase<TResponse>
         {
             var requestParameterAspectFactoryMock = CreateRequestParameterAspectFactoryMock(parameterAspects);
-            var restResponseConverter = CreateRestResponseConverterMock<TResponse>();
-            
+            var restResponseConverterFactory = CreateRestResponseConverterFactoryMock<TResponse>();
+
             return (TRequest)Activator.CreateInstance(
                 typeof(TRequest),
                 restFactoryMock.Object,
                 requestParameterAspectFactoryMock.Object,
-                restResponseConverter.Object);
+                restResponseConverterFactory.Object);
         }
-        
+
         internal static TRequest CreateCommand<TRequest>(
             Mock<IRestFactory> restFactoryMock,
             params Mock[] parameterAspects)
             where TRequest : ICommandBase
         {
             var requestParameterAspectFactoryMock = CreateRequestParameterAspectFactoryMock(parameterAspects);
-            
+
             return (TRequest)Activator.CreateInstance(
                 typeof(TRequest),
                 restFactoryMock.Object,
@@ -57,14 +57,14 @@ namespace PandaSharp.Bamboo.Test.Framework.Services.Request
             response
                 .SetupGet(i => i.Data)
                 .Returns(new TResponse());
-            
+
             var mock = restRequestMock ?? new Mock<IRestRequest>();
 
             var client = new Mock<IRestClient>(MockBehavior.Strict);
             client
                 .Setup(i => i.ExecuteAsync<TResponse>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.Run(() => response.Object));
-            
+
             var restFactoryMock = new Mock<IRestFactory>(MockBehavior.Strict);
             restFactoryMock
                 .Setup(i => i.CreateClient())
@@ -94,7 +94,7 @@ namespace PandaSharp.Bamboo.Test.Framework.Services.Request
                 .Returns(Task.Run(() => response.Object));
 
             var mock = restRequestMock ?? new Mock<IRestRequest>();
-            
+
             var restFactoryMock = new Mock<IRestFactory>(MockBehavior.Strict);
             restFactoryMock
                 .Setup(i => i.CreateClient())
@@ -127,15 +127,20 @@ namespace PandaSharp.Bamboo.Test.Framework.Services.Request
             return parameterAspectFactoryMock;
         }
 
-        private static Mock<IRestResponseConverter> CreateRestResponseConverterMock<TResponse>()
+        private static Mock<IRestResponseConverterFactory> CreateRestResponseConverterFactoryMock<TResponse>()
         {
+            var restResponseConverterFactoryMock = new Mock<IRestResponseConverterFactory>();
             var restResponseConverterMock = new Mock<IRestResponseConverter>();
+
+            restResponseConverterFactoryMock
+                .Setup(i => i.CreateResponseConverter(It.IsAny<Type>()))
+                .Returns(restResponseConverterMock.Object);
 
             restResponseConverterMock
                 .Setup(i => i.ConvertRestResponse(It.IsAny<IRestResponse<TResponse>>()))
                 .Returns<IRestResponse<TResponse>>(response => response.Data);
 
-            return restResponseConverterMock;
+            return restResponseConverterFactoryMock;
         }
     }
 }
