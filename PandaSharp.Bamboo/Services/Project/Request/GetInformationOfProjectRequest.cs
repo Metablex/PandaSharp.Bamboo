@@ -20,8 +20,8 @@ namespace PandaSharp.Bamboo.Services.Project.Request
         [InjectedProperty(RequestPropertyNames.ProjectKey)]
         public string ProjectKey { get; set; }
 
-        public GetInformationOfProjectRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
-            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
+        public GetInformationOfProjectRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverterFactory restResponseConverterFactory)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverterFactory)
         {
         }
 

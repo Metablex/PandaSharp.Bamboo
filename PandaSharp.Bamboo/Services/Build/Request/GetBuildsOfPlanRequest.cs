@@ -21,8 +21,8 @@ namespace PandaSharp.Bamboo.Services.Build.Request
     [SupportsParameterAspect(typeof(IGetBuildsOfPlanParameterAspect))]
     internal sealed class GetBuildsOfPlanRequest : BuildRequestBase<BuildListResponse>, IGetBuildsOfPlanRequest
     {
-        public GetBuildsOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
-            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
+        public GetBuildsOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverterFactory restResponseConverterFactory)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverterFactory)
         {
         }
 

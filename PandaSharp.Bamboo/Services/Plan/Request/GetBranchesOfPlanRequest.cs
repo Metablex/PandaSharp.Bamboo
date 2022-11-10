@@ -14,8 +14,8 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
     [SupportsParameterAspect(typeof(IGetBranchesOfPlanParameterAspect))]
     internal sealed class GetBranchesOfPlanRequest : PlanRequestBase<BranchListResponse>, IGetBranchesOfPlanRequest
     {
-        public GetBranchesOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
-            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
+        public GetBranchesOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverterFactory restResponseConverterFactory)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverterFactory)
         {
         }
 

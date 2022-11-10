@@ -12,8 +12,8 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
     internal sealed class GetArtifactsOfPlanRequest : PlanRequestBase<ArtifactListResponse>, IGetArtifactsOfPlanRequest
     {
-        public GetArtifactsOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
-            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
+        public GetArtifactsOfPlanRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverterFactory restResponseConverterFactory)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverterFactory)
         {
         }
 

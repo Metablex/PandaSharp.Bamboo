@@ -14,8 +14,8 @@ namespace PandaSharp.Bamboo.Services.Search.Request
     [SupportsParameterAspect(typeof(IPlanSearchParameterAspect))]
     internal sealed class SearchForPlansRequest : RequestBase<PlanSearchResultListResponse>, ISearchForPlansRequest
     {
-        public SearchForPlansRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
-            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
+        public SearchForPlansRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverterFactory restResponseConverterFactory)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverterFactory)
         {
         }
 

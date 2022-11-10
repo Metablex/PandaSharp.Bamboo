@@ -9,8 +9,8 @@ namespace PandaSharp.Bamboo.Services.Build.Request
 {
     internal sealed class GetLabelsOfBuildRequest : BuildRequestBase<LabelListResponse>, IGetLabelsOfBuildRequest
     {
-        public GetLabelsOfBuildRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter restResponseConverter)
-            : base(restClientFactory, parameterAspectFactory, restResponseConverter)
+        public GetLabelsOfBuildRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverterFactory restResponseConverterFactory)
+            : base(restClientFactory, parameterAspectFactory, restResponseConverterFactory)
         {
         }
 
