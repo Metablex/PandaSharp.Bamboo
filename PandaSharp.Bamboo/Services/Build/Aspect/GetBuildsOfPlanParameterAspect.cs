@@ -9,7 +9,7 @@ namespace PandaSharp.Bamboo.Services.Build.Aspect
     {
         private BuildListInformationExpansion _buildListInformationExpansion;
 
-        public override void ApplyToRestRequest(IRestRequest restRequest)
+        public override void ApplyToRestRequest(RestRequest restRequest)
         {
             if (_buildListInformationExpansion != null)
             {

@@ -21,10 +21,10 @@ namespace PandaSharp.Bamboo.Services.Build.Request
 
         protected override Method GetRequestMethod()
         {
-            return Method.GET;
+            return Method.Get;
         }
 
-        protected override void ApplyToRestRequest(IRestRequest restRequest)
+        protected override void ApplyToRestRequest(RestRequest restRequest)
         {
             restRequest.AddParameter("expand", "comments.comment");
         }

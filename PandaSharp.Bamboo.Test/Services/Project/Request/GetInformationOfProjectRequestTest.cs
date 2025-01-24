@@ -18,7 +18,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
     internal sealed class GetInformationOfProjectRequestTest
     {
         private const string ProjectKey = "ProjectX";
-        
+
         [Test]
         public void UnauthorizedExecuteTest()
         {
@@ -68,12 +68,12 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
 
             var response = await request.ExecuteAsync();
             response.ShouldNotBeNull();
-            
-            restFactoryMock.Verify(r => r.CreateRequest($"project/{ProjectKey}", Method.GET), Times.Once);
-            
+
+            restFactoryMock.Verify(r => r.CreateRequest($"project/{ProjectKey}", Method.Get), Times.Once);
+
             resultCountParameterAspect.Verify(i => i.SetMaxResults(10), Times.Once);
             resultCountParameterAspect.Verify(i => i.SetStartIndex(5), Times.Once);
-            
+
             expandState.Verify(i => i.IncludeActions(), Times.Never);
             expandState.Verify(i => i.IncludeBranches(), Times.Never);
             expandState.Verify(i => i.IncludeStages(), Times.Once);

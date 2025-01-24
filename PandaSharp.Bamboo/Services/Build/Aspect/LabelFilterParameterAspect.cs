@@ -14,7 +14,7 @@ namespace PandaSharp.Bamboo.Services.Build.Aspect
             _labels = labels;
         }
 
-        public override void ApplyToRestRequest(IRestRequest restRequest)
+        public override void ApplyToRestRequest(RestRequest restRequest)
         {
             restRequest.AddParameterValues("label", _labels);
         }

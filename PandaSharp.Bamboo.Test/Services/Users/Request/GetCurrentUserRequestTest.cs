@@ -33,17 +33,17 @@ namespace PandaSharp.Bamboo.Test.Services.Users.Request
 
             Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
         }
-        
+
         [Test]
         public async Task SuccessfulExecuteTest()
         {
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<CurrentUserResponse>();
             var request = RequestTestMockBuilder.CreateRequest<GetCurrentUserRequest, CurrentUserResponse>(restFactoryMock);
-            
+
             var response = await request.ExecuteAsync();
             response.ShouldNotBeNull();
-            
-            restFactoryMock.Verify(r => r.CreateRequest("currentUser", Method.GET), Times.Once);
+
+            restFactoryMock.Verify(r => r.CreateRequest("currentUser", Method.Get), Times.Once);
         }
     }
 }

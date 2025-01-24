@@ -25,7 +25,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Aspect
             _isCleanupEnabled = isCleanupEnabled;
         }
 
-        public override void ApplyToRestRequest(IRestRequest restRequest)
+        public override void ApplyToRestRequest(RestRequest restRequest)
         {
             restRequest
                 .AddNotEncodedParameterIfSet("vcsBranch", _vcsBranch)

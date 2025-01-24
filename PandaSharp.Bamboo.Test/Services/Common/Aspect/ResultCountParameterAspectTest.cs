@@ -1,53 +1,48 @@
-using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Common.Aspect;
 using RestSharp;
+using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Common.Aspect
 {
     [TestFixture]
     public sealed class ResultCountParameterAspectTest
     {
-        private Mock<IRestRequest> _restRequestMock;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _restRequestMock = new Mock<IRestRequest>();
-            _restRequestMock
-                .Setup(i => i.AddQueryParameter(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()))
-                .Returns(_restRequestMock.Object);
-        }
-        
         [Test]
         public void SetMaxResultsTest()
         {
+            var request = new RestRequest();
+
             var aspect = new ResultCountParameterAspect();
             aspect.SetMaxResults(10);
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
-            
-            _restRequestMock.Verify(i => i.AddQueryParameter("max-results", "10"), Times.Once);
-            _restRequestMock.VerifyNoOtherCalls();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.Count.ShouldBe(1);
+            request.Parameters.Exists(new QueryParameter("max-results", "10")).ShouldBeTrue();
         }
-        
+
         [Test]
         public void SetStartIndexTest()
         {
+            var request = new RestRequest();
+
             var aspect = new ResultCountParameterAspect();
             aspect.SetStartIndex(5);
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
-            
-            _restRequestMock.Verify(i => i.AddQueryParameter("start-index", "5"), Times.Once);
-            _restRequestMock.VerifyNoOtherCalls();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.Count.ShouldBe(1);
+            request.Parameters.Exists(new QueryParameter("start-index", "5")).ShouldBeTrue();
         }
-        
+
         [Test]
         public void DefaultParameterAspectTest()
         {
-            var aspect = new ResultCountParameterAspect();
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            var request = new RestRequest();
 
-            _restRequestMock.VerifyNoOtherCalls();
+            var aspect = new ResultCountParameterAspect();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.ShouldBeEmpty();
         }
     }
 }

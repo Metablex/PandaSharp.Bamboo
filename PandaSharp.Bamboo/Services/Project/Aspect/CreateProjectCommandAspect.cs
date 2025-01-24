@@ -32,7 +32,7 @@ namespace PandaSharp.Bamboo.Services.Project.Aspect
             _enablePublicAccess = enablePublicAccess;
         }
 
-        public override void ApplyToRestRequest(IRestRequest restRequest)
+        public override void ApplyToRestRequest(RestRequest restRequest)
         {
             var json = new JObject
             {

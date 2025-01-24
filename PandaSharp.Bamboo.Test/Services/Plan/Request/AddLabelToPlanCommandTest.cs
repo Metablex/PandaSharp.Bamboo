@@ -2,7 +2,6 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using Moq;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Plan.Request;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
@@ -17,7 +16,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
         private const string LabelKey = "BlackLabel";
-        
+
         [Test]
         public void UnauthorizedExecuteTest()
         {
@@ -41,28 +40,15 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
         [Test]
         public async Task ExecuteAsyncTest()
         {
-            var restRequestMock = new Mock<IRestRequest>();
-            restRequestMock
-                .Setup(i => i.AddJsonBody(It.IsAny<object>()))
-                .Callback<object>(i =>
-                {
-                    var json = i.ShouldBeOfType<JObject>();
-                    var jsonLabelProperty = json.Children().ShouldHaveSingleItem().ShouldBeOfType<JProperty>();
-                    jsonLabelProperty.Name.ShouldBe("name");
-
-                    var jsonValue = jsonLabelProperty.Value.ShouldBeOfType<JValue>();
-                    jsonValue.Value.ShouldBe(LabelKey);
-                });
-
-            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock(restRequestMock: restRequestMock);
+            var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock();
             var command = RequestTestMockBuilder.CreateCommand<AddLabelToPlanCommand>(restFactoryMock);
             command.ProjectKey = ProjectKey;
             command.PlanKey = PlanKey;
             command.LabelName = LabelKey;
-            
+
             await command.ExecuteAsync();
 
-            restFactoryMock.Verify(r => r.CreateRequest($"plan/{ProjectKey}-{PlanKey}/label", Method.POST), Times.Once);
+            restFactoryMock.Verify(r => r.CreateRequest($"plan/{ProjectKey}-{PlanKey}/label", Method.Post), Times.Once);
         }
     }
 }

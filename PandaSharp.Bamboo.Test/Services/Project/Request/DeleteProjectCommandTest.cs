@@ -14,7 +14,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
     internal sealed class DeleteProjectCommandTest
     {
         private const string ProjectKey = "ProjectX";
-        
+
         [Test]
         public void UnauthorizedExecuteTest()
         {
@@ -39,13 +39,13 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
         public async Task ExecuteAsyncTest()
         {
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock();
-            
+
             var command = RequestTestMockBuilder.CreateCommand<DeleteProjectCommand>(restFactoryMock);
             command.ProjectKey = ProjectKey;
-            
+
             await command.ExecuteAsync();
 
-            restFactoryMock.Verify(i => i.CreateRequest($"project/{ProjectKey}", Method.DELETE), Times.Once);
+            restFactoryMock.Verify(i => i.CreateRequest($"project/{ProjectKey}", Method.Delete), Times.Once);
         }
     }
 }

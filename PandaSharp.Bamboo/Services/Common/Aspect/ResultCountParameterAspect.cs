@@ -19,7 +19,7 @@ namespace PandaSharp.Bamboo.Services.Common.Aspect
             _maxResults = maxResults;
         }
 
-        public override void ApplyToRestRequest(IRestRequest restRequest)
+        public override void ApplyToRestRequest(RestRequest restRequest)
         {
             restRequest
                 .AddParameterIfSet("start-index", _startIndex)

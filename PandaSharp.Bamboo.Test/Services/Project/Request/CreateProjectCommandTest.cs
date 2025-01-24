@@ -17,7 +17,7 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
         private const string ProjectKey = "ProjectX";
         private const string ProjectName = "ProjectName";
         private const string Description = "Test";
-        
+
         [Test]
         public void UnauthorizedExecuteTest()
         {
@@ -37,23 +37,23 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
 
             Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
         }
-        
+
         [Test]
         public async Task ExecuteAsyncTest()
         {
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock();
             var aspect = RequestTestMockBuilder.CreateParameterAspectMock<ICreateProjectCommandAspect>();
-            
+
             var command = RequestTestMockBuilder.CreateCommand<CreateProjectCommand>(restFactoryMock, aspect);
             command.ProjectKey = ProjectKey;
             command.ProjectName = ProjectName;
             command
                 .WithDescription(Description)
                 .EnablePublicAccess();
-                
+
             await command.ExecuteAsync();
 
-            restFactoryMock.Verify(i => i.CreateRequest("project", Method.POST), Times.Once);
+            restFactoryMock.Verify(i => i.CreateRequest("project", Method.Post), Times.Once);
 
             aspect.Verify(i => i.SetProjectKey(ProjectKey), Times.Once);
             aspect.Verify(i => i.SetProjectName(ProjectName), Times.Once);

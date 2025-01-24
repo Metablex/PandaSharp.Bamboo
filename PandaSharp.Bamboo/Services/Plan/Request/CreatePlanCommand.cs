@@ -45,7 +45,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
 
         protected override Method GetRequestMethod()
         {
-            return Method.PUT;
+            return Method.Put;
         }
     }
 }

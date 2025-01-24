@@ -36,14 +36,14 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
 
             Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
         }
-        
+
         [Test]
         public async Task ExecuteAsyncTest()
         {
             var expandState = new Mock<IPlanListInformationExpansion>();
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<PlanListResponse>();
             var resultCountParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IResultCountParameterAspect>();
-            
+
             var getAllPlansParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IGetAllPlansParameterAspect>();
             getAllPlansParameterAspect
                 .Setup(i => i.IncludePlanInformation(It.IsAny<Action<IPlanListInformationExpansion>[]>()))
@@ -66,15 +66,15 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
                     i.IncludeActions();
                     i.IncludeBranches();
                 });
-            
+
             var response = await request.ExecuteAsync();
             response.ShouldNotBeNull();
-            
-            restFactoryMock.Verify(r => r.CreateRequest("plan", Method.GET), Times.Once);
-            
+
+            restFactoryMock.Verify(r => r.CreateRequest("plan", Method.Get), Times.Once);
+
             resultCountParameterAspect.Verify(i => i.SetMaxResults(45), Times.Once);
             resultCountParameterAspect.Verify(i => i.SetStartIndex(7), Times.Once);
-            
+
             expandState.Verify(i => i.IncludeActions(), Times.Once);
             expandState.Verify(i => i.IncludeBranches(), Times.Once);
             expandState.Verify(i => i.IncludeStages(), Times.Once);

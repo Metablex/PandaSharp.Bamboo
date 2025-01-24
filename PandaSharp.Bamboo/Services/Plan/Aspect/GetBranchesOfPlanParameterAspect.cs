@@ -12,7 +12,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Aspect
             _onlyEnabledBranches = onlyEnabledBranches;
         }
 
-        public override void ApplyToRestRequest(IRestRequest restRequest)
+        public override void ApplyToRestRequest(RestRequest restRequest)
         {
             if (_onlyEnabledBranches)
             {

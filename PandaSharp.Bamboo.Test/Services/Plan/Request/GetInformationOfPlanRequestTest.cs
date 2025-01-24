@@ -19,7 +19,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
     {
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
-        
+
         [Test]
         public void UnauthorizedExecuteTest()
         {
@@ -46,7 +46,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
             var expandState = new Mock<IPlanInformationExpansion>();
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<PlanResponse>();
             var resultCountParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IResultCountParameterAspect>();
-            
+
             var getInformationOfPlanParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IGetInformationOfPlanParameterAspect>();
             getInformationOfPlanParameterAspect
                 .Setup(i => i.IncludePlanInformation(It.IsAny<Action<IPlanInformationExpansion>[]>()))
@@ -62,7 +62,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
             var request = RequestTestMockBuilder.CreateRequest<GetInformationOfPlanRequest, PlanResponse>(restFactoryMock, resultCountParameterAspect, getInformationOfPlanParameterAspect);
             request.ProjectKey = ProjectKey;
             request.PlanKey = PlanKey;
-                
+
             request
                 .WithMaxBranchResults(30)
                 .IncludePlanInformation(
@@ -73,15 +73,15 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
                         i.IncludeStages();
                         i.IncludeVariableContext();
                     });
-            
+
             var response = await request.ExecuteAsync();
             response.ShouldNotBeNull();
-            
-            restFactoryMock.Verify(r => r.CreateRequest($"plan/{ProjectKey}-{PlanKey}", Method.GET), Times.Once);
-            
+
+            restFactoryMock.Verify(r => r.CreateRequest($"plan/{ProjectKey}-{PlanKey}", Method.Get), Times.Once);
+
             resultCountParameterAspect.Verify(i => i.SetMaxResults(30), Times.Once);
             resultCountParameterAspect.Verify(i => i.SetStartIndex(It.IsAny<int>()), Times.Never);
-            
+
             expandState.Verify(i => i.IncludeActions(), Times.Once);
             expandState.Verify(i => i.IncludeStages(), Times.Once);
             expandState.Verify(i => i.IncludeVariableContext(), Times.Once);

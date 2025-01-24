@@ -32,7 +32,7 @@ namespace PandaSharp.Bamboo.Services.Build.Request
 
         protected override Method GetRequestMethod()
         {
-            return Method.GET;
+            return Method.Get;
         }
     }
 }

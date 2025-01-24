@@ -48,7 +48,7 @@ namespace PandaSharp.Bamboo.Services.Project.Request
 
         protected override Method GetRequestMethod()
         {
-            return Method.POST;
+            return Method.Post;
         }
     }
 }

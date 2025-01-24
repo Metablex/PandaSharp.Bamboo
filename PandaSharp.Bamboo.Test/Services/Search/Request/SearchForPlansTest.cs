@@ -35,29 +35,29 @@ namespace PandaSharp.Bamboo.Test.Services.Search.Request
 
             Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
         }
-        
+
         [Test]
         public async Task ExecuteAsyncTest()
         {
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<PlanSearchResultListResponse>();
             var resultCountParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IResultCountParameterAspect>();
             var planSearchParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IPlanSearchParameterAspect>();
-            
+
             var request = RequestTestMockBuilder
                 .CreateRequest<SearchForPlansRequest, PlanSearchResultListResponse>(restFactoryMock, resultCountParameterAspect, planSearchParameterAspect)
                 .WithMaxResult(42)
                 .StartAtIndex(9)
                 .WithSearchTerm("Test")
                 .PerformFuzzySearch();
-            
+
             var response = await request.ExecuteAsync();
             response.ShouldNotBeNull();
-            
-            restFactoryMock.Verify(r => r.CreateRequest("search/plans", Method.GET), Times.Once);
-            
+
+            restFactoryMock.Verify(r => r.CreateRequest("search/plans", Method.Get), Times.Once);
+
             resultCountParameterAspect.Verify(i => i.SetMaxResults(42), Times.Once);
             resultCountParameterAspect.Verify(i => i.SetStartIndex(9), Times.Once);
-            
+
             planSearchParameterAspect.Verify(i => i.SetSearchTerm("Test"), Times.Once);
             planSearchParameterAspect.Verify(i => i.SetPerformFuzzySearch(true), Times.Once);
         }

@@ -17,7 +17,7 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Request
         private const string PlanKey = "MasterPlan";
         private const uint BuildNumber = 42;
         private const string Label = "BlackLabel";
-        
+
         [Test]
         public void UnauthorizedExecuteTest()
         {
@@ -42,16 +42,16 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Request
         public async Task ExecuteAsyncTest()
         {
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock();
-            
+
             var command = RequestTestMockBuilder.CreateCommand<DeleteLabelOfBuildCommand>(restFactoryMock);
             command.ProjectKey = ProjectKey;
             command.PlanKey = PlanKey;
             command.BuildNumber = BuildNumber;
             command.Label = Label;
-            
+
             await command.ExecuteAsync();
-            
-            restFactoryMock.Verify(r => r.CreateRequest($"result/{ProjectKey}-{PlanKey}-{BuildNumber}/label/{Label}", Method.DELETE), Times.Once);
+
+            restFactoryMock.Verify(r => r.CreateRequest($"result/{ProjectKey}-{PlanKey}-{BuildNumber}/label/{Label}", Method.Delete), Times.Once);
         }
     }
 }

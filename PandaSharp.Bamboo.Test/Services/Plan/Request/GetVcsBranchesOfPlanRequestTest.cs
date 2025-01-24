@@ -17,7 +17,7 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
     {
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
-        
+
         [Test]
         public void UnauthorizedExecuteTest()
         {
@@ -43,20 +43,20 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
         {
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<VcsBranchListResponse>();
             var resultCountParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IResultCountParameterAspect>();
-            
+
             var request = RequestTestMockBuilder.CreateRequest<GetVcsBranchesOfPlanRequest, VcsBranchListResponse>(restFactoryMock, resultCountParameterAspect);
             request.ProjectKey = ProjectKey;
             request.PlanKey = PlanKey;
-            
+
             request
                 .WithMaxResult(78)
                 .StartAtIndex(6);
-            
+
             var response = await request.ExecuteAsync();
             response.ShouldNotBeNull();
-            
-            restFactoryMock.Verify(r => r.CreateRequest($"plan/{ProjectKey}-{PlanKey}/vcsBranches", Method.GET), Times.Once);
-            
+
+            restFactoryMock.Verify(r => r.CreateRequest($"plan/{ProjectKey}-{PlanKey}/vcsBranches", Method.Get), Times.Once);
+
             resultCountParameterAspect.Verify(i => i.SetMaxResults(78), Times.Once);
             resultCountParameterAspect.Verify(i => i.SetStartIndex(6), Times.Once);
         }

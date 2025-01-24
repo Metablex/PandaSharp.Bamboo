@@ -40,28 +40,28 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
         public async Task FavouriteExecuteAsyncTest()
         {
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock();
-            
+
             var command = RequestTestMockBuilder.CreateCommand<FavouritePlanCommand>(restFactoryMock);
             command.ProjectKey = ProjectKey;
             command.PlanKey = PlanKey;
             command.SetFavourite = true;
             await command.ExecuteAsync();
 
-            restFactoryMock.Verify(i => i.CreateRequest($"plan/{ProjectKey}-{PlanKey}/favourite", Method.POST), Times.Once);
+            restFactoryMock.Verify(i => i.CreateRequest($"plan/{ProjectKey}-{PlanKey}/favourite", Method.Post), Times.Once);
         }
 
         [Test]
         public async Task UnfavouriteExecuteAsyncTest()
         {
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock();
-            
+
             var command = RequestTestMockBuilder.CreateCommand<FavouritePlanCommand>(restFactoryMock);
             command.ProjectKey = ProjectKey;
             command.PlanKey = PlanKey;
             command.SetFavourite = false;
             await command.ExecuteAsync();
 
-            restFactoryMock.Verify(i => i.CreateRequest($"plan/{ProjectKey}-{PlanKey}/favourite", Method.DELETE), Times.Once);
+            restFactoryMock.Verify(i => i.CreateRequest($"plan/{ProjectKey}-{PlanKey}/favourite", Method.Delete), Times.Once);
         }
     }
 }

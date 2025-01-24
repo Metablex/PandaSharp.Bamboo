@@ -1,42 +1,35 @@
-using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Plan.Aspect;
 using RestSharp;
+using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Plan.Aspect
 {
     [TestFixture]
     public sealed class GetInformationOfPlanParameterAspectTest
     {
-        private Mock<IRestRequest> _restRequestMock;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _restRequestMock = new Mock<IRestRequest>();
-            _restRequestMock
-                .Setup(i => i.AddQueryParameter(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(_restRequestMock.Object);
-        }
-        
         [Test]
         public void IncludePlanInformationTest()
         {
+            var request = new RestRequest();
+
             var aspect = new GetInformationOfPlanParameterAspect();
             aspect.IncludePlanInformation(i => i.IncludeStages());
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
-            
-            _restRequestMock.Verify(i => i.AddQueryParameter("expand", "stages"), Times.Once);
-            _restRequestMock.VerifyNoOtherCalls();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.Count.ShouldBe(1);
+            request.Parameters.Exists(new QueryParameter("expand", "stages")).ShouldBeTrue();
         }
 
         [Test]
         public void DefaultParameterAspectTest()
         {
-            var aspect = new GetInformationOfPlanParameterAspect();
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            var request = new RestRequest();
 
-            _restRequestMock.VerifyNoOtherCalls();
+            var aspect = new GetInformationOfPlanParameterAspect();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.ShouldBeEmpty();
         }
     }
 }

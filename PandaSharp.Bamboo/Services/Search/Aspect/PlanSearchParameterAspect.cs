@@ -19,7 +19,7 @@ namespace PandaSharp.Bamboo.Services.Search.Aspect
             _performFuzzySearch = performFuzzySearch;
         }
 
-        public override void ApplyToRestRequest(IRestRequest restRequest)
+        public override void ApplyToRestRequest(RestRequest restRequest)
         {
             restRequest
                 .AddParameterIfSet("searchTerm", _searchTerm)

@@ -26,8 +26,8 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
         protected override Method GetRequestMethod()
         {
             return SetFavourite
-                ? Method.POST
-                : Method.DELETE;
+                ? Method.Post
+                : Method.Delete;
         }
     }
 }

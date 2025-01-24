@@ -26,10 +26,10 @@ namespace PandaSharp.Bamboo.Services.Plan.Request
 
         protected override Method GetRequestMethod()
         {
-            return Method.POST;
+            return Method.Post;
         }
 
-        protected override void ApplyToRestRequest(IRestRequest restRequest)
+        protected override void ApplyToRestRequest(RestRequest restRequest)
         {
             var json = new JObject
             {

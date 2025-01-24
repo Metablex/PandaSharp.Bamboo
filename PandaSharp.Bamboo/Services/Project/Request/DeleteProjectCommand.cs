@@ -25,7 +25,7 @@ namespace PandaSharp.Bamboo.Services.Project.Request
 
         protected override Method GetRequestMethod()
         {
-            return Method.DELETE;
+            return Method.Delete;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace PandaSharp.Bamboo.Services.Plan.Aspect
     {
         private PlanListInformationExpansion _planListInformationExpansion;
 
-        public override void ApplyToRestRequest(IRestRequest restRequest)
+        public override void ApplyToRestRequest(RestRequest restRequest)
         {
             if (_planListInformationExpansion != null)
             {

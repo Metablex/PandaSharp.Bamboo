@@ -1,43 +1,35 @@
-using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Build.Aspect;
 using RestSharp;
+using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Build.Aspect
 {
     [TestFixture]
     public sealed class GetBuildsOfPlanParameterAspectTest
     {
-        private Mock<IRestRequest> _restRequestMock;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _restRequestMock = new Mock<IRestRequest>();
-            _restRequestMock
-                .Setup(i => i.AddParameter(It.IsAny<string>(), It.IsAny<object>()))
-                .Returns(_restRequestMock.Object);
-        }
-        
         [Test]
         public void IncludeBuildInformationTest()
         {
+            var request = new RestRequest();
+
             var aspect = new GetBuildsOfPlanParameterAspect();
             aspect.IncludeBuildInformation(i => i.IncludingComments());
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
-            
-            _restRequestMock.Verify(i => i.AddParameter("expand", "results.result.comments"), Times.Once);
-            _restRequestMock.VerifyNoOtherCalls();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.Count.ShouldBe(1);
+            request.Parameters.Exists(new GetOrPostParameter("expand", "results.result.comments")).ShouldBeTrue();
         }
 
         [Test]
         public void DefaultParameterAspectTest()
         {
-            var aspect = new GetBuildsOfPlanParameterAspect();
-            aspect.IncludeBuildInformation(i => i.IncludingComments());
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            var request = new RestRequest();
 
-            _restRequestMock.VerifyNoOtherCalls();
+            var aspect = new GetBuildsOfPlanParameterAspect();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.ShouldBeEmpty();
         }
     }
 }

@@ -1,46 +1,35 @@
-using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Plan.Aspect;
 using RestSharp;
+using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Plan.Aspect
 {
     [TestFixture]
     public sealed class GetBranchesOfPlanParameterAspectTest
     {
-        private Mock<IRestRequest> _restRequestMock;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _restRequestMock = new Mock<IRestRequest>();
-            _restRequestMock
-                .Setup(i => i.AddQueryParameter(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(_restRequestMock.Object);
-            
-            _restRequestMock
-                .Setup(i => i.AddQueryParameter(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()))
-                .Returns(_restRequestMock.Object);
-        }
-        
         [Test]
         public void SetOnlyEnabledBranchesFilterTest()
         {
+            var request = new RestRequest();
+
             var aspect = new GetBranchesOfPlanParameterAspect();
             aspect.SetOnlyEnabledBranchesFilter(true);
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
-            
-            _restRequestMock.Verify(i => i.AddParameter("enabledOnly", true), Times.Once);
-            _restRequestMock.VerifyNoOtherCalls();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.Count.ShouldBe(1);
+            request.Parameters.Exists(new GetOrPostParameter("enabledOnly", "true")).ShouldBeTrue();
         }
 
         [Test]
         public void DefaultParameterAspectTest()
         {
-            var aspect = new GetBranchesOfPlanParameterAspect();
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            var request = new RestRequest();
 
-            _restRequestMock.VerifyNoOtherCalls();
+            var aspect = new GetBranchesOfPlanParameterAspect();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.ShouldBeEmpty();
         }
     }
 }

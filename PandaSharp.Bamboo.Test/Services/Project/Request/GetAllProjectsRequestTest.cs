@@ -15,7 +15,7 @@ using Shouldly;
 namespace PandaSharp.Bamboo.Test.Services.Project.Request
 {
     [TestFixture]
-    internal sealed class GetAllProjectsRequestTest 
+    internal sealed class GetAllProjectsRequestTest
     {
         [Test]
         public void UnauthorizedExecuteTest()
@@ -36,14 +36,14 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
 
             Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
         }
-        
+
         [Test]
         public async Task ExecuteAsyncTest()
         {
             var expandState = new Mock<IPlanListInformationExpansion>();
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<ProjectListResponse>();
             var resultCountParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IResultCountParameterAspect>();
-            
+
             var getAllProjectsParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IGetAllProjectsParameterAspect>();
             getAllProjectsParameterAspect
                 .Setup(i => i.IncludePlanInformation(It.IsAny<Action<IPlanListInformationExpansion>[]>()))
@@ -62,12 +62,12 @@ namespace PandaSharp.Bamboo.Test.Services.Project.Request
                 .IncludePlanInformation(i => i.IncludeBranches())
                 .StartAtIndex(5)
                 .WithMaxResult(25);
-            
+
             var response = await request.ExecuteAsync();
             response.ShouldNotBeNull();
-            
-            restFactoryMock.Verify(r => r.CreateRequest("project", Method.GET), Times.Once);
-            
+
+            restFactoryMock.Verify(r => r.CreateRequest("project", Method.Get), Times.Once);
+
             resultCountParameterAspect.Verify(i => i.SetMaxResults(25), Times.Once);
             resultCountParameterAspect.Verify(i => i.SetStartIndex(5), Times.Once);
 

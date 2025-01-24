@@ -1,59 +1,50 @@
-using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Search.Aspect;
 using RestSharp;
+using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Search.Aspect
 {
     [TestFixture]
     public sealed class PlanSearchParameterAspectTest
     {
-        private Mock<IRestRequest> _restRequestMock;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _restRequestMock = new Mock<IRestRequest>();
-            _restRequestMock
-                .Setup(i => i.AddParameter(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(_restRequestMock.Object);
-            
-            _restRequestMock
-                .Setup(i => i.AddQueryParameter(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(_restRequestMock.Object);
-        }
-        
         [Test]
         public void SetPerformFuzzySearchTest()
         {
+            var request = new RestRequest();
+
             var aspect = new PlanSearchParameterAspect();
             aspect.SetPerformFuzzySearch(true);
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
-            
-            _restRequestMock.Verify(i => i.AddParameter("fuzzy", true), Times.Once);
-            _restRequestMock.VerifyNoOtherCalls();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.Count.ShouldBe(1);
+            request.Parameters.Exists(new GetOrPostParameter("fuzzy", "true")).ShouldBeTrue();
         }
-        
+
         [Test]
         public void SetSearchTermTest()
         {
+            var request = new RestRequest();
+
             var aspect = new PlanSearchParameterAspect();
             aspect.SetSearchTerm("SearchMe");
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
-            
-            _restRequestMock.Verify(i => i.AddQueryParameter("searchTerm", "SearchMe"), Times.Once);
-            _restRequestMock.Verify(i => i.AddParameter("fuzzy", false), Times.Once);
-            _restRequestMock.VerifyNoOtherCalls();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.Count.ShouldBe(2);
+            request.Parameters.Exists(new QueryParameter("searchTerm", "SearchMe")).ShouldBeTrue();
+            request.Parameters.Exists(new GetOrPostParameter("fuzzy", "false")).ShouldBeTrue();
         }
 
         [Test]
         public void DefaultParameterAspectTest()
         {
-            var aspect = new PlanSearchParameterAspect();
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            var request = new RestRequest();
 
-            _restRequestMock.Verify(i => i.AddParameter("fuzzy", false), Times.Once);
-            _restRequestMock.VerifyNoOtherCalls();
+            var aspect = new PlanSearchParameterAspect();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.Count.ShouldBe(1);
+            request.Parameters.Exists(new GetOrPostParameter("fuzzy", "false")).ShouldBeTrue();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Request
     {
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
-        
+
         [Test]
         public void UnauthorizedExecuteTest()
         {
@@ -50,7 +50,7 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Request
             var buildStateParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IBuildStateParameterAspect>();
             var issueFilterParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IIssueFilterParameterAspect>();
             var labelFilterParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<ILabelFilterParameterAspect>();
-            
+
             var getBuildsOfPlanParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IGetBuildsOfPlanParameterAspect>();
             getBuildsOfPlanParameterAspect
                 .Setup(i => i.IncludeBuildInformation(It.IsAny<Action<IBuildListInformationExpansion>[]>()))
@@ -71,18 +71,18 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Request
                 .OnlyWithIssues("Issue1", "Issue2")
                 .OnlyWithLabels("BlueLabel", "RedLabel", "BlackLabel")
                 .IncludeBuildInformation(i => i.IncludingArtifacts(), i => i.IncludingJiraIssues());
-            
+
             var response = await request.ExecuteAsync();
             response.ShouldNotBeNull();
-            
-            restFactoryMock.Verify(r => r.CreateRequest("result", Method.GET), Times.Once);
-            
+
+            restFactoryMock.Verify(r => r.CreateRequest("result", Method.Get), Times.Once);
+
             resultCountParameterAspect.Verify(i => i.SetMaxResults(10), Times.Once);
             resultCountParameterAspect.Verify(i => i.SetStartIndex(5), Times.Once);
             buildStateParameterAspect.Verify(i => i.SetBuildStateFilter(BuildState.Successful), Times.Once);
             issueFilterParameterAspect.Verify(i => i.SetIssuesFilter(new[] { "Issue1", "Issue2" }), Times.Once);
             labelFilterParameterAspect.Verify(i => i.SetLabelsFilter(new[] { "BlueLabel", "RedLabel", "BlackLabel" }), Times.Once);
-            
+
             expandState.Verify(i => i.IncludingArtifacts(), Times.Once);
             expandState.Verify(i => i.IncludingComments(), Times.Never);
             expandState.Verify(i => i.IncludingLabels(), Times.Never);
@@ -95,15 +95,15 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Request
         public async Task OneBuildsExecuteAsyncTest()
         {
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<BuildListResponse>();
-            
+
             var request = RequestTestMockBuilder.CreateRequest<GetBuildsOfPlanRequest, BuildListResponse>(restFactoryMock);
             request.ProjectKey = ProjectKey;
             request.PlanKey = PlanKey;
-            
+
             var response = await request.ExecuteAsync();
             response.ShouldNotBeNull();
-            
-            restFactoryMock.Verify(r => r.CreateRequest($"result/{ProjectKey}-{PlanKey}", Method.GET), Times.Once);
+
+            restFactoryMock.Verify(r => r.CreateRequest($"result/{ProjectKey}-{PlanKey}", Method.Get), Times.Once);
         }
     }
 }

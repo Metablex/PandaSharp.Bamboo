@@ -1,42 +1,35 @@
-using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Build.Aspect;
 using RestSharp;
+using Shouldly;
 
 namespace PandaSharp.Bamboo.Test.Services.Build.Aspect
 {
     [TestFixture]
     public sealed class IssueFilterParameterAspectTest
     {
-        private Mock<IRestRequest> _restRequestMock;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _restRequestMock = new Mock<IRestRequest>();
-            _restRequestMock
-                .Setup(i => i.AddQueryParameter(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()))
-                .Returns(_restRequestMock.Object);
-        }
-        
         [Test]
         public void SetIssuesFilterTest()
         {
+            var request = new RestRequest();
+
             var aspect = new IssueFilterParameterAspect();
             aspect.SetIssuesFilter(new[] { "Issue1", "Issue2" });
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
-            
-            _restRequestMock.Verify(i => i.AddQueryParameter("issueKey", "Issue1,Issue2"), Times.Once);
-            _restRequestMock.VerifyNoOtherCalls();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.Count.ShouldBe(1);
+            request.Parameters.Exists(new QueryParameter("issueKey", "Issue1,Issue2")).ShouldBeTrue();
         }
 
         [Test]
         public void DefaultParameterAspectTest()
         {
-            var aspect = new IssueFilterParameterAspect();
-            aspect.ApplyToRestRequest(_restRequestMock.Object);
+            var request = new RestRequest();
 
-            _restRequestMock.VerifyNoOtherCalls();
+            var aspect = new IssueFilterParameterAspect();
+            aspect.ApplyToRestRequest(request);
+
+            request.Parameters.ShouldBeEmpty();
         }
     }
 }

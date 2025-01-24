@@ -40,30 +40,30 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
         public async Task EnableExecuteAsyncTest()
         {
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock();
-            
+
             var command = RequestTestMockBuilder.CreateCommand<EnableDisablePlanCommand>(restFactoryMock);
             command.ProjectKey = ProjectKey;
             command.PlanKey = PlanKey;
             command.SetEnabled = true;
-            
+
             await command.ExecuteAsync();
 
-            restFactoryMock.Verify(i => i.CreateRequest($"plan/{ProjectKey}-{PlanKey}/enable", Method.POST), Times.Once);
+            restFactoryMock.Verify(i => i.CreateRequest($"plan/{ProjectKey}-{PlanKey}/enable", Method.Post), Times.Once);
         }
 
         [Test]
         public async Task DisableExecuteAsyncTest()
         {
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock();
-            
+
             var command = RequestTestMockBuilder.CreateCommand<EnableDisablePlanCommand>(restFactoryMock);
             command.ProjectKey = ProjectKey;
             command.PlanKey = PlanKey;
             command.SetEnabled = false;
-            
+
             await command.ExecuteAsync();
 
-            restFactoryMock.Verify(i => i.CreateRequest($"plan/{ProjectKey}-{PlanKey}/enable", Method.DELETE), Times.Once);
+            restFactoryMock.Verify(i => i.CreateRequest($"plan/{ProjectKey}-{PlanKey}/enable", Method.Delete), Times.Once);
         }
     }
 }

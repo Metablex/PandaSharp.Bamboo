@@ -19,7 +19,7 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Request
         private const string ProjectKey = "ProjectX";
         private const string PlanKey = "MasterPlan";
         private const uint BuildNumber = 42;
-        
+
         [Test]
         public void UnauthorizedExecuteTest()
         {
@@ -57,21 +57,21 @@ namespace PandaSharp.Bamboo.Test.Services.Build.Request
                             expansion(expandState.Object);
                         }
                     });
-            
+
             var request = RequestTestMockBuilder.CreateRequest<GetInformationOfBuildRequest, BuildResponse>(restFactoryMock, getInformationOfBuildParameterAspect);
             request.ProjectKey = ProjectKey;
             request.PlanKey = PlanKey;
             request.BuildNumber = BuildNumber;
-            
+
             request.IncludeBuildInformation(
                 i => i.IncludingArtifacts(),
                 i => i.IncludingJiraIssues());
-            
+
             var response = await request.ExecuteAsync();
             response.ShouldNotBeNull();
-            
-            restFactoryMock.Verify(r => r.CreateRequest($"result/{ProjectKey}-{PlanKey}-{BuildNumber}", Method.GET), Times.Once);
-            
+
+            restFactoryMock.Verify(r => r.CreateRequest($"result/{ProjectKey}-{PlanKey}-{BuildNumber}", Method.Get), Times.Once);
+
             expandState.Verify(i => i.IncludingArtifacts(), Times.Once);
             expandState.Verify(i => i.IncludingComments(), Times.Never);
             expandState.Verify(i => i.IncludingLabels(), Times.Never);
