@@ -21,6 +21,15 @@ namespace PandaSharp.Bamboo.Services.Build.Response
         [JsonProperty("buildResultKey")]
         public string BuildKey { get; set; }
 
+        [JsonProperty("buildReason")]
+        public string BuildReason { get; set; }
+
+        [JsonProperty("buildTestSummary")]
+        public string TestSummary { get; set; }
+
+        [JsonProperty("successful")]
+        public bool Successful { get; set; }
+
         [JsonProperty("successfulTestCount")]
         public uint? SuccessfulTestCount { get; set; }
 
