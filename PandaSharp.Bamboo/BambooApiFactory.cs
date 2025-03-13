@@ -14,6 +14,15 @@ namespace PandaSharp.Bamboo
             return container.Resolve<IBambooApi>();
         }
 
+        public static IBambooApi CreateWithAccessTokenAuthentication(string baseUrl, string accesstoken)
+        {
+            var container = new PandaContainer();
+            container.RegisterWithAccessTokenAuthentication(baseUrl, accesstoken);
+            container.RegisterPandaModules();
+
+            return container.Resolve<IBambooApi>();
+        }
+
         public static IBambooApi CreateWithOAuthAuthentication(
             string baseUrl,
             string consumerKey,
