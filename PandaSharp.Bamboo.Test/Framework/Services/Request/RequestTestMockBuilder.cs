@@ -15,7 +15,8 @@ namespace PandaSharp.Bamboo.Test.Framework.Services.Request
     internal static class RequestTestMockBuilder
     {
         internal static TRequest CreateRequest<TRequest, TResponse>(
-            Mock<IRestFactory> restFactoryMock,
+            IRestCommunicationContext restCommunicationContext,
+            IRestFactory restFactory,
             params Mock[] parameterAspects)
             where TRequest : IRequestBase<TResponse>
         {
@@ -24,7 +25,8 @@ namespace PandaSharp.Bamboo.Test.Framework.Services.Request
 
             return (TRequest)Activator.CreateInstance(
                 typeof(TRequest),
-                restFactoryMock.Object,
+                restCommunicationContext,
+                restFactory,
                 requestParameterAspectFactoryMock.Object,
                 restResponseConverterFactory.Object);
         }

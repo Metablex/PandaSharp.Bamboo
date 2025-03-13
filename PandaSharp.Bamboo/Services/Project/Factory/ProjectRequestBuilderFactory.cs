@@ -1,7 +1,11 @@
 using PandaSharp.Bamboo.Services.Common.Types;
 using PandaSharp.Bamboo.Services.Project.Contract;
+using PandaSharp.Bamboo.Services.Project.Request;
 using PandaSharp.Framework.IoC.Contract;
-using PandaSharp.Framework.IoC.Injections;
+using PandaSharp.Framework.Rest.Common;
+using PandaSharp.Framework.Rest.Contract;
+using PandaSharp.Framework.Services.Aspect;
+using PandaSharp.Framework.Services.Request;
 
 namespace PandaSharp.Bamboo.Services.Project.Factory
 {
@@ -16,26 +20,57 @@ namespace PandaSharp.Bamboo.Services.Project.Factory
 
         public IGetAllProjectsRequest GetAllProjects()
         {
-            return _container.Resolve<IGetAllProjectsRequest>();
+            var restFactory = CreateRestFactory();
+
+            return new GetAllProjectsRequest(
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>(),
+                _container.Resolve<IRestResponseConverterFactory>());
         }
 
         public ICreateProjectCommand CreateProject(string projectKey, string projectName)
         {
-            return _container.Resolve<ICreateProjectCommand>(
-                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
-                new InjectProperty(RequestPropertyNames.ProjectName, projectName));
+            var restFactory = CreateRestFactory();
+
+            return new CreateProjectCommand(
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>())
+            {
+                ProjectKey = projectKey,
+                ProjectName = projectName
+            };
         }
 
         public IDeleteProjectCommand DeleteProject(string projectKey)
         {
-            return _container.Resolve<IDeleteProjectCommand>(
-                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey));
+            var restFactory = CreateRestFactory();
+
+            var context = new RestCommunicationContext();
+            context.AddContextParameter(RequestPropertyNames.ProjectKey, projectKey);
+
+            return new DeleteProjectCommand(
+                context,
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>());
         }
 
         public IGetInformationOfProjectRequest GetInformationOfProject(string projectKey)
         {
-            return _container.Resolve<IGetInformationOfProjectRequest>(
-                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey));
+            var restFactory = CreateRestFactory();
+
+            var context = new RestCommunicationContext();
+            context.AddContextParameter(RequestPropertyNames.ProjectKey, projectKey);
+
+            return new GetInformationOfProjectRequest(
+                context,
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>(),
+                _container.Resolve<IRestResponseConverterFactory>());
+        }
+
+        private IRestFactory CreateRestFactory()
+        {
+            return new RestFactory(_container.Resolve<IRestOptions>(), JsonRestSerializer.Default);
         }
     }
 }

@@ -1,26 +1,33 @@
 using PandaSharp.Bamboo.Services.Common.Types;
 using PandaSharp.Bamboo.Services.Plan.Contract;
-using PandaSharp.Bamboo.Services.Plan.Request.Base;
-using PandaSharp.Framework.Attributes;
 using PandaSharp.Framework.Rest.Contract;
 using PandaSharp.Framework.Services.Aspect;
+using PandaSharp.Framework.Services.Contract;
+using PandaSharp.Framework.Services.Request;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Plan.Request
 {
-    internal sealed class DeleteLabelOfPlanCommand : PlanCommandBase, IDeleteLabelOfPlanCommand
+    internal sealed class DeleteLabelOfPlanCommand : CommandBase, IDeleteLabelOfPlanCommand
     {
-        [InjectedProperty(RequestPropertyNames.Label)]
-        public string LabelName { get; set; }
+        private readonly IRestCommunicationContext _communicationContext;
 
-        public DeleteLabelOfPlanCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+        public DeleteLabelOfPlanCommand(
+            IRestCommunicationContext communicationContext,
+            IRestFactory restClientFactory,
+            IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
+            _communicationContext = communicationContext;
         }
 
         protected override string GetResourcePath()
         {
-            return $"plan/{ProjectKey}-{PlanKey}/label/{LabelName}";
+            var projectKey = _communicationContext.GetContextParameter<string>(RequestPropertyNames.ProjectKey);
+            var planKey = _communicationContext.GetContextParameter<string>(RequestPropertyNames.PlanKey);
+            var labelName = _communicationContext.GetContextParameter<string>(RequestPropertyNames.Label);
+
+            return $"plan/{projectKey}-{planKey}/label/{labelName}";
         }
 
         protected override Method GetRequestMethod()

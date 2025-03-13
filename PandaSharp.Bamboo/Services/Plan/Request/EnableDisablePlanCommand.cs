@@ -1,31 +1,39 @@
 using PandaSharp.Bamboo.Services.Common.Types;
 using PandaSharp.Bamboo.Services.Plan.Contract;
-using PandaSharp.Bamboo.Services.Plan.Request.Base;
-using PandaSharp.Framework.Attributes;
 using PandaSharp.Framework.Rest.Contract;
 using PandaSharp.Framework.Services.Aspect;
+using PandaSharp.Framework.Services.Contract;
+using PandaSharp.Framework.Services.Request;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Plan.Request
 {
-    internal sealed class EnableDisablePlanCommand : PlanCommandBase, IEnableDisablePlanCommand
+    internal sealed class EnableDisablePlanCommand : CommandBase, IEnableDisablePlanCommand
     {
-        [InjectedProperty(RequestPropertyNames.SetEnabled)]
-        public bool SetEnabled { get; set; }
+        private readonly IRestCommunicationContext _communicationContext;
 
-        public EnableDisablePlanCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+        public EnableDisablePlanCommand(
+            IRestCommunicationContext communicationContext,
+            IRestFactory restClientFactory,
+            IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
+            _communicationContext = communicationContext;
         }
 
         protected override string GetResourcePath()
         {
-            return $"plan/{ProjectKey}-{PlanKey}/enable";
+            var projectKey = _communicationContext.GetContextParameter<string>(RequestPropertyNames.ProjectKey);
+            var planKey = _communicationContext.GetContextParameter<string>(RequestPropertyNames.PlanKey);
+
+            return $"plan/{projectKey}-{planKey}/enable";
         }
 
         protected override Method GetRequestMethod()
         {
-            return SetEnabled
+            var isEnablingRequested = _communicationContext.GetContextParameter<bool>(RequestPropertyNames.SetEnabled);
+
+            return isEnablingRequested
                 ? Method.Post
                 : Method.Delete;
         }

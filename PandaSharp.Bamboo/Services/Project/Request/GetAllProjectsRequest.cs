@@ -16,7 +16,10 @@ namespace PandaSharp.Bamboo.Services.Project.Request
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
     internal sealed class GetAllProjectsRequest : RequestBase<ProjectListResponse>, IGetAllProjectsRequest
     {
-        public GetAllProjectsRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverterFactory restResponseConverterFactory)
+        public GetAllProjectsRequest(
+            IRestFactory restClientFactory,
+            IRequestParameterAspectFactory parameterAspectFactory,
+            IRestResponseConverterFactory restResponseConverterFactory)
             : base(restClientFactory, parameterAspectFactory, restResponseConverterFactory)
         {
         }

@@ -8,6 +8,7 @@ using PandaSharp.Bamboo.Services.Project.Response;
 using PandaSharp.Framework.Attributes;
 using PandaSharp.Framework.Rest.Contract;
 using PandaSharp.Framework.Services.Aspect;
+using PandaSharp.Framework.Services.Contract;
 using PandaSharp.Framework.Services.Request;
 using RestSharp;
 
@@ -17,12 +18,16 @@ namespace PandaSharp.Bamboo.Services.Project.Request
     [SupportsParameterAspect(typeof(IResultCountParameterAspect))]
     internal sealed class GetInformationOfProjectRequest : RequestBase<ProjectResponse>, IGetInformationOfProjectRequest
     {
-        [InjectedProperty(RequestPropertyNames.ProjectKey)]
-        public string ProjectKey { get; set; }
+        private readonly IRestCommunicationContext _communicationContext;
 
-        public GetInformationOfProjectRequest(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverterFactory restResponseConverterFactory)
+        public GetInformationOfProjectRequest(
+            IRestCommunicationContext communicationContext,
+            IRestFactory restClientFactory,
+            IRequestParameterAspectFactory parameterAspectFactory,
+            IRestResponseConverterFactory restResponseConverterFactory)
             : base(restClientFactory, parameterAspectFactory, restResponseConverterFactory)
         {
+            _communicationContext = communicationContext;
         }
 
         public IGetInformationOfProjectRequest WithMaxResult(int maxResult)
@@ -45,7 +50,9 @@ namespace PandaSharp.Bamboo.Services.Project.Request
 
         protected override string GetResourcePath()
         {
-            return $"project/{ProjectKey}";
+            var projectKey = _communicationContext.GetContextParameter<string>(RequestPropertyNames.ProjectKey);
+
+            return $"project/{projectKey}";
         }
 
         protected override Method GetRequestMethod()

@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using PandaSharp.Bamboo.Services.Common.Aspect;
+using PandaSharp.Bamboo.Services.Common.Types;
 using PandaSharp.Bamboo.Services.Plan.Request;
 using PandaSharp.Bamboo.Services.Plan.Response;
 using PandaSharp.Bamboo.Test.Framework.Services.Request;
+using PandaSharp.Framework.Services.Contract;
 using RestSharp;
 using Shouldly;
 
@@ -22,8 +24,9 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
         public void UnauthorizedExecuteTest()
         {
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<ArtifactListResponse>(HttpStatusCode.Unauthorized);
+            var contextMock = new Mock<IRestCommunicationContext>();
 
-            var request = RequestTestMockBuilder.CreateRequest<GetArtifactsOfPlanRequest, ArtifactListResponse>(restFactoryMock);
+            var request = RequestTestMockBuilder.CreateRequest<GetArtifactsOfPlanRequest, ArtifactListResponse>(contextMock.Object, restFactoryMock.Object);
 
             Should.ThrowAsync<UnauthorizedAccessException>(() => request.ExecuteAsync());
         }
@@ -32,8 +35,9 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
         public void AnyErrorWhileExecuteTest()
         {
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<ArtifactListResponse>(HttpStatusCode.NotFound);
+            var contextMock = new Mock<IRestCommunicationContext>();
 
-            var request = RequestTestMockBuilder.CreateRequest<GetArtifactsOfPlanRequest, ArtifactListResponse>(restFactoryMock);
+            var request = RequestTestMockBuilder.CreateRequest<GetArtifactsOfPlanRequest, ArtifactListResponse>(contextMock.Object, restFactoryMock.Object);
 
             Should.ThrowAsync<InvalidOperationException>(() => request.ExecuteAsync());
         }
@@ -44,9 +48,15 @@ namespace PandaSharp.Bamboo.Test.Services.Plan.Request
             var restFactoryMock = RequestTestMockBuilder.CreateRestFactoryMock<ArtifactListResponse>();
             var resultCountParameterAspect = RequestTestMockBuilder.CreateParameterAspectMock<IResultCountParameterAspect>();
 
-            var request = RequestTestMockBuilder.CreateRequest<GetArtifactsOfPlanRequest, ArtifactListResponse>(restFactoryMock, resultCountParameterAspect);
-            request.ProjectKey = ProjectKey;
-            request.PlanKey = PlanKey;
+            var contextMock = new RestCommunicationContextMockBuilder()
+                .WithContextValue(RequestPropertyNames.ProjectKey, ProjectKey)
+                .WithContextValue(RequestPropertyNames.PlanKey, PlanKey)
+                .Build();
+
+            var request = RequestTestMockBuilder.CreateRequest<GetArtifactsOfPlanRequest, ArtifactListResponse>(
+                contextMock.Object,
+                restFactoryMock.Object,
+                resultCountParameterAspect);
 
             request
                 .StartAtIndex(5)

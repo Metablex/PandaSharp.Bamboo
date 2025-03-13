@@ -1,5 +1,9 @@
 using PandaSharp.Bamboo.Services.Users.Contract;
+using PandaSharp.Bamboo.Services.Users.Request;
 using PandaSharp.Framework.IoC.Contract;
+using PandaSharp.Framework.Rest.Common;
+using PandaSharp.Framework.Rest.Contract;
+using PandaSharp.Framework.Services.Aspect;
 
 namespace PandaSharp.Bamboo.Services.Users.Factory
 {
@@ -14,7 +18,17 @@ namespace PandaSharp.Bamboo.Services.Users.Factory
 
         public IGetCurrentUserRequest GetCurrentUser()
         {
-            return _container.Resolve<IGetCurrentUserRequest>();
+            var restFactory = CreateRestFactory();
+
+            return new GetCurrentUserRequest(
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>(),
+                _container.Resolve<IRestResponseConverterFactory>());
+        }
+
+        private IRestFactory CreateRestFactory()
+        {
+            return new RestFactory(_container.Resolve<IRestOptions>(), JsonRestSerializer.Default);
         }
     }
 }

@@ -1,27 +1,34 @@
 using Newtonsoft.Json.Linq;
 using PandaSharp.Bamboo.Services.Build.Contract;
-using PandaSharp.Bamboo.Services.Build.Request.Base;
 using PandaSharp.Bamboo.Services.Common.Types;
-using PandaSharp.Framework.Attributes;
 using PandaSharp.Framework.Rest.Contract;
 using PandaSharp.Framework.Services.Aspect;
+using PandaSharp.Framework.Services.Contract;
+using PandaSharp.Framework.Services.Request;
 using RestSharp;
 
 namespace PandaSharp.Bamboo.Services.Build.Request
 {
-    internal sealed class AddLabelToBuildCommand : BuildCommandBase, IAddLabelToBuildCommand
+    internal sealed class AddLabelToBuildCommand : CommandBase, IAddLabelToBuildCommand
     {
-        [InjectedProperty(RequestPropertyNames.Label)]
-        public string Label { get; set; }
+        private readonly IRestCommunicationContext _communicationContext;
 
-        public AddLabelToBuildCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+        public AddLabelToBuildCommand(
+            IRestCommunicationContext communicationContext,
+            IRestFactory restClientFactory,
+            IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
+            _communicationContext = communicationContext;
         }
 
         protected override string GetResourcePath()
         {
-            return $"result/{ProjectKey}-{PlanKey}-{BuildNumber}/label";
+            var projectKey = _communicationContext.GetContextParameter<string>(RequestPropertyNames.ProjectKey);
+            var planKey = _communicationContext.GetContextParameter<string>(RequestPropertyNames.PlanKey);
+            var buildNumber = _communicationContext.GetContextParameter<string>(RequestPropertyNames.BuildNumber);
+
+            return $"result/{projectKey}-{planKey}-{buildNumber}/label";
         }
 
         protected override Method GetRequestMethod()
@@ -31,9 +38,11 @@ namespace PandaSharp.Bamboo.Services.Build.Request
 
         protected override void ApplyToRestRequest(RestRequest restRequest)
         {
+            var label = _communicationContext.GetContextParameter<string>(RequestPropertyNames.Label);
+
             var json = new JObject
             {
-                { "name", Label }
+                { "name", label }
             };
 
             restRequest.AddJsonBody(json);

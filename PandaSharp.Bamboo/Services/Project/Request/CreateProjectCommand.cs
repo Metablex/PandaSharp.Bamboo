@@ -1,4 +1,3 @@
-using PandaSharp.Bamboo.Services.Common.Types;
 using PandaSharp.Bamboo.Services.Project.Aspect;
 using PandaSharp.Bamboo.Services.Project.Contract;
 using PandaSharp.Framework.Attributes;
@@ -12,19 +11,19 @@ namespace PandaSharp.Bamboo.Services.Project.Request
     [SupportsParameterAspect(typeof(ICreateProjectCommandAspect))]
     internal sealed class CreateProjectCommand : CommandBase, ICreateProjectCommand
     {
-        [InjectedProperty(RequestPropertyNames.ProjectKey)]
         public string ProjectKey
         {
             set => GetAspect<ICreateProjectCommandAspect>().SetProjectKey(value);
         }
 
-        [InjectedProperty(RequestPropertyNames.ProjectName)]
         public string ProjectName
         {
             set => GetAspect<ICreateProjectCommandAspect>().SetProjectName(value);
         }
 
-        public CreateProjectCommand(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+        public CreateProjectCommand(
+            IRestFactory restClientFactory,
+            IRequestParameterAspectFactory parameterAspectFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
         }

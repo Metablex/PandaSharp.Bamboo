@@ -1,7 +1,11 @@
 using PandaSharp.Bamboo.Services.Build.Contract;
+using PandaSharp.Bamboo.Services.Build.Request;
 using PandaSharp.Bamboo.Services.Common.Types;
 using PandaSharp.Framework.IoC.Contract;
-using PandaSharp.Framework.IoC.Injections;
+using PandaSharp.Framework.Rest.Common;
+using PandaSharp.Framework.Rest.Contract;
+using PandaSharp.Framework.Services.Aspect;
+using PandaSharp.Framework.Services.Request;
 
 namespace PandaSharp.Bamboo.Services.Build.Factory
 {
@@ -16,73 +20,146 @@ namespace PandaSharp.Bamboo.Services.Build.Factory
 
         public IGetBuildsOfPlanRequest GetAllBuilds()
         {
-            return _container.Resolve<IGetBuildsOfPlanRequest>();
+            var restFactory = CreateRestFactory();
+            var context = new RestCommunicationContext();
+
+            return new GetBuildsOfPlanRequest(
+                context,
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>(),
+                _container.Resolve<IRestResponseConverterFactory>());
         }
 
         public IGetBuildsOfPlanRequest GetBuildsOfPlan(string projectKey, string planKey)
         {
-            return _container.Resolve<IGetBuildsOfPlanRequest>(
-                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKey, planKey));
+            var restFactory = CreateRestFactory();
+
+            var context = new RestCommunicationContext();
+            context.AddContextParameter(RequestPropertyNames.ProjectKey, projectKey);
+            context.AddContextParameter(RequestPropertyNames.PlanKey, planKey);
+
+            return new GetBuildsOfPlanRequest(
+                context,
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>(),
+                _container.Resolve<IRestResponseConverterFactory>());
         }
 
         public IGetInformationOfBuildRequest GetInformationOfBuild(string projectKey, string planKey, uint buildNumber)
         {
-            return _container.Resolve<IGetInformationOfBuildRequest>(
-                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
-                new InjectProperty(RequestPropertyNames.BuildNumber, buildNumber));
+            var restFactory = CreateRestFactory();
+
+            var context = new RestCommunicationContext();
+            context.AddContextParameter(RequestPropertyNames.ProjectKey, projectKey);
+            context.AddContextParameter(RequestPropertyNames.PlanKey, planKey);
+            context.AddContextParameter(RequestPropertyNames.BuildNumber, buildNumber);
+
+            return new GetInformationOfBuildRequest(
+                context,
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>(),
+                _container.Resolve<IRestResponseConverterFactory>());
         }
 
         public IGetInformationOfBuildRequest GetInformationOfLatestBuild(string projectKey, string planKey)
         {
-            return _container.Resolve<IGetInformationOfBuildRequest>(
-                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
-                new InjectProperty(RequestPropertyNames.BuildNumber, "latest"));
+            var restFactory = CreateRestFactory();
+
+            var context = new RestCommunicationContext();
+            context.AddContextParameter(RequestPropertyNames.ProjectKey, projectKey);
+            context.AddContextParameter(RequestPropertyNames.PlanKey, planKey);
+            context.AddContextParameter(RequestPropertyNames.BuildNumber, "latest");
+
+            return new GetInformationOfBuildRequest(
+                context,
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>(),
+                _container.Resolve<IRestResponseConverterFactory>());
         }
 
         public IGetCommentsOfBuildRequest GetCommentsOfBuild(string projectKey, string planKey, uint buildNumber)
         {
-            return _container.Resolve<IGetCommentsOfBuildRequest>(
-                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
-                new InjectProperty(RequestPropertyNames.BuildNumber, buildNumber));
+            var restFactory = CreateRestFactory();
+
+            var context = new RestCommunicationContext();
+            context.AddContextParameter(RequestPropertyNames.ProjectKey, projectKey);
+            context.AddContextParameter(RequestPropertyNames.PlanKey, planKey);
+            context.AddContextParameter(RequestPropertyNames.BuildNumber, buildNumber);
+
+            return new GetCommentsOfBuildRequest(
+                context,
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>(),
+                _container.Resolve<IRestResponseConverterFactory>());
         }
 
         public IAddCommentToBuildCommand AddCommentToBuild(string projectKey, string planKey, uint buildNumber, string comment)
         {
-            return _container.Resolve<IAddCommentToBuildCommand>(
-                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
-                new InjectProperty(RequestPropertyNames.BuildNumber, buildNumber),
-                new InjectProperty(RequestPropertyNames.Comment, comment));
+            var restFactory = CreateRestFactory();
+
+            var context = new RestCommunicationContext();
+            context.AddContextParameter(RequestPropertyNames.ProjectKey, projectKey);
+            context.AddContextParameter(RequestPropertyNames.PlanKey, planKey);
+            context.AddContextParameter(RequestPropertyNames.BuildNumber, buildNumber);
+            context.AddContextParameter(RequestPropertyNames.Comment, comment);
+
+            return new AddCommentToBuildCommand(
+                context,
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>());
         }
 
         public IGetLabelsOfBuildRequest GetLabelsOfBuild(string projectKey, string planKey, uint buildNumber)
         {
-            return _container.Resolve<IGetLabelsOfBuildRequest>(
-                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
-                new InjectProperty(RequestPropertyNames.BuildNumber, buildNumber));
+            var restFactory = CreateRestFactory();
+
+            var context = new RestCommunicationContext();
+            context.AddContextParameter(RequestPropertyNames.ProjectKey, projectKey);
+            context.AddContextParameter(RequestPropertyNames.PlanKey, planKey);
+            context.AddContextParameter(RequestPropertyNames.BuildNumber, buildNumber);
+
+            return new GetLabelsOfBuildRequest(
+                context,
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>(),
+                _container.Resolve<IRestResponseConverterFactory>());
         }
 
         public IAddLabelToBuildCommand AddLabelToBuild(string projectKey, string planKey, uint buildNumber, string label)
         {
-            return _container.Resolve<IAddLabelToBuildCommand>(
-                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
-                new InjectProperty(RequestPropertyNames.BuildNumber, buildNumber),
-                new InjectProperty(RequestPropertyNames.Label, label));
+            var restFactory = CreateRestFactory();
+
+            var context = new RestCommunicationContext();
+            context.AddContextParameter(RequestPropertyNames.ProjectKey, projectKey);
+            context.AddContextParameter(RequestPropertyNames.PlanKey, planKey);
+            context.AddContextParameter(RequestPropertyNames.BuildNumber, buildNumber);
+            context.AddContextParameter(RequestPropertyNames.Label, label);
+
+            return new AddLabelToBuildCommand(
+                context,
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>());
         }
 
         public IDeleteLabelOfBuildCommand DeleteLabelOfBuild(string projectKey, string planKey, uint buildNumber, string label)
         {
-            return _container.Resolve<IDeleteLabelOfBuildCommand>(
-                new InjectProperty(RequestPropertyNames.ProjectKey, projectKey),
-                new InjectProperty(RequestPropertyNames.PlanKey, planKey),
-                new InjectProperty(RequestPropertyNames.BuildNumber, buildNumber),
-                new InjectProperty(RequestPropertyNames.Label, label));
+            var restFactory = CreateRestFactory();
+
+            var context = new RestCommunicationContext();
+            context.AddContextParameter(RequestPropertyNames.ProjectKey, projectKey);
+            context.AddContextParameter(RequestPropertyNames.PlanKey, planKey);
+            context.AddContextParameter(RequestPropertyNames.BuildNumber, buildNumber);
+            context.AddContextParameter(RequestPropertyNames.Label, label);
+
+            return new DeleteLabelOfBuildCommand(
+                context,
+                restFactory,
+                _container.Resolve<IRequestParameterAspectFactory>());
+        }
+
+        private IRestFactory CreateRestFactory()
+        {
+            return new RestFactory(_container.Resolve<IRestOptions>(), JsonRestSerializer.Default);
         }
     }
 }
