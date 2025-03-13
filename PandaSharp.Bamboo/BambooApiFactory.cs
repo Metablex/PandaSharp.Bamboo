@@ -1,5 +1,6 @@
 ﻿using PandaSharp.Framework.IoC;
 using PandaSharp.Framework.Utils;
+using RestSharp.Authenticators.OAuth2;
 
 namespace PandaSharp.Bamboo
 {
@@ -17,7 +18,10 @@ namespace PandaSharp.Bamboo
         public static IBambooApi CreateWithAccessTokenAuthentication(string baseUrl, string accesstoken)
         {
             var container = new PandaContainer();
-            container.RegisterWithAccessTokenAuthentication(baseUrl, accesstoken);
+            var authentication = new OAuth2AuthorizationRequestHeaderAuthenticator(
+                accesstoken, "Bearer"
+            );
+            container.RegisterWithCustomAuthentication(baseUrl, authentication);
             container.RegisterPandaModules();
 
             return container.Resolve<IBambooApi>();
