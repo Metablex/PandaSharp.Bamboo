@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(BuildWithLocalReferences)' != true">
-    <PackageReference Include="PandaSharp.Framework" Version="1.0.4" />
+    <PackageReference Include="PandaSharp.Framework" Version="1.0.5" />
   </ItemGroup>
 
 </Project>
