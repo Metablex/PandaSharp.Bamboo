@@ -15,6 +15,9 @@ namespace PandaSharp.Bamboo.Services.Plan.Response
         [JsonProperty("shortName")]
         public string PlanName { get; set; }
 
+        [JsonProperty("name")]
+        public string CompositeName { get; set; }
+
         [JsonProperty("shortKey")]
         public string PlanKey { get; set; }
 

@@ -1,5 +1,5 @@
 # PandaSharp.Bamboo
-C# wrapper for Atlassian Bamboo Rest API
+C# wrapper for Atlassian Bamboo Rest API derived from:
 
 [![Build status](https://ci.appveyor.com/api/projects/status/pt3xl353bgywoiea/branch/master?svg=true)](https://ci.appveyor.com/project/Metablex/pandasharp-bamboo/branch/master)
 

@@ -19,6 +19,18 @@ namespace PandaSharp.Bamboo.Test
         }
 
         [Test]
+        public void BambooApiAccessTokenConstructionTest()
+        {
+            var bambooApi = BambooApiFactory.CreateWithAccessTokenAuthentication("http://test.bamboo.com", "tokenSecret");
+
+            bambooApi.BuildRequest.ShouldNotBeNull();
+            bambooApi.PlanRequest.ShouldNotBeNull();
+            bambooApi.SearchRequest.ShouldNotBeNull();
+            bambooApi.UsersRequest.ShouldNotBeNull();
+            bambooApi.ProjectRequest.ShouldNotBeNull();
+        }
+
+        [Test]
         public void BambooApiOAuthConstructionTest()
         {
             var bambooApi = BambooApiFactory.CreateWithOAuthAuthentication("http://test.bamboo.com", "TestBob", "admin01", "token", "tokenSecret");
